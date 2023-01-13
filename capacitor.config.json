@@ -1,0 +1,6 @@
+{
+  "appId": "cf.yairmedina.BabysittingIL",
+  "appName": "babysittingIL",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}

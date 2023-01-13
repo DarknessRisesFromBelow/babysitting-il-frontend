@@ -1,0 +1,89 @@
+.user
+{	
+	display: flex;
+	flex-direction: row;
+	direction: ltr;
+	column-gap: 7%;
+	user-select: none;
+
+
+}
+
+.UserButton
+{	
+	text-transform: lowercase;
+	margin-top: 9px;
+	width: 98%;
+	height: 74px;
+	color: #fff;
+}
+.logo
+{
+	display: flex;
+	justify-content: center;
+	background-color: #1f1f1f;
+}
+
+.CustomIonicIconSize
+{
+	font-size: 500px !important;
+	position: absolute;
+	top: -190px;
+}
+
+.MessageButton
+{
+	position: absolute;
+	right:	70px;
+}
+
+.star
+{
+	position: absolute;
+	right: 0;
+	display: flex;
+	flex-direction: row;	
+}
+
+.circle
+{
+	position: absolute;
+	left: 0;
+	bottom: 2px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-o-border-radius: 50%;
+}
+
+.boxTest
+{
+	background-color: rgb(31, 31, 31);
+    width: 70vw;
+    height: 50vh;
+    border-radius: 7px;
+    position: absolute;
+    right: 15vw;
+    top: 24vh;
+    padding-left: calc(50vw - 25vw);
+    padding-top: 5vh;
+}
+
+.ExitButton
+{
+	position: absolute;
+	top: 0.2vh;
+	right: 0.3vw;
+	width: 10vw;
+	height: 10vw;
+}
+
+.boxButton
+{
+	position: absolute;
+	left: 13vw;
+	width: 43vw;
+	height:7vh;
+	font-size: 1.3vh;
+	font-weight: 200;
+}

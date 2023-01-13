@@ -1,0 +1,49 @@
+.Center
+{
+	top: 60%;
+	left: 50%;
+	width: 30em;
+	height: 1;
+	margin-top: -9em;
+	margin-left: -15em;
+	position: fixed;
+	text-align: center;
+}
+
+.messageRowButton
+{
+	text-transform: lowercase;
+	margin-top: 9px;
+	width: 98%;
+	height: 60px;
+	color: #fff;
+}
+.noOverflow
+{
+	overflow: hidden;
+}
+.circle
+{
+	position: absolute;
+	left: 0;
+	width:40px;
+	height:40px;
+	bottom: 7px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-o-border-radius: 50%;
+}
+
+.text
+{
+	position: absolute;
+	right: 0;
+	bottom: 10%;
+	margin-left: 20%;
+	margin-right: 0%;
+	width: -webkit-calc(100% - 50px);
+		width:		-moz-calc(100% - 50px);
+		width:				 calc(100% - 50px);
+	text-align: right;
+}
