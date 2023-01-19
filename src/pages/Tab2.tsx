@@ -76,7 +76,6 @@ function getOutput() : string
 						if(temp[0]==msgs[o].props.name)
 							exists = true;
 					}
-					console.log("exists");
 					if(!exists)
 					{
 						var url : string = "https://192.168.68.107/GetUserData" + temp[0];
@@ -85,19 +84,24 @@ function getOutput() : string
 							{
 								console.log("");
 								await response.text().then(
-								async function(responseString: any)
+								function(responseString: any)
 								{ 
 									responseString = responseString.replace("Got User Info. <br>", "");
 									var usersData = responseString.split(",");
 									pfpURLstring = usersData[2];
+									//temp[0] = usersData[0];
+									//temp[3] = usersData[3];
+									//await console.log(temp[3] + ", "+ temp[0]);
 								}
 							);
 						});
+
 						console.log(pfpURLstring);
-						msgs.push(React.createElement(message, {name:temp[0].toLowerCase(),pfpURL:pfpURLstring,lastMessage:temp[1]},null));
+						msgs.push(React.createElement(message, {name:temp[0].toLowerCase(),id:temp[3],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
 					}
 				}
 			}
+			global.msgs = msgs;
 			var page = document.getElementById("messagePage");
 			if(page != null)
 			{
@@ -114,7 +118,7 @@ function getOutput() : string
 
 function TextingPage(data:{name:string,id:string,messages:string})
 {
-		return <div className = "boxTest" id="CloseablePopup">
+		return <div className = "boxTest2" id="CloseablePopup">
 		<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
 		<p className="Title">{data.name}</p>
 		<br></br>
@@ -124,7 +128,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 }
 
 
-function message(data:{name:string,pfpURL:string,lastMessage:string})
+function message(data:{name:string,id:string,messages:string,pfpURL:string,lastMessage:string})
 {
 	var Name = "";
 	if(data.name.length > 10)
@@ -137,7 +141,7 @@ function message(data:{name:string,pfpURL:string,lastMessage:string})
 		Name = data.name.toLowerCase();
 	}
 	return(
-	<IonButton className="messageRowButton" color='none' onClick={(event) => {onMessageRowButtonClicked(data.name); }}>
+	<IonButton className="messageRowButton" color='none' onClick={(event) => {onMessageRowButtonClicked(data.name,data.id,data.messages); }}>
 		<div className = "user">
 			<div className="text"dir="rtl">
 				<p className="noOverflow" >{data.lastMessage}</p>
@@ -148,19 +152,27 @@ function message(data:{name:string,pfpURL:string,lastMessage:string})
 	);
 }
 
-function onMessageRowButtonClicked(data:string)
+function onMessageRowButtonClicked(data:string, id:string, messages: string)
 {
-	alert("user " + global.userID + " clicked on user " + data);
+	var element = document.getElementById("messagePage");
+	if(element !== undefined && element !== null)
+	{
+		var root = ReactDOM.createRoot(element);
+		const myElement = <TextingPage name={data} id={id} messages = {messages}></TextingPage>
+		var msgs = global.msgs;
+		var elements = [msgs, myElement];
+		root.render(elements);
+	}
 }
 
 function ClosePopup()
 {
-	var element = document.getElementById("page");
+	var element = document.getElementById("messagePage");
 	if(element !== undefined && element !== null)
 	{
 		const root = ReactDOM.createRoot(element);
-		var usrs = global.usrs;
-		var elements = [usrs];
+		var msgs = global.msgs;
+		var elements = [msgs];
 		root.render(elements);
 	}
 }
@@ -168,7 +180,8 @@ function ClosePopup()
 function OnMessageButtonClicked(data:string)
 {
 	alert("messaging "+data+"...");
-	fetch("https://192.168.68.107/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
+	//fetch("https://192.168.68.107/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
+
 }
 
 

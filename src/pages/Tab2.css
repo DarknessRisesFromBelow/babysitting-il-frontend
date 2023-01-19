@@ -50,15 +50,14 @@
 }
 
 
-.boxTest
+.boxTest2
 {
 	background-color: rgb(31, 31, 31);
-    width: 70vw;
-    height: 50vh;
+    width: 100vw;
+    height: 100vh;
     border-radius: 7px;
     position: absolute;
-    right: 15vw;
-    top: 24vh;
+    top:0vh;
     padding-left: calc(50vw - 25vw);
     padding-top: 5vh;
 }

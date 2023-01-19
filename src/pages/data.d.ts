@@ -4,5 +4,6 @@ declare module NodeJS {
 		userID : string;
 		sessionID : string;
 		usrs : any;
+		msgs : any;
 	}
 }
