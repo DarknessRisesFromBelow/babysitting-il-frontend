@@ -14,7 +14,7 @@ const Tab1: React.FC = () => {
 		setTimeout(getUserHome,15);
 	});
 	return (
-		<IonPage >
+		<IonPage>
 		{global.userID == undefined ? <Redirect to="/login" /> : null}
 		<IonContent fullscreen>
 		<div className='logo' id = "logo"><IonIcon className="CustomIonicIconSize" src={logo} /></div>
@@ -102,7 +102,7 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 	idName += data.name;
 	return <IonButton className="UserButton" color='none' onClick={(event) => {OnUserClicked(data.name, data.id); }}>
 		<div className = "user" id = {idName}>
-			<p className="Username">{Name.toLowerCase()}</p>
+			<p className="Username" color="--ion-color-primary-contrast">{Name.toLowerCase()}</p>
 			<img draggable="false" className="circle" src={data.pfpURL} width= {70} height={70}></img>
 			<div className="star">
 				<p>{data.ranking}</p>

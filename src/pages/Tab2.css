@@ -16,7 +16,7 @@
 	margin-top: 9px;
 	width: 98%;
 	height: 60px;
-	color: #fff;
+	color: inherit;
 }
 .noOverflow
 {
@@ -43,7 +43,48 @@
 	margin-left: 20%;
 	margin-right: 0%;
 	width: -webkit-calc(100% - 50px);
-		width:		-moz-calc(100% - 50px);
-		width:				 calc(100% - 50px);
+	width: -moz-calc(100% - 50px);
+	width: calc(100% - 50px);
 	text-align: right;
+	color: inherit;
+}
+
+
+.boxTest
+{
+	background-color: rgb(31, 31, 31);
+    width: 70vw;
+    height: 50vh;
+    border-radius: 7px;
+    position: absolute;
+    right: 15vw;
+    top: 24vh;
+    padding-left: calc(50vw - 25vw);
+    padding-top: 5vh;
+}
+
+.ExitButton
+{
+	position: absolute;
+	top: 0.2vh;
+	right: 0.3vw;
+	width: 10vw;
+	height: 10vw;
+}
+
+.boxButton
+{
+	position: absolute;
+	left: 13vw;
+	width: 43vw;
+	height:7vh;
+	font-size: 1.3vh;
+	font-weight: 200;
+}
+
+.Title
+{
+	position: absolute;
+	left: 0vw;
+	top: 0vh;
 }

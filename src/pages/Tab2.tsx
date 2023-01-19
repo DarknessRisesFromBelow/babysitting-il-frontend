@@ -52,11 +52,6 @@ const Tab2: React.FC = () => {
 		);
 };
 
-function OnMessageButtonClicked()
-{
-	//MessageText.current.text = response;
-	alert("Clicked!");
-}
 
 function getOutput() : string
 {
@@ -117,6 +112,18 @@ function getOutput() : string
 }
 
 
+function TextingPage(data:{name:string,id:string,messages:string})
+{
+		return <div className = "boxTest" id="CloseablePopup">
+		<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
+		<p className="Title">{data.name}</p>
+		<br></br>
+		<br></br>
+		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton>
+	</div>
+}
+
+
 function message(data:{name:string,pfpURL:string,lastMessage:string})
 {
 	var Name = "";
@@ -145,6 +152,25 @@ function onMessageRowButtonClicked(data:string)
 {
 	alert("user " + global.userID + " clicked on user " + data);
 }
+
+function ClosePopup()
+{
+	var element = document.getElementById("page");
+	if(element !== undefined && element !== null)
+	{
+		const root = ReactDOM.createRoot(element);
+		var usrs = global.usrs;
+		var elements = [usrs];
+		root.render(elements);
+	}
+}
+
+function OnMessageButtonClicked(data:string)
+{
+	alert("messaging "+data+"...");
+	fetch("https://192.168.68.107/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
+}
+
 
 export default Tab2;
 

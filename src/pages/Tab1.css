@@ -15,7 +15,7 @@
 	margin-top: 9px;
 	width: 98%;
 	height: 74px;
-	color: #fff;
+	color: inherit;
 }
 .logo
 {
@@ -27,6 +27,7 @@
 .CustomIonicIconSize
 {
 	font-size: 500px !important;
+	/*fill:rgb(255, 14, 180);*/
 	position: absolute;
 	top: -190px;
 }

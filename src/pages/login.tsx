@@ -4,16 +4,20 @@ import './login.css';
 import { File } from '@ionic-native/file';
 import logo from "../PicData/Product-_1_.svg" 
 import ReactDOM from 'react-dom/client'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 const fetch = require("cross-fetch");
 
 const LoginScreen : React.FC = () => {
 const history = useHistory();
+	useEffect(() => {
+			console.log("hello, welcome to login page.");
+		});
 function AttemptSwitch()
 {
 	if(global.userID !== undefined && global.sessionID !== undefined)
 	{
+		console.log("finished login, redirecting to home");
 		history.push('/home');
 	}
 }
@@ -37,7 +41,6 @@ function switchToSignup()
 				<br></br>
 
 				<button className="submitButton" type="submit" onClick={()=>{setTimeout(AttemptSwitch, 30)}}>Login</button>	 
-				{ global.userID != undefined ? <Redirect to="/home" /> : null}
 				<p>or</p>
 				<button className="signupButton" onClick={()=>{switchToSignup();}}>create an account</button> 
 			</div>	 

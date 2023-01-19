@@ -12,6 +12,7 @@ const SignupScreen : React.FC = () => {
 const history = useHistory();
 function switchToLogin()
 {
+	console.log("switch function called!");
 	history.push('/login');
 }
 	return <IonPage>
@@ -41,7 +42,6 @@ function switchToLogin()
     			</select>
 				<br></br>
 				<button className="submitButton" type="submit" onClick={()=>{setTimeout(switchToLogin,15);}}>Sign up</button>	 
-				{ global.userID != undefined ? <Redirect to="/home" /> : null}
 				<p>already have an account?</p>
 				<button className="loginButton" onClick={()=>{switchToLogin();}}>login</button> 
 			</div>	 

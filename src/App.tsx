@@ -59,7 +59,7 @@ const App: React.FC = () => (
 			<SignupScreen/>	
 			</Route>
 			<Route exact path="/">
-			<Redirect to="/login" />
+			<LoginScreen />
 			</Route>
 		</IonRouterOutlet>
 		<IonTabBar slot="bottom" id="appTabBar">
