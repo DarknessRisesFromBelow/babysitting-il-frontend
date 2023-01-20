@@ -71,19 +71,28 @@
 	height: 10vw;
 }
 
-.boxButton
+.boxButton2
 {
 	position: absolute;
-	left: 13vw;
-	width: 43vw;
+	left: calc(100vw - 16.2vw);
+	bottom: 1.5cm;
+	width: 13vw;
 	height:7vh;
 	font-size: 1.3vh;
 	font-weight: 200;
 }
 
+.messageInput{
+	position: absolute;
+	bottom: 1.6cm;
+	left: 0.5cm;
+	width: 76vw;
+	height: 7vh;
+}
+
 .Title
 {
 	position: absolute;
-	left: 0vw;
-	top: 0vh;
+	left: 4vw;
+	top: 0.2vh;
 }

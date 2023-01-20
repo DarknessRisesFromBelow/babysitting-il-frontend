@@ -44,9 +44,6 @@ const Tab2: React.FC = () => {
 				<div className='paddedPage' id="messagePage"></div>
 			</IonContent>
 			<IonFab vertical="bottom" horizontal="end">
-			<IonFabButton color="secondary">
-				<IonIcon icon={add} ></IonIcon>
-			</IonFabButton>
 		</IonFab> 
 		</IonPage>
 		);
@@ -89,15 +86,12 @@ function getOutput() : string
 									responseString = responseString.replace("Got User Info. <br>", "");
 									var usersData = responseString.split(",");
 									pfpURLstring = usersData[2];
-									//temp[0] = usersData[0];
-									//temp[3] = usersData[3];
 									//await console.log(temp[3] + ", "+ temp[0]);
 								}
 							);
 						});
-
 						console.log(pfpURLstring);
-						msgs.push(React.createElement(message, {name:temp[0].toLowerCase(),id:temp[3],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
+						await msgs.push(React.createElement(message, {name:"",id:temp[0],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
 					}
 				}
 			}
@@ -118,15 +112,55 @@ function getOutput() : string
 
 function TextingPage(data:{name:string,id:string,messages:string})
 {
-		return <div className = "boxTest2" id="CloseablePopup">
+	var usersName = "";
+	var messagesArr = data.messages.split("||");
+	
+	for(var i = 0; i < messagesArr.length; i++)
+	{
+		var newMessage = messagesArr[i].split(" : ");
+		if(newMessage[0] == data.id)
+		{
+			usersName = newMessage[2];
+		}
+	}
+	setTimeout(()=>{loadConversation(messagesArr,data.id)},15);
+	return <div className = "boxTest2" id="CloseablePopup">
 		<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
-		<p className="Title">{data.name}</p>
+		<p className="Title">{usersName}</p>
 		<br></br>
+		<div id="textPosition"></div>
 		<br></br>
-		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton>
+		<div>
+			<input type='text' className="messageInput" id="messageTextInput" />
+			<IonButton className="boxButton2" onClick={()=>{let element =(document.getElementById("messageTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnMessageButtonClicked(data.id, element.value);}}}><p>message {usersName}</p></IonButton>
+		</div>
 	</div>
 }
 
+function loadConversation(messagesArr:any[], id: string)
+{
+	var msgsUpdated = []; 
+	for(var i = messagesArr.length - 1; i >= 0; i--)
+	{
+		var newMessage = messagesArr[i].split(" : ");
+		if(newMessage[0] == id || newMessage[0] == global.userID)
+		{
+			console.log(newMessage[1]);
+			msgsUpdated.push(React.createElement("p",{}, newMessage[1]));
+		}
+	}
+	let element = document.getElementById("textPosition");
+	if(element!== null)
+	{
+		console.log("rendering elements");
+		var root = ReactDOM.createRoot(element);
+		root.render(msgsUpdated);
+	}
+}
+
+function sleep(ms:number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function message(data:{name:string,id:string,messages:string,pfpURL:string,lastMessage:string})
 {
@@ -177,11 +211,13 @@ function ClosePopup()
 	}
 }
 
-function OnMessageButtonClicked(data:string)
+function OnMessageButtonClicked(data:string, message:string)
 {
 	alert("messaging "+data+"...");
-	//fetch("https://192.168.68.107/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
-
+	fetch("https://192.168.68.107/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID);
+	let element =(document.getElementById("messageTextInput") as HTMLInputElement);
+	if(element !== null && element !== undefined)
+		element.value = "";
 }
 
 

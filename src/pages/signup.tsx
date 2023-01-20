@@ -13,25 +13,25 @@ const history = useHistory();
 function switchToLogin()
 {
 	console.log("switch function called!");
-	history.push('/login');
+	history.go(-1);
 }
 	return <IonPage>
 		<IonContent fullscreen>
 		<div className="space"></div>
-		<form id="signup">
+		<form id="signup" onSubmit={()=>{setTimeout(switchToLogin,15);}}>
 			<div className="container" id="div">
 				
 				<label>Username : </label>
 				<br></br>	 
-				<input type="text" placeholder="Enter Username" name="name" required></input>
+				<input type="text" className="inputClass2" placeholder="Enter Username" name="name" required></input>
 				 <br></br>
 				 <label>Email : </label>
 				 <br></br>	 
-				<input type="text" placeholder="Enter Email" name="mail" required></input>
+				<input type="email" className="inputClass2" placeholder="Enter Email" name="mail" required></input>
 				<br></br>
 				 <label>Password : </label>
 				 <br></br>	 
-				<input type="password" placeholder="Enter Password" name="pass" required></input>
+				<input type="password" className="inputClass2" placeholder="Enter Password" name="pass" required></input>
 				<br></br>
 				<br></br>
 				<label>account type : </label>
@@ -41,7 +41,7 @@ function switchToLogin()
       				<option selected value="1">babysitter</option>
     			</select>
 				<br></br>
-				<button className="submitButton" type="submit" onClick={()=>{setTimeout(switchToLogin,15);}}>Sign up</button>	 
+				<button className="submitButton" type="submit">Sign up</button>	 
 				<p>already have an account?</p>
 				<button className="loginButton" onClick={()=>{switchToLogin();}}>login</button> 
 			</div>	 

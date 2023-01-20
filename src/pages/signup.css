@@ -20,7 +20,7 @@ Body
 	background-color: rgba(1, 1, 1, 0.0);
 }
 
-input[type=text], input[type=password]
+.inputClass2
 {	 
 	width: 50%;	 
 	margin: 8px 0;	

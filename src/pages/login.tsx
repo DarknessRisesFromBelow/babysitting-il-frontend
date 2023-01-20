@@ -33,11 +33,11 @@ function switchToSignup()
 			<div className="container" id="div">
 				<label>Username : </label>
 				<br></br>	 
-				<input type="text" placeholder="Enter Username" name="name" required></input>
+				<input type="text" className="inputClass" placeholder="Enter Username" name="name" required></input>
 				 <br></br>
 				 <label>Password : </label>
 				 <br></br>	 
-				<input type="password" placeholder="Enter Password" name="pass" required></input>
+				<input type="password" className="inputClass" placeholder="Enter Password" name="pass" required></input>
 				<br></br>
 
 				<button className="submitButton" type="submit" onClick={()=>{setTimeout(AttemptSwitch, 30)}}>Login</button>	 
