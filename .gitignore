@@ -126,3 +126,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 certs/ssl.zip
+android/.idea/deploymentTargetDropDown.xml
