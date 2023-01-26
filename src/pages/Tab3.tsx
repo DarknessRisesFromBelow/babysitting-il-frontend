@@ -23,7 +23,7 @@ async function getUserInfo()
 {
 	if("" + global.userID !== "undefined")
 	{
-		var url : string = "https://192.168.68.107/GetUserData" + global.userID;
+		var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
 		console.log(url);
 		var res = "meow";
 			fetch(url).then(

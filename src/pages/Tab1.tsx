@@ -36,7 +36,7 @@ async function getUserHome()
 {
 	if("" + global.userID !== "undefined")
 	{
-		var url : string = "https://192.168.68.107/GetUserHome" + global.userID + "," + global.sessionID;
+		var url : string = "https://" + global.ip + "/GetUserHome" + global.userID + "," + global.sessionID;
 		console.log(url);
 		var res = "meow";
 		fetch(url).then(
@@ -141,7 +141,7 @@ function ClosePopup()
 function OnMessageButtonClicked(data:string)
 {
 	alert("messaging "+data+"...");
-	fetch("https://192.168.68.107/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
+	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
 }
 
 function OnUserClicked(data:string, id:string)

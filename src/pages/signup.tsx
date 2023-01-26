@@ -74,7 +74,7 @@ function handleSignupSubmit(event: any)
 		asString = asString.slice(0,asString.length-1);
 		asString = id + "," + asString;
 		console.log(asString + " submitted results.");
-		fetch("https://192.168.68.107/CreateUser" + asString);
+		fetch("https://" + global.ip + "/CreateUser" + asString);
 	}
 }
 
@@ -88,7 +88,7 @@ function handleSignupSubmit(event: any)
 //	{
 //		console.log(asString);
 //	}
-//	fetch("http://192.168.68.107/CreateUser" + asString).then(
+//	fetch("http://" + global.ip + "/CreateUser" + asString).then(
 //		function(response:any)
 //		{
 //			response.text().then(
