@@ -12,9 +12,9 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
 function PreUserLoad()
 {
-	fetch("http://192.168.68.107/CreateUser%221,meow,Yairmedina356@gmail.com,1234rtyu%22");
-	fetch("http://192.168.68.107/CreateUser%221,meow1,spam.me.please.do.it@gmail.com,1234rtyu%22");
-	fetch("http://192.168.68.107/MessageUser0,2,helo!");	
+	fetch("http://" + global.ip + "/CreateUser%221,meow,Yairmedina356@gmail.com,1234rtyu%22");
+	fetch("http://" + global.ip + "/CreateUser%221,meow1,spam.me.please.do.it@gmail.com,1234rtyu%22");
+	fetch("http://" + global.ip + "/MessageUser0,2,helo!");	
 }
 
 const fetch = require("cross-fetch");
@@ -32,7 +32,7 @@ const Tab2: React.FC = () => {
 	function getLocation()
 	{
 		const position = Geolocation.getCurrentPosition();
-		position.then(function(response:any){fetch("https://192.168.68.107/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID);})
+		position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID);})
 	}
 	return (
 		<IonPage>
@@ -54,7 +54,7 @@ function getOutput() : string
 {
 	var res = "meow";
 	console.log("meow!");
-	fetch("https://192.168.68.107/GetAllMessages" + global.userID	+ "," + global.sessionID).then(function(response:any) {
+	fetch("https://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID).then(function(response:any) {
 		response.text().then(async function(responseString: any) { 
 //		console.log(responseString);
 			res = responseString.slice(0,responseString.length - 2).replace("Messages : ", "").replace("Messages ","");
@@ -75,7 +75,7 @@ function getOutput() : string
 					}
 					if(!exists)
 					{
-						var url : string = "https://192.168.68.107/GetUserData" + temp[0];
+						var url : string = "https://" + global.ip + "/GetUserData" + temp[0];
 						await fetch(url).then(
 							async function(response:any)
 							{
@@ -214,7 +214,7 @@ function ClosePopup()
 function OnMessageButtonClicked(data:string, message:string)
 {
 	alert("messaging "+data+"...");
-	fetch("https://192.168.68.107/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID);
+	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID);
 	let element =(document.getElementById("messageTextInput") as HTMLInputElement);
 	if(element !== null && element !== undefined)
 		element.value = "";

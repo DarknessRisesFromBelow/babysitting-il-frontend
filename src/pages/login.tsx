@@ -8,6 +8,8 @@ import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 const fetch = require("cross-fetch");
 
+global.ip = "192.168.68.107";
+
 const LoginScreen : React.FC = () => {
 const history = useHistory();
 	useEffect(() => {
@@ -73,7 +75,7 @@ function handleSubmit(event : any){
 		{
 			console.log(asString);
 		}
-		fetch("https://192.168.68.107/login" + asString).then(
+		fetch("https://" + global.ip + "/login" + asString).then(
 			function(response:any)
 			{
 				response.text().then(
