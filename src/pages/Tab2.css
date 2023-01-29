@@ -96,3 +96,15 @@
 	left: 4vw;
 	top: 0.2vh;
 }
+
+.ChatMessageRight
+{
+	position:absolute;
+	right: 10vw;	
+}
+
+.ChatMessageLeft
+{
+	position:absolute;
+	left: 10vw;
+}

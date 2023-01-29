@@ -146,7 +146,8 @@ function loadConversation(messagesArr:any[], id: string)
 		if(newMessage[0] == id || newMessage[0] == global.userID)
 		{
 			console.log(newMessage[1]);
-			msgsUpdated.push(React.createElement("p",{}, newMessage[1]));
+			
+			msgsUpdated.push(React.createElement(chatMessageElement, {dir:"left",message:"hello"},null));
 		}
 	}
 	let element = document.getElementById("textPosition");
@@ -184,6 +185,13 @@ function message(data:{name:string,id:string,messages:string,pfpURL:string,lastM
 		</div>
 	</IonButton>
 	);
+}
+
+function chatMessageElement(data:{dir : string , message : string})
+{
+	<div>
+		<p className={data.dir === "right" ? "ChatMessageRight" : "ChatMessageLeft"}>{data.message}</p>
+	</div>
 }
 
 function onMessageRowButtonClicked(data:string, id:string, messages: string)
