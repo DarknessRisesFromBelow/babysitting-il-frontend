@@ -127,3 +127,5 @@ dist
 .pnp.*
 certs/ssl.zip
 android/.idea/deploymentTargetDropDown.xml
+package-lock.json
+package.json
