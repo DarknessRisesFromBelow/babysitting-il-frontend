@@ -147,7 +147,7 @@ function loadConversation(messagesArr:any[], id: string)
 		{
 			console.log(newMessage[1]);
 			
-			msgsUpdated.push(React.createElement(chatMessageElement, {dir:"left",message:"hello"},null));
+			msgsUpdated.push(React.createElement('ChatMessageElement', {direction:"left",messageText:"hello"},null));
 		}
 	}
 	let element = document.getElementById("textPosition");
@@ -187,10 +187,11 @@ function message(data:{name:string,id:string,messages:string,pfpURL:string,lastM
 	);
 }
 
-function chatMessageElement(data:{dir : string , message : string})
+function ChatMessageElement(data:{direction : string , messageText : string})
 {
 	<div>
-		<p className={data.dir === "right" ? "ChatMessageRight" : "ChatMessageLeft"}>{data.message}</p>
+		<p className={data.direction === "right" ? "ChatMessageRight" : "ChatMessageLeft"}>{data.messageText}</p>
+		<IonButton></IonButton>
 	</div>
 }
 
