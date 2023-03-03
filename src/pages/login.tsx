@@ -8,7 +8,7 @@ import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 const fetch = require("cross-fetch");
 
-global.ip = "babysittingil.com";
+global.ip = "api.yairmedina.cf:8080";
 
 const LoginScreen : React.FC = () => {
 const history = useHistory();
