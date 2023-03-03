@@ -30,8 +30,13 @@
 	text-align: center;
 }
 
-
 .bio
 {
 	overflow: auto;
+}
+
+.editProfileButton
+{
+	position: absolute;
+	right: 0vw;
 }

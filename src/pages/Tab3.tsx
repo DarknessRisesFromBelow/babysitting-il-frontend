@@ -1,7 +1,7 @@
 import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonFabButton, IonFab} from '@ionic/react';
 import './Tab3.css';
 import { Redirect, Route, NavLink } from "react-router-dom";
-import {chatbubbleEllipses} from 'ionicons/icons'
+import {chatbubbleEllipses, pencil} from 'ionicons/icons'
 import logo from "../PicData/Product-_1_.svg" 
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
@@ -13,7 +13,9 @@ const Tab3: React.FC = () => {
 	return (
 	<IonPage>
 	{global.userID == undefined ? <Redirect to="/login" /> : null}
-		<IonContent fullscreen id="pfpPage">
+		<IonContent fullscreen>
+		<div className="editProfileButton"><IonButton onClick={()=>{editProfilePage()}}><IonIcon icon={pencil}></IonIcon></IonButton></div>
+		<div id="pfpPage"></div>
 		</IonContent>
 	</IonPage>
 	);
@@ -78,4 +80,24 @@ function UserProfile(data:{name:string,bio:string,pfpURL:string,stars:number,rat
 	</div>
 	);
 }
+
+function editProfilePage()
+{
+	// TODO:  do everything, not only comments of it
+	alert("started editing the profile");
+	alert("opened profile page editing page");
+	alert("button to close editing clicked, closing editing tab and starting data sending");
+	alert("sent data and finished editing process.");
+}
+
+function sendData(data:{userPFP:string, userRate:string, bio:string})
+{
+	var url : string = "https://" + global.ip + "/setPfp" + data.userPFP;
+	fetch(url);
+	url = "https://" + global.ip + "/setRate" + data.userRate;
+	fetch(url);
+	url = "https://" + global.ip + "/setBio" + data.bio;
+	fetch(url);
+}
+
 export default Tab3;
