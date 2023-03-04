@@ -39,7 +39,7 @@ async function getUserInfo()
 							var usersData = responseString.split(",");
 							var usrs = [];
 							console.log(usersData);
-							usrs.push(React.createElement(UserProfile, {name:usersData[0].toLowerCase(),bio:"hello, world!",pfpURL:usersData[2], stars:usersData[1], rate: 6.3},null));
+							usrs.push(React.createElement(UserProfile, {name:usersData[0].toLowerCase(),bio:usersData[3],pfpURL:usersData[2], stars:usersData[1], rate: usersData[4]},null));
 							var page = document.getElementById("pfpPage");
 							if(page != null)
 							{

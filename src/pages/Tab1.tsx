@@ -55,7 +55,7 @@ async function getUserHome()
 							var usrString = usersData[i];
 							var USR = usrString.split(",");
 							console.log(USR);
-							usrs.push(React.createElement(User, {name:USR[0].toLowerCase(),ranking:USR[1],pfpURL:USR[2],id:USR[3]},null));
+							usrs.push(React.createElement(User, {name:USR[0].toLowerCase(),ranking:USR[1],pfpURL:USR[2],id:USR[5]},null));
 						}
 						var page = document.getElementById("page");
 						if(page != null)
@@ -101,28 +101,44 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 	}
 	idName += data.name;
 	return <IonButton className="UserButton" color='none' onClick={(event) => {OnUserClicked(data.name, data.id); }}>
-		<div className = "user" id = {idName}>
-			<p className="Username" color="--ion-color-primary-contrast">{Name.toLowerCase()}</p>
-			<img draggable="false" className="circle" src={data.pfpURL} width= {70} height={70}></img>
-			<div className="star">
-				<p>{data.ranking}</p>
-				<img src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
-			</div>
-		</div>
+	<div className = "user" id = {idName}>
+	<p className="Username" color="--ion-color-primary-contrast">{Name.toLowerCase()}</p>
+	<img draggable="false" className="circle" src={data.pfpURL} width= {70} height={70}></img>
+	<div className="star">
+	<p>{data.ranking}</p>
+	<img src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
+	</div>
+	</div>
 	</IonButton>
 }
+
+function createCommentPage()
+{
+	CommentPage({id : global.userID});
+}
+
+function CommentPage(data:{id:string})
+{
+	var url = "https://" + global.ip + "/getComments" + data.id;
+	fetch(url).then(function(response:any){response.text().then(function(responseString:any)
+	{
+		console.log("response string : " + responseString);
+	})});
+}
+
 
 function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:string})
 {
 	return <div className = "boxTest" id="CloseablePopup">
-		<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
-		<img width={70} height={70} src={data.pfpURL}></img>
-		<p>{data.name}</p>
-		<br></br>
-		<br></br>
-		<p>rank : {data.ranking}*</p>
-		<p>rate : {data.rate}₪</p>
-		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton>
+	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage();}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
+	<img width={70} height={70} src={data.pfpURL}></img>
+	<p>{data.name}</p>
+	<br></br>
+	<br></br>
+	<p>rank : {data.ranking}*</p>
+	<p>rate : {data.rate}₪</p>
+	<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton>
 	</div>
 }
 
@@ -147,13 +163,27 @@ function OnMessageButtonClicked(data:string)
 function OnUserClicked(data:string, id:string)
 {
 	//alert("clicked on "+ data);
-	var element = document.getElementById("page");
-	if(element !== undefined && element !== null)
-	{
-		var root = ReactDOM.createRoot(element);
-		const myElement = <PfPage name={data} ranking="4" pfpURL="https://www.law.berkeley.edu/wp-content/uploads/2015/04/Blank-profile.png" rate={6} id={id}></PfPage>
-		var usrs = global.usrs;
-		var elements = [usrs, myElement];
-		root.render(elements);
-	}
+	var url : string = "https://" + global.ip + "/GetUserData" + id;
+	fetch(url).then(
+		async function(response:any)
+		{
+			response.text().then(
+				async function(responseString: any)
+				{ 
+					console.log(responseString);
+						var usersData = responseString.split(",");
+						var element = document.getElementById("page");
+						if(element !== undefined && element !== null)
+						{
+							var root = ReactDOM.createRoot(element);
+							const myElement = <PfPage name={data} ranking={usersData[1]} pfpURL={usersData[2]} rate={usersData[4]} id={id}></PfPage>
+							var usrs = global.usrs;
+							var elements = [usrs, myElement];
+							root.render(elements);
+						}
+				}
+			)
+		}
+	);
 }
+
