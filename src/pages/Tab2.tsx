@@ -2,7 +2,7 @@ import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonFabButton, IonFab}
 import React, {useRef, useEffect} from 'react'
 //import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
-import {add} from 'ionicons/icons';
+import {add, send} from 'ionicons/icons';
 import ReactDOM from 'react-dom/client'
 import { Redirect, Route, NavLink } from "react-router-dom";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
@@ -125,14 +125,14 @@ function TextingPage(data:{name:string,id:string,messages:string})
 	}
 	setTimeout(()=>{loadConversation(messagesArr,data.id)},15);
 	return <div className = "boxTest2" id="CloseablePopup">
-		<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
+		<IonButton className="ExitButton2" onClick = {()=>{ClosePopup();}}>X</IonButton>
 		<p className="Title">{usersName}</p>
 		<br></br>
 		<div id="textPosition"></div>
 		<br></br>
 		<div>
 			<input type='text' className="messageInput" id="messageTextInput" />
-			<IonButton className="boxButton2" onClick={()=>{let element =(document.getElementById("messageTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnMessageButtonClicked(data.id, element.value);}}}><p>message {usersName}</p></IonButton>
+			<IonButton className="boxButton2" onClick={()=>{let element =(document.getElementById("messageTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnMessageButtonClicked(data.id, element.value);}}}><IonIcon icon={send} size="large"></IonIcon></IonButton>
 		</div>
 	</div>
 }

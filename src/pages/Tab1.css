@@ -75,8 +75,7 @@
 	position: absolute;
 	top: 0.5vh;
 	right: 2vw;
-	width: 10vw;
-	height: 10vw;
+	height: 6vh;
 }
 
 .boxButton
@@ -94,4 +93,73 @@
 	position: absolute;
 	left: 2vw;
 	top: 0.5vh;
+	height: 6vh;
+}
+
+.DivWithBlackBackground
+{
+    width: 70vw;
+    height: 35vh;
+    position: absolute;
+    left: 0vw;
+    top: 7vh;
+    column-gap: 5px;
+    overflow-y: scroll;
+}	
+.DivWithBlackBackground::-webkit-scrollbar { 
+    display: none; 
+}
+.commentHeader
+{
+	display: flex;
+	column-gap: 15vw;
+}
+
+.commentBox
+{
+	outline-style: solid;
+	outline-width: .001px;
+	border-radius: 5px;
+	width: 95%;
+	position: relative;
+	left: 2.5%;
+	overflow: hidden;
+	margin-top: 0.8vh;
+}
+
+.CommentPageHeader
+{
+	display: flex;
+	column-gap: 30vw;
+}
+
+.CommentPageExitButton
+{
+	position: absolute;
+	right: 4px;
+}
+
+.commentTextInput
+{
+	width: 70%;
+	height: 5vh;
+	position: relative;
+	bottom: -0.9vh;
+}
+
+.CommentPageWrapper
+{
+	width: 70vw;
+    height: calc(50vh - 5%);
+    position: absolute;
+    left: 0vw;
+    top: 0.5vh;
+    column-gap: 5px;
+}
+
+.inputCommentPageDiv
+{
+	position: absolute;
+	bottom: -2vh;
+	display: flex;
 }

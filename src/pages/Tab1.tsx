@@ -1,6 +1,6 @@
 import { IonContent, IonButton, IonIcon, IonPage, IonTitle} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import {chatbubbleEllipses} from 'ionicons/icons'
+import {chatbubbleEllipses, exit, send} from 'ionicons/icons'
 import './Tab1.css';
 import logo from "../PicData/Product-_1_.svg" 
 import React, {useEffect} from 'react'
@@ -112,26 +112,134 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 	</IonButton>
 }
 
-function createCommentPage()
+function createCommentPage(id:string, userdata:any)
 {
-	CommentPage({id : global.userID});
-}
-
-function CommentPage(data:{id:string})
-{
-	var url = "https://" + global.ip + "/getComments" + data.id;
+	var url = "https://" + global.ip + "/GetUserData" + id;
+	fetch(url).then(function(response:any){response.text().then(function(responseString:any)
+	{
+		responseString = responseString.replace("Got User Info. <br>", "")
+		var element = document.getElementById("CloseablePopup");
+		if(element !== undefined && element !== null)
+		{
+			var responseData = responseString.split(',');
+			console.log(responseData[0]);
+			var root = ReactDOM.createRoot(element);
+			var newlyCreatedElement = React.createElement(CommentPage, {username:responseData[0], userid: id , userdata}, null);
+			root.render(newlyCreatedElement);
+		}
+	})});
+	url = "https://" + global.ip + "/getComments" + id;
 	fetch(url).then(function(response:any){response.text().then(function(responseString:any)
 	{
 		console.log("response string : " + responseString);
+		responseString = responseString.replace("---REVIEWS-START---", "").replace("---REVIEWS-END---", "").replace("\n", "");
+		console.log("fixed response string : " + responseString);
+		var comments = responseString.split("|||");
+		var commentElements = []
+		for(var i = 0; i < comments.length; i++)
+		{
+			if(comments[i]!= "")
+			{
+				var commentData = comments[i].split(",");
+				if(commentData.length !== 5)
+				{
+					var text = "";
+					for(var o = 4; o < commentData.length; o++)
+					{
+						text += commentData[o];
+						if(o != commentData.length - 1)
+						{
+							text += ",";
+						}
+					}
+					var newElement = React.createElement(Comment, {fromUsername: commentData[1], rating: commentData[3], text: text}, null);	
+					commentElements.push(newElement);
+				}
+				else
+				{
+					var commentData = comments[i].split(",");
+					var newElement = React.createElement(Comment, {fromUsername: commentData[1], rating: commentData[3], text: commentData[4]}, null);	
+					commentElements.push(newElement);
+				}
+			}
+		}
+		var element = document.getElementById("CommentPage");
+		if(element !== null && element !== undefined)
+		{
+			var root = ReactDOM.createRoot(element);
+			root.render(commentElements);
+		}
 	})});
+	
+}
+
+function closeCommentPage(userdata:any)
+{
+	var element = document.getElementById("CloseablePopup");
+	if(element !== undefined && element !== null)
+	{
+		var root = ReactDOM.createRoot(element)
+		//var newlyCreatedElement = React.createElement(CommentPage, {username:"thisisthelongestusernameIcanthinkofrightnow"}, null);
+		root.render(userdata);
+	}
+}
+
+function Comment(data:{fromUsername:string, rating:string, text:string})
+{
+	return <div className="commentBox">
+		<div className="commentHeader">
+			<h4>{data.fromUsername}</h4>
+			<p>{data.rating} כוכבים</p>
+		</div>
+		<div className="commentContent"><p>{data.text}</p></div>
+	</div>
+}
+
+function CommentPage(data:{username:string, userid:string, userdata:any})
+{
+	var Name = "";
+	if(data.username.length > 11)
+	{
+		Name = data.username.slice(0, 11).concat('...');
+		Name = Name.toLowerCase();
+	}
+	else
+	{
+		Name = data.username.toLowerCase();
+	}
+	return<div id="commentWrapper" className="CommentPageWrapper"> 
+			<div id="CommentPageHeader" className="CommentPageHeader">
+				<h3>{Name}</h3>
+				<IonButton className="CommentPageExitButton" onClick = {()=>{closeCommentPage(data.userdata);}}>
+					<IonIcon icon={exit}/>
+				</IonButton>
+			</div>
+			<div className = "DivWithBlackBackground" id="CommentPage">
+			</div>
+			<div className="inputCommentPageDiv">
+				<input id="commentTextInput"  className="commentTextInput" placeholder="comment: "></input>
+				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked("0", element.value);}}}><IonIcon icon={send}/></IonButton>
+			</div>
+		</div>
 }
 
 
 function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:string})
 {
+	var userdata:any = 	<div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses} ></IonIcon></IonButton>
+	<img width={70} height={70} src={data.pfpURL}></img>
+	<p>{data.name}</p>
+	<br></br>
+	<br></br>
+	<p>rank : {data.ranking}*</p>
+	<p>rate : {data.rate}₪</p>
+	<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton></div>
+
+
 	return <div className = "boxTest" id="CloseablePopup">
-	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}>X</IonButton>
-	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage();}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
+	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL}></img>
 	<p>{data.name}</p>
 	<br></br>
@@ -154,9 +262,17 @@ function ClosePopup()
 	}
 }
 
+
+function OnSendReviewButtonClicked(data:string, message:string)
+{
+	fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
+	let element =(document.getElementById("commentTextInput") as HTMLInputElement);
+	if(element !== null && element !== undefined)
+		element.value = "";
+}
+
 function OnMessageButtonClicked(data:string)
 {
-	alert("messaging "+data+"...");
 	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
 }
 
