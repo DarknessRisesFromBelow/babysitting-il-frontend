@@ -1,3 +1,12 @@
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;
+  background-color: var(--color);               
+  height: 1px;
+}
+
 .user
 {	
 	display: flex;
@@ -5,8 +14,6 @@
 	direction: ltr;
 	column-gap: 7%;
 	user-select: none;
-
-
 }
 
 .UserButton
@@ -59,7 +66,8 @@
 
 .boxTest
 {
-	background-color: rgb(31, 31, 31);
+	filter: brightness(85%);
+	background-color: var(--background);
     width: 70vw;
     height: 50vh;
     border-radius: 7px;
@@ -82,11 +90,24 @@
 {
 	position: absolute;
 	left: 13vw;
-	width: 43vw;
+	bottom: 0vh;
+	width: 21.5vw;
 	height:7vh;
 	font-size: 1.3vh;
 	font-weight: 200;
 }
+
+.secondBoxButton
+{
+	position: absolute;
+	left: calc(13vw + 22.5vw);
+	bottom: 0vh;
+	width: 21.5vw;
+	height:7vh;
+	font-size: 1.3vh;
+	font-weight: 200;
+}
+
 
 .CommentPageButton
 {
@@ -98,11 +119,11 @@
 
 .DivWithBlackBackground
 {
-    width: 70vw;
-    height: 35vh;
+	width: 70vw;
+    height: 34vh;
     position: absolute;
     left: 0vw;
-    top: 7vh;
+    top: 9vh;
     column-gap: 5px;
     overflow-y: scroll;
 }	
@@ -125,6 +146,7 @@
 	left: 2.5%;
 	overflow: hidden;
 	margin-top: 0.8vh;
+	filter: brightness(85%);
 }
 
 .CommentPageHeader

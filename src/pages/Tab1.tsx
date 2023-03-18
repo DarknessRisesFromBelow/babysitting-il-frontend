@@ -1,6 +1,6 @@
 import { IonContent, IonButton, IonIcon, IonPage, IonTitle} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import {chatbubbleEllipses, exit, send} from 'ionicons/icons'
+import {chatbubbleEllipses, chatbox, calendar, exit, send} from 'ionicons/icons'
 import './Tab1.css';
 import logo from "../PicData/Product-_1_.svg" 
 import React, {useEffect} from 'react'
@@ -214,11 +214,12 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 					<IonIcon icon={exit}/>
 				</IonButton>
 			</div>
+			<hr></hr>
 			<div className = "DivWithBlackBackground" id="CommentPage">
 			</div>
 			<div className="inputCommentPageDiv">
 				<input id="commentTextInput"  className="commentTextInput" placeholder="comment: "></input>
-				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked("0", element.value);}}}><IonIcon icon={send}/></IonButton>
+				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value);}}}><IonIcon icon={send}/></IonButton>
 			</div>
 		</div>
 }
@@ -234,8 +235,11 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<br></br>
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
-	<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton></div>
-
+	<div className="interactibleRow">
+		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={calendar} size="large" /></IonButton>
+		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
+	</div>
+	</div>
 
 	return <div className = "boxTest" id="CloseablePopup">
 	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
@@ -246,7 +250,10 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<br></br>
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
-	<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><p>message {data.name}</p></IonButton>
+	<div className="interactibleRow">
+		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={calendar} size="large" /></IonButton>
+		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
+	</div>
 	</div>
 }
 
