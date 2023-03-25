@@ -39,7 +39,7 @@ async function getUserInfo()
 							var usersData = responseString.split(",");
 							var usrs = [];
 							console.log(usersData);
-							usrs.push(React.createElement(UserProfile, {name:usersData[0].toLowerCase(),bio:usersData[3],pfpURL:usersData[2], stars:usersData[1], rate: usersData[4]},null));
+							usrs.push(React.createElement(UserProfile, {id:global.userID, name:usersData[0].toLowerCase(),bio:usersData[3],pfpURL:usersData[2], stars:usersData[1], rate: usersData[4]},null));
 							var page = document.getElementById("pfpPage");
 							if(page != null)
 							{
@@ -54,7 +54,7 @@ async function getUserInfo()
 	}
 }
 
-function UserProfile(data:{name:string,bio:string,pfpURL:string,stars:number,rate:number})
+function UserProfile(data:{id:string,name:string,bio:string,pfpURL:string,stars:number,rate:number})
 {
 	var Name = "";
 	if(data.name.length > 10)
@@ -67,7 +67,8 @@ function UserProfile(data:{name:string,bio:string,pfpURL:string,stars:number,rat
 		Name = data.name.toLowerCase();
 	}
 	return (
-	<div >
+	<div>
+	<div id="DivHolderThirdPage"></div>
 		<img className="image" src = {data.pfpURL} draggable="false"></img>
 		<p className="username">{Name}</p>
 		<div className="otherInfo">
@@ -84,19 +85,54 @@ function UserProfile(data:{name:string,bio:string,pfpURL:string,stars:number,rat
 function editProfilePage()
 {
 	// TODO:  do everything, not only comments of it
-	alert("started editing the profile");
-	alert("opened profile page editing page");
-	alert("button to close editing clicked, closing editing tab and starting data sending");
-	alert("sent data and finished editing process.");
+	var holder = document.getElementById("DivHolderThirdPage");
+	if(holder !== null && holder !== undefined)
+	{
+		var root = ReactDOM.createRoot(holder);
+		var element = React.createElement(infoEditingPage, {}, null);
+		root.render(element);
+	}
+	//alert("started editing the profile");
+	//alert("opened profile page editing page");
+	//alert("button to close editing clicked, closing editing tab and starting data sending");
+	//alert("sent data and finished editing process.");
 }
 
-function sendData(data:{userPFP:string, userRate:string, bio:string})
+function infoEditingPage()
 {
-	var url : string = "https://" + global.ip + "/setPfp" + data.userPFP;
+	return <div className="infoEditingPage">
+		<IonButton className="page3EditExitButton" onClick={()=>{finishEditing()}}><p>X</p></IonButton>
+		<br></br><br></br><br></br><br></br>
+		<input autoComplete="off" id="newRateInput" placeholder="input new rate : "></input>
+		<p>we take 1.3$ and 2.9% of each TRANSACTION</p>
+	</div>
+}
+
+function finishEditing()
+{
+	let element = (document.getElementById("newRateInput") as HTMLInputElement);
+	var price = "0";
+	if(element !== null && element !== undefined)
+	{
+		price = element.value;
+		element.value = "";
+	}
+	var holder = document.getElementById("DivHolderThirdPage");
+	if(holder !== null && holder !== undefined)
+	{
+		var root = ReactDOM.createRoot(holder);
+		root.render(null);
+	}
+	sendData("https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg?1648156494", price, "this is a edited bio")
+}
+
+function sendData(userPFP:string, userRate:string, bio:string)
+{
+	var url : string = "https://" + global.ip + "/setPfp" + global.userID + "," + userPFP;
 	fetch(url);
-	url = "https://" + global.ip + "/setRate" + data.userRate;
+	url = "https://" + global.ip + "/setRate" + global.userID + "," + userRate;
 	fetch(url);
-	url = "https://" + global.ip + "/setBio" + data.bio;
+	url = "https://" + global.ip + "/setBio"+ global.userID + "," + bio;
 	fetch(url);
 }
 

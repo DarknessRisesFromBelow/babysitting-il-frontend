@@ -131,7 +131,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		<div id="textPosition"></div>
 		<br></br>
 		<div>
-			<input type='text' className="messageInput" id="messageTextInput" />
+			<input type='text' autoComplete="off" className="messageInput" id="messageTextInput" />
 			<IonButton className="boxButton2" onClick={()=>{let element =(document.getElementById("messageTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnMessageButtonClicked(data.id, element.value);}}}><IonIcon icon={send} size="large"></IonIcon></IonButton>
 		</div>
 	</div>

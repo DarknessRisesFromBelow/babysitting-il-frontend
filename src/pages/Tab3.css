@@ -40,3 +40,21 @@
 	position: absolute;
 	right: 0vw;
 }
+
+.infoEditingPage
+{
+	background-color: var(--background);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 7%;
+	z-index: 70;
+}
+
+.page3EditExitButton
+{
+	position: absolute;
+	top: 0;
+	right: 7vw;
+}

@@ -207,7 +207,7 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 	{
 		Name = data.username.toLowerCase();
 	}
-	return<div id="commentWrapper" className="CommentPageWrapper"> 
+	return <div id="commentWrapper" className="CommentPageWrapper"> 
 			<div id="CommentPageHeader" className="CommentPageHeader">
 				<h3>{Name}</h3>
 				<IonButton className="CommentPageExitButton" onClick = {()=>{closeCommentPage(data.userdata);}}>
@@ -218,16 +218,38 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 			<div className = "DivWithBlackBackground" id="CommentPage">
 			</div>
 			<div className="inputCommentPageDiv">
-				<input id="commentTextInput"  className="commentTextInput" placeholder="comment: "></input>
+				<input id="commentTextInput" autoComplete="off" className="commentTextInput" placeholder="comment: "></input>
 				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value);}}}><IonIcon icon={send}/></IonButton>
 			</div>
 		</div>
 }
 
+function closeRBPage()
+{
+	var roor = document.getElementById("DivHolder");
+	if(roor !== undefined && roor !== null)
+	{
+		var root = ReactDOM.createRoot(roor);
+		root.render(null);
+	}
+}
+
+function reserveBabysitterPage(data:{id:string, rate:number})
+{
+	return <div className="RBPage">
+		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
+			<IonIcon icon={exit}/>
+		</IonButton>
+		<p>id: {data.id}</p>
+		<br/>
+		<p> rate : {data.rate}₪</p>
+		<IonButton className="RBPageButton"><p>pay {data.rate} ₪</p></IonButton>		
+	</div>
+}
 
 function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:string})
 {
-	var userdata:any = 	<div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
+	var userdata:any = 	<div><div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL}></img>
 	<p>{data.name}</p>
@@ -236,12 +258,13 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
 	<div className="interactibleRow">
-		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={calendar} size="large" /></IonButton>
+		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
 	</div>
 	</div>
 
 	return <div className = "boxTest" id="CloseablePopup">
+	<div id="DivHolder"></div>
 	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL}></img>
@@ -251,10 +274,21 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
 	<div className="interactibleRow">
-		<IonButton className="boxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={calendar} size="large" /></IonButton>
+		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
 	</div>
 	</div>
+}
+
+function OnReserveButtonClicked(id:string, rate:number)
+{
+	var roor = document.getElementById("DivHolder");
+	if(roor !== undefined && roor !== null)
+	{
+		var element = React.createElement(reserveBabysitterPage, {id, rate}, null);
+		var root = ReactDOM.createRoot(roor);
+		root.render(element);
+	}
 }
 
 function ClosePopup()
@@ -273,7 +307,7 @@ function ClosePopup()
 function OnSendReviewButtonClicked(data:string, message:string)
 {
 	fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
-	let element =(document.getElementById("commentTextInput") as HTMLInputElement);
+	let element = (document.getElementById("commentTextInput") as HTMLInputElement);
 	if(element !== null && element !== undefined)
 		element.value = "";
 }
@@ -282,6 +316,8 @@ function OnMessageButtonClicked(data:string)
 {
 	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
 }
+
+
 
 function OnUserClicked(data:string, id:string)
 {
@@ -294,16 +330,16 @@ function OnUserClicked(data:string, id:string)
 				async function(responseString: any)
 				{ 
 					console.log(responseString);
-						var usersData = responseString.split(",");
-						var element = document.getElementById("page");
-						if(element !== undefined && element !== null)
-						{
-							var root = ReactDOM.createRoot(element);
-							const myElement = <PfPage name={data} ranking={usersData[1]} pfpURL={usersData[2]} rate={usersData[4]} id={id}></PfPage>
-							var usrs = global.usrs;
-							var elements = [usrs, myElement];
-							root.render(elements);
-						}
+					var usersData = responseString.split(",");
+					var element = document.getElementById("page");
+					if(element !== undefined && element !== null)
+					{
+						var root = ReactDOM.createRoot(element);
+						const myElement = <PfPage name={data} ranking={usersData[1]} pfpURL={usersData[2]} rate={usersData[4]} id={id}></PfPage>
+						var usrs = global.usrs;
+						var elements = [usrs, myElement];
+						root.render(elements);
+					}
 				}
 			)
 		}
