@@ -102,19 +102,42 @@ function infoEditingPage()
 {
 	return <div className="infoEditingPage">
 		<IonButton className="page3EditExitButton" onClick={()=>{finishEditing()}}><p>X</p></IonButton>
-		<br></br><br></br><br></br><br></br>
+		<br></br><br></br><br></br>
+		<p>profile picture URL : </p>
+		<input autoComplete="off" id="newPFPInput" placeholder="input new pfp url : "></input>
+		<br></br>
+		<br></br>
+		<p>rate : </p>
 		<input autoComplete="off" id="newRateInput" placeholder="input new rate : "></input>
 		<p>we take 1.3$ and 2.9% of each TRANSACTION</p>
+		<br></br>
+		<br></br>
+		<p>biography : </p>
+		<input autoComplete="off" id="newBioInput" placeholder="input new bio: "></input>
 	</div>
 }
 
 function finishEditing()
 {
-	let element = (document.getElementById("newRateInput") as HTMLInputElement);
 	var price = "0";
+	var pfpURL = "";
+	var bioString = "";
+	let element = (document.getElementById("newRateInput") as HTMLInputElement);
 	if(element !== null && element !== undefined)
 	{
 		price = element.value;
+		element.value = "";
+	}
+	element = (document.getElementById("newPFPInput") as HTMLInputElement);
+	if(element !== null && element !== undefined)
+	{
+		pfpURL = element.value;
+		element.value = "";
+	}
+	element = (document.getElementById("newBioInput") as HTMLInputElement);
+	if(element !== null && element !== undefined)
+	{
+		bioString = element.value;
 		element.value = "";
 	}
 	var holder = document.getElementById("DivHolderThirdPage");
@@ -123,8 +146,10 @@ function finishEditing()
 		var root = ReactDOM.createRoot(holder);
 		root.render(null);
 	}
-	sendData("https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg?1648156494", price, "this is a edited bio")
+	sendData(pfpURL, price, bioString)
 }
+
+//https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg
 
 function sendData(userPFP:string, userRate:string, bio:string)
 {

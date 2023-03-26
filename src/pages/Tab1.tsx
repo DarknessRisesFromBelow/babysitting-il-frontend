@@ -251,7 +251,7 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 {
 	var userdata:any = 	<div><div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses} ></IonIcon></IonButton>
-	<img width={70} height={70} src={data.pfpURL}></img>
+	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
 	<br></br>
 	<br></br>
@@ -267,7 +267,7 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<div id="DivHolder"></div>
 	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
-	<img width={70} height={70} src={data.pfpURL}></img>
+	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
 	<br></br>
 	<br></br>
