@@ -102,18 +102,19 @@ function infoEditingPage(data:{currentPrice:number, currentPFPUrl:string, curren
 {
 	return <div className="infoEditingPage">
 		<IonButton className="page3EditExitButton" onClick={()=>{finishEditing()}}><p>X</p></IonButton>
-		<img id="pfpPreviewImg" className = "image2" src={data.currentPFPUrl}></img>
-		<br></br><br></br><br></br>
+		<img id="pfpPreviewImg" className = "image" src={data.currentPFPUrl}></img>
+		<div className = "otherInfo2">
 		<p>profile picture URL : </p>
-		<input autoComplete="off" id="newPFPInput" onChange = {() =>{var img = document.getElementById("pfpPreviewImg") as HTMLImageElement; var input = document.getElementById("newPFPInput") as HTMLInputElement; img.src = input.value;}} defaultValue={data.currentPFPUrl}></input>
+		<input className = "pfpInput" autoComplete="off" id="newPFPInput" onChange = {() =>{var img = document.getElementById("pfpPreviewImg") as HTMLImageElement; var input = document.getElementById("newPFPInput") as HTMLInputElement; img.src = input.value;}} defaultValue={data.currentPFPUrl}></input>
 		<br></br>
 		<br></br>
 		<p>rate : </p>
-		<input autoComplete="off" id="newRateInput" defaultValue={data.currentPrice}></input>
+		<input autoComplete="off" id="newRateInput" className="rateInput" defaultValue={data.currentPrice}></input>
 		<p>we take 1.3$ and 2.9% of each TRANSACTION</p>
 		<br></br>
 		<p>biography : </p>
 		<textarea autoComplete="off" id="newBioInput" defaultValue={data.currentBio}></textarea>
+		</div>
 	</div>
 }
 

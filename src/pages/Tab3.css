@@ -22,17 +22,6 @@
 	top: calc(25% - 125px);
 }
 
-.image2
-{
-	border-radius: 50%;
-	user-select: none;
-	width: 140px;
-	height: 140px;
-	position: relative;
-	left: calc(50% - 90px);
-	top: calc(25% - 125px);
-}
-
 
 .otherInfo {
     position: absolute;
@@ -40,6 +29,26 @@
     width: 50vw;
     top: 38vh;
     text-align: center;
+}
+
+.otherInfo2 {
+    position: absolute;
+    left: 23vw;
+    width: 50vw;
+    top: 30vh;
+    text-align: center;
+}
+
+.rateInput
+{
+	width: 3pc;
+}
+
+.pfpInput
+{
+	position: relative;
+	right: 6vw;
+	left: 1vw;
 }
 
 .bio
@@ -60,7 +69,7 @@
 	width: 100%;
 	position: absolute;
 	top: 0;
-	left: 7%;
+	left: 0;
 	z-index: 70;
 }
 
@@ -68,5 +77,5 @@
 {
 	position: absolute;
 	top: 0;
-	right: 7vw;
+	right: 0vw;
 }
