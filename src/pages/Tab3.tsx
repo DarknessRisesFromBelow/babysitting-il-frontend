@@ -14,7 +14,6 @@ const Tab3: React.FC = () => {
 	<IonPage>
 	{global.userID == undefined ? <Redirect to="/login" /> : null}
 		<IonContent fullscreen>
-		<div className="editProfileButton"><IonButton onClick={()=>{editProfilePage()}}><IonIcon icon={pencil}></IonIcon></IonButton></div>
 		<div id="pfpPage"></div>
 		</IonContent>
 	</IonPage>
@@ -68,6 +67,7 @@ function UserProfile(data:{id:string,name:string,bio:string,pfpURL:string,stars:
 	}
 	return (
 	<div>
+	<div className="editProfileButton"><IonButton onClick={()=>{editProfilePage(data.rate, data.pfpURL, data.bio)}}><IonIcon icon={pencil}></IonIcon></IonButton></div>
 	<div id="DivHolderThirdPage"></div>
 		<img className="image" src = {data.pfpURL} draggable="false"></img>
 		<p className="username">{Name}</p>
@@ -82,14 +82,14 @@ function UserProfile(data:{id:string,name:string,bio:string,pfpURL:string,stars:
 	);
 }
 
-function editProfilePage()
+function editProfilePage(currentPrice:number, currentPFPUrl:string, currentBio:string)
 {
 	// TODO:  do everything, not only comments of it
 	var holder = document.getElementById("DivHolderThirdPage");
 	if(holder !== null && holder !== undefined)
 	{
 		var root = ReactDOM.createRoot(holder);
-		var element = React.createElement(infoEditingPage, {}, null);
+		var element = React.createElement(infoEditingPage, {currentPrice,currentPFPUrl,currentBio}, null);
 		root.render(element);
 	}
 	//alert("started editing the profile");
@@ -98,22 +98,22 @@ function editProfilePage()
 	//alert("sent data and finished editing process.");
 }
 
-function infoEditingPage()
+function infoEditingPage(data:{currentPrice:number, currentPFPUrl:string, currentBio:string})
 {
 	return <div className="infoEditingPage">
 		<IonButton className="page3EditExitButton" onClick={()=>{finishEditing()}}><p>X</p></IonButton>
+		<img id="pfpPreviewImg" className = "image2" src={data.currentPFPUrl}></img>
 		<br></br><br></br><br></br>
 		<p>profile picture URL : </p>
-		<input autoComplete="off" id="newPFPInput" placeholder="input new pfp url : "></input>
+		<input autoComplete="off" id="newPFPInput" onChange = {() =>{var img = document.getElementById("pfpPreviewImg") as HTMLImageElement; var input = document.getElementById("newPFPInput") as HTMLInputElement; img.src = input.value;}} defaultValue={data.currentPFPUrl}></input>
 		<br></br>
 		<br></br>
 		<p>rate : </p>
-		<input autoComplete="off" id="newRateInput" placeholder="input new rate : "></input>
+		<input autoComplete="off" id="newRateInput" defaultValue={data.currentPrice}></input>
 		<p>we take 1.3$ and 2.9% of each TRANSACTION</p>
 		<br></br>
-		<br></br>
 		<p>biography : </p>
-		<input autoComplete="off" id="newBioInput" placeholder="input new bio: "></input>
+		<textarea autoComplete="off" id="newBioInput" defaultValue={data.currentBio}></textarea>
 	</div>
 }
 
@@ -146,7 +146,7 @@ function finishEditing()
 		var root = ReactDOM.createRoot(holder);
 		root.render(null);
 	}
-	sendData(pfpURL, price, bioString)
+	sendData(pfpURL, price, bioString);
 }
 
 //https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg
@@ -159,6 +159,7 @@ function sendData(userPFP:string, userRate:string, bio:string)
 	fetch(url);
 	url = "https://" + global.ip + "/setBio"+ global.userID + "," + bio;
 	fetch(url);
+	getUserInfo();
 }
 
 export default Tab3;
