@@ -39,7 +39,7 @@ function switchToLogin()
 				
 				<label>Username : </label>
 				<br></br>	 
-				<input type="text" className="inputClass2" placeholder="Enter Username" name="name" required></input>
+				<input type="text" pattern="[^,;]+" className="inputClass2" placeholder="Enter Username" name="name" required></input>
 				 <br></br>
 				 <label>Email : </label>
 				 <br></br>	 
@@ -47,7 +47,7 @@ function switchToLogin()
 				<br></br>
 				 <label>Password : </label>
 				 <br></br>	 
-				<input type="password" className="inputClass2" placeholder="Enter Password" name="pass" required></input>
+				<input type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" className="inputClass2" placeholder="Enter Password" name="pass" required></input>
 				<br></br>
 				<br></br>
 				<label>account type : </label>

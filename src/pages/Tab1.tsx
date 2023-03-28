@@ -55,7 +55,7 @@ async function getUserHome()
 							var usrString = usersData[i];
 							var USR = usrString.split(",");
 							console.log(USR);
-							usrs.push(React.createElement(User, {name:USR[0].toLowerCase(),ranking:USR[1],pfpURL:USR[2],id:USR[5]},null));
+							usrs.push(React.createElement(User, {name:USR[0].toLowerCase(),ranking:USR[1],pfpURL:USR[2],id:USR[USR.length-1]},null));
 						}
 						var page = document.getElementById("page");
 						if(page != null)
@@ -336,7 +336,7 @@ function OnUserClicked(data:string, id:string)
 					if(element !== undefined && element !== null)
 					{
 						var root = ReactDOM.createRoot(element);
-						const myElement = <PfPage name={data} ranking={usersData[1]} pfpURL={usersData[2]} rate={usersData[4]} id={id}></PfPage>
+						const myElement = <PfPage name={data} ranking={usersData[1]} pfpURL={usersData[2]} rate={usersData[usersData.length - 2]} id={id}></PfPage>
 						var usrs = global.usrs;
 						var elements = [usrs, myElement];
 						root.render(elements);

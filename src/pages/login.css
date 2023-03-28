@@ -1,8 +1,4 @@
-Body
-{	
-	font-family: Calibri, Helvetica, sans-serif;	
-	background-color: pink;	
-}	
+
 .submitButton
 {	 
 	background-color: #3dc2ff;	 
@@ -17,6 +13,7 @@ Body
 .signupButton
 {
 	width: 30%;
+	color: var(--color);
 	background-color: rgba(1, 1, 1, 0.0);
 }
 

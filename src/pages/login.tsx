@@ -35,7 +35,7 @@ function switchToSignup()
 			<div className="container" id="div">
 				<label>Username : </label>
 				<br></br>	 
-				<input type="text" className="inputClass" placeholder="Enter Username" name="name" required></input>
+				<input pattern="[^,;]+" type="text" className="inputClass" placeholder="Enter Username" name="name" required></input>
 				 <br></br>
 				 <label>Password : </label>
 				 <br></br>	 

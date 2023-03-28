@@ -1,8 +1,12 @@
-Body
-{	
-	font-family: Calibri, Helvetica, sans-serif;	
-	background-color: pink;	
-}	
+select
+{
+	background-color: var(--background);
+	border-top-style: hidden;
+  	border-right-style: hidden;
+  	border-left-style: hidden;
+  	border-bottom-style: groove;
+}
+
 .submitButton
 {	 
 	background-color: #3dc2ff;	 
@@ -18,6 +22,7 @@ Body
 {
 	width: 30%;
 	background-color: rgba(1, 1, 1, 0.0);
+	color: var(--color);
 }
 
 .inputClass2
