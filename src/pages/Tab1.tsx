@@ -219,7 +219,7 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 			</div>
 			<div className="inputCommentPageDiv">
 				<input id="commentTextInput" autoComplete="off" className="commentTextInput" placeholder="comment: "></input>
-				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value);}}}><IonIcon icon={send}/></IonButton>
+				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value, data.userdata);}}}><IonIcon icon={send}/></IonButton>
 			</div>
 		</div>
 }
@@ -304,12 +304,13 @@ function ClosePopup()
 }
 
 
-function OnSendReviewButtonClicked(data:string, message:string)
+function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 {
 	fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
 	let element = (document.getElementById("commentTextInput") as HTMLInputElement);
 	if(element !== null && element !== undefined)
 		element.value = "";
+	createCommentPage(data, userdata);
 }
 
 function OnMessageButtonClicked(data:string)

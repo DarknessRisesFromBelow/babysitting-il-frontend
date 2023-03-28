@@ -38,7 +38,16 @@ async function getUserInfo()
 							var usersData = responseString.split(",");
 							var usrs = [];
 							console.log(usersData);
-							usrs.push(React.createElement(UserProfile, {id:global.userID, name:usersData[0].toLowerCase(),bio:usersData[3],pfpURL:usersData[2], stars:usersData[1], rate: usersData[4]},null));
+							var bio = "";
+							bio += usersData[3];
+							for(var i = 4; i < usersData.length - 2; i++)
+							{
+								if(usersData.length >= 6)
+								{
+									bio += "," + usersData[i];
+								}
+							}
+							usrs.push(React.createElement(UserProfile, {id:global.userID, name:usersData[0].toLowerCase(),bio:bio,pfpURL:usersData[2], stars:usersData[1], rate: usersData[usersData.length - 2]},null));
 							var page = document.getElementById("pfpPage");
 							if(page != null)
 							{
