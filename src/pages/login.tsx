@@ -34,6 +34,7 @@ const fetch = require("cross-fetch");
 global.ip = "babysittingil.com";
 
 global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
+global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
 
 const LoginScreen : React.FC = () => {
 const history = useHistory();

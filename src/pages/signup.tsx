@@ -107,7 +107,7 @@ function handleSignupSubmit(event: any)
 				else
 				{
 					console.log("dispatched the unsuccessful register event");
-					global.dispatchEvent(global.loggedInEvent);				
+					global.dispatchEvent(global.UnsuccesfullyRegisteredEvent);				
 				}
 			}
 		)});
