@@ -28,13 +28,13 @@ const history = useHistory();
 function switchToLogin()
 {
 	console.log("switch function called!");
-	history.go(-1);
+	history.push("/login");
 }
 
 	return <IonPage>
 		<IonContent fullscreen>
 		<div className="space"></div>
-		<form id="signup" onSubmit={()=>{setTimeout(switchToLogin,15);}}>
+		<form id="signup" onSubmit={()=>{global.addEventListener("succesfullyRegisteredEvent", switchToLogin); console.log("added the event listener");}}>
 			<div className="container" id="div">
 				
 				<label>Username : </label>
@@ -77,6 +77,12 @@ function addFormListener()
 		form.addEventListener('submit', handleSignupSubmit);
 }
 
+global.addEventListener("UnsuccesfullyRegisteredEvent", showUnsuccessToast);
+
+function showUnsuccessToast()
+{
+	alert("this email address is associated with a different account.");
+}
 
 function handleSignupSubmit(event: any)
 {
@@ -90,10 +96,21 @@ function handleSignupSubmit(event: any)
 		asString = asString.slice(0,asString.length-1);
 		asString = id + "," + asString;
 		console.log(asString + " submitted results.");
-		new Promise(function(resolve:any, reject)
-		{
-			fetch("https://" + global.ip + "/CreateUser" + asString).then(()=>{resolve()});
-		})
+		fetch("https://" + global.ip + "/CreateUser" + asString).then(function(response:any){response.text().then(function(responseString:any)
+			{
+				if(responseString === "Created User ")
+				{
+					console.log("dispatched the successful register event");
+					console.log(global.succesfullyRegisteredEvent);
+					global.dispatchEvent(global.succesfullyRegisteredEvent);
+				}
+				else
+				{
+					console.log("dispatched the unsuccessful register event");
+					global.dispatchEvent(global.loggedInEvent);				
+				}
+			}
+		)});
 	}
 }
 

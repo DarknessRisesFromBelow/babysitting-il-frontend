@@ -1,4 +1,4 @@
-import { IonContent, IonButton, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar, IonTabButton} from '@ionic/react';
+import { IonContent, IonButton, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './login.css';
 import { File } from '@ionic-native/file';
@@ -6,9 +6,34 @@ import logo from "../PicData/Product-_1_.svg"
 import ReactDOM from 'react-dom/client'
 import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
+import { personCircle,chatbubbleEllipses, home } from 'ionicons/icons';
+import { IonApp, IonLabel, IonRouterOutlet, IonTabButton, setupIonicReact } from '@ionic/react';
 const fetch = require("cross-fetch");
 
+
+//const secondButton = <IonTabButton tab="tab2" href="/messages">
+//			<IonIcon icon={chatbubbleEllipses} />
+//			<IonLabel>Messages</IonLabel>
+//			</IonTabButton>
+//
+//const thirdButton	= <IonTabButton tab="tab3" href="/profile">
+//			<IonIcon icon={personCircle} />
+//			<IonLabel>Profile</IonLabel>
+//			</IonTabButton>
+//
+//
+//const firstButton = <IonTabButton tab="tab1" href="/home" >
+//			<IonIcon icon={home}/>
+//			<IonLabel>Home</IonLabel>
+//			</IonTabButton>
+//
+//
+//const babysitterTabs = [secondButton, thirdButton]
+//const parentTabs = [firstButton, secondButton, thirdButton]
+
 global.ip = "babysittingil.com";
+
+global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
 
 const LoginScreen : React.FC = () => {
 const history = useHistory();
@@ -20,7 +45,10 @@ function AttemptSwitch()
 	if(global.userID !== undefined && global.sessionID !== undefined)
 	{
 		console.log("finished login, redirecting to home");
-		history.push('/home');
+		if(global.userType == 0)
+			history.push('/home');
+		else
+			history.push('/profile');
 	}
 }
 
@@ -95,8 +123,28 @@ function handleSubmit(event : any){
 							console.log("session id : " + global.sessionID + " user id : " + global.userID);
 							console.log(typeof global.loggedInEvent);
 							global.dispatchEvent(global.loggedInEvent);
+							if(data[data.length - 1] == 0)
+							{
+//								const tabBar = document.getElementById('appTabBar');
+//								if (tabBar !== null) 
+//								{
+//									var root = ReactDOM.createRoot(tabBar);
+//									root.render(parentTabs);
+								console.log("parent logged in.");
+								global.userType = data[data.length - 1];
+//								}
+							}
+							else
+							{
+								const tabBar = document.getElementById('tab-button-tab1');
+								if (tabBar !== null) 
+								{
+									tabBar.hidden = true;
+									global.userType = data[data.length - 1];
+									console.log("babysitter logged in.");
+								}
+							}
 						}	
-
 					}	
 				);
 			}

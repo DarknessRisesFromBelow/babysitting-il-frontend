@@ -3,9 +3,13 @@ declare module NodeJS {
 		ip : string = "api.yairmedina.cf";
 		shouldRun: bool;
 		loggedInEvent : Event;
+		UnseccesfullyLoggedInEvent : Event;
+		succesfullyRegisteredEvent : Event;
+		UnsuccesfullyRegisteredEvent : Event
 		userID : string;
 		sessionID : string;
 		usrs : any;
 		msgs : any;
+		userType : number;
 	}
 }
