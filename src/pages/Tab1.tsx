@@ -243,7 +243,7 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 		<p>id: {data.id}</p>
 		<br/>
 		<p> rate : {data.rate}₪</p>
-		<IonButton className="RBPageButton"><p>pay {data.rate} ₪</p></IonButton>		
+		<IonButton className="RBPageButton" onClick={()=>{fetch("https://" + global.ip + "/PayUser" + global.userID + "," + data.id + "," + "1" + "," + global.sessionID);}}><p>pay {data.rate} ₪</p></IonButton>		
 	</div>
 }
 
@@ -306,10 +306,13 @@ function ClosePopup()
 
 function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 {
-	fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
-	let element = (document.getElementById("commentTextInput") as HTMLInputElement);
-	if(element !== null && element !== undefined)
-		element.value = "";
+	if(message !== "")
+	{
+		fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
+		let element = (document.getElementById("commentTextInput") as HTMLInputElement);
+		if(element !== null && element !== undefined)
+			element.value = "";
+	}
 	createCommentPage(data, userdata);
 }
 

@@ -36,6 +36,9 @@ global.ip = "babysittingil.com";
 global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
 global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
 
+// not how you write successfully but I do not care. 
+global.UnseccesfullyLoggedInEvent = new Event("UnseccesfullyLoggedInEvent");
+
 const LoginScreen : React.FC = () => {
 const history = useHistory();
 	useEffect(() => {
@@ -92,6 +95,13 @@ function addFormListener()
 }
 
 
+global.addEventListener("UnseccesfullyLoggedInEvent", showUnsuccessLoginToast);
+function showUnsuccessLoginToast()
+{
+	alert("could not log in, either username or password are incorrect.");
+}
+
+
 function handleSubmit(event : any){
 	if(event.submitter.innerHTML === "Login")
 	{	
@@ -145,6 +155,10 @@ function handleSubmit(event : any){
 									console.log("babysitter logged in.");
 								}
 							}
+						}
+						else
+						{
+							global.dispatchEvent(global.UnseccesfullyLoggedInEvent);
 						}	
 					}	
 				);
