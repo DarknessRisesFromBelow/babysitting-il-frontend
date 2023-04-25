@@ -13,7 +13,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 
-import { IonContent, IonButton, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar, IonTabButton} from '@ionic/react';
+import { IonContent, IonButton, IonToast, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar, IonTabButton} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './signup.css';
 import { File } from '@ionic-native/file';
@@ -34,7 +34,7 @@ function switchToLogin()
 	return <IonPage>
 		<IonContent fullscreen>
 		<div className="space"></div>
-		<form id="signup" onSubmit={()=>{global.addEventListener("succesfullyRegisteredEvent", switchToLogin); console.log("added the event listener");}}>
+		<form id="signup" action="javascript:void(0);" onSubmit={()=>{global.addEventListener("succesfullyRegisteredEvent", switchToLogin); console.log("added the event listener");}}>
 			<div className="container" id="div">
 				
 				<label>Username : </label>
@@ -62,7 +62,7 @@ function switchToLogin()
 				<button className="loginButton" onClick={()=>{switchToLogin();}}>login</button> 
 			</div>	 
 		</form>
-
+		<div id="toastArea"></div>
 		</IonContent>
 	</IonPage>
 };
@@ -81,7 +81,13 @@ global.addEventListener("UnsuccesfullyRegisteredEvent", showUnsuccessToast);
 
 function showUnsuccessToast()
 {
-	alert("this email address is associated with a different account.");
+	var alert = document.getElementById("toastArea");
+	if(alert !== null && alert !== undefined)
+	{
+		var newElement = <IonToast id="failToast" header="ERROR" isOpen={true} color="danger" message="could not sign up, email is probably already associated with a YMA account." duration={1000}></IonToast>
+		var root = ReactDOM.createRoot(alert);
+		root.render(newElement);
+	}
 }
 
 function handleSignupSubmit(event: any)

@@ -7,7 +7,8 @@ import ReactDOM from 'react-dom/client'
 import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 import { personCircle,chatbubbleEllipses, home } from 'ionicons/icons';
-import { IonApp, IonLabel, IonRouterOutlet, IonTabButton, setupIonicReact } from '@ionic/react';
+import { IonApp, IonLabel, IonToast, IonRouterOutlet, IonTabButton, setupIonicReact } from '@ionic/react';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 const fetch = require("cross-fetch");
 
 
@@ -63,7 +64,7 @@ function switchToSignup()
 	return <IonPage>
 		<IonContent fullscreen>
 		<div className="space"></div>
-		<form id="login">
+		<form action="javascript:void(0);" id="login">
 			<div className="container" id="div">
 				<label>Username : </label>
 				<br></br>	 
@@ -79,7 +80,7 @@ function switchToSignup()
 				<button className="signupButton" onClick={()=>{switchToSignup();}}>create an account</button> 
 			</div>	 
 		</form>
-
+		<div id="toastArea"></div>
 		</IonContent>
 	</IonPage>
 };
@@ -98,7 +99,14 @@ function addFormListener()
 global.addEventListener("UnseccesfullyLoggedInEvent", showUnsuccessLoginToast);
 function showUnsuccessLoginToast()
 {
-	alert("could not log in, either username or password are incorrect.");
+	//alert("could not log in, either username or password are incorrect.");
+	var alert = document.getElementById("toastArea");
+	if(alert !== null && alert !== undefined)
+	{
+		var newElement = <IonToast id="failToast" header="ERROR" isOpen={true} color="danger" message="could not log in, either username or password are incorrect." duration={1000}></IonToast>
+		var root = ReactDOM.createRoot(alert);
+		root.render(newElement);
+	}
 }
 
 
@@ -124,6 +132,8 @@ function handleSubmit(event : any){
 						if(responseString.includes("logged in, needed info is ") === true)
 						{
 							console.log("logged in");
+							const position = Geolocation.getCurrentPosition();
+							position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + data[1] + "," + response.coords.latitude + "," + response.coords.longitude + "," + data[0]);})
 							global.loggedInEvent = new Event('loggedIn');
 							console.log(responseString);
 							responseString = responseString.replace("logged in, needed info is ","");
@@ -153,6 +163,7 @@ function handleSubmit(event : any){
 									tabBar.hidden = true;
 									global.userType = data[data.length - 1];
 									console.log("babysitter logged in.");
+
 								}
 							}
 						}
