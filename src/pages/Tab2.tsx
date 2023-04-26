@@ -75,7 +75,15 @@ function getOutput() : string
 					}
 					if(!exists)
 					{
-						var url : string = "https://" + global.ip + "/GetUserData" + temp[0];
+						if(temp[3].includes("0"))
+						{
+							var url : string = "https://" + global.ip + "/GetUserData" + temp[0];
+						}
+						else
+						{
+							var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
+							console.log("it was not 0, it was " + temp[3]);
+						}
 						await fetch(url).then(
 							async function(response:any)
 							{
