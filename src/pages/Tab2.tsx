@@ -4,6 +4,7 @@ import React, {useRef, useEffect} from 'react'
 import './Tab2.css';
 import {add, send} from 'ionicons/icons';
 import ReactDOM from 'react-dom/client'
+import image from "../PicData/messageOutlineLeft.svg"
 import { Redirect, Route, NavLink } from "react-router-dom";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
@@ -49,6 +50,12 @@ const Tab2: React.FC = () => {
 		);
 };
 
+function ChatMessageElement(data:{direction : string , messageText : string})
+{
+	return <div>
+		<p className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}>{data.messageText}</p>
+	</div>
+}
 
 function getOutput() : string
 {
@@ -62,6 +69,7 @@ function getOutput() : string
 			var data = res.split("||");
 			var msgs = [];
 			var pfpURLstring:string = "";
+			var renderedIds:string[] = [];
 			for(var i= 0; i < data.length; i++)
 			{
 				var temp = data[i].split(" : ");
@@ -82,7 +90,6 @@ function getOutput() : string
 						else
 						{
 							var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
-							console.log("it was not 0, it was " + temp[3]);
 						}
 						await fetch(url).then(
 							async function(response:any)
@@ -99,7 +106,11 @@ function getOutput() : string
 							);
 						});
 						console.log(pfpURLstring);
-						await msgs.push(React.createElement(message, {name:"",id:temp[0],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
+						if(!renderedIds.includes(temp[0]))
+						{
+							await msgs.push(React.createElement(message, {name:"",id:temp[0],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
+							renderedIds.push(temp[0]);
+						}
 					}
 				}
 			}
@@ -136,7 +147,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		<IonButton className="ExitButton2" onClick = {()=>{ClosePopup();}}>X</IonButton>
 		<p className="Title">{usersName}</p>
 		<br></br>
-		<div id="textPosition"></div>
+		<div id="textPosition" className="chatPageMessagesSubdiary"></div>
 		<br></br>
 		<div>
 			<input type='text' autoComplete="off" className="messageInput" id="messageTextInput" />
@@ -155,7 +166,7 @@ function loadConversation(messagesArr:any[], id: string)
 		{
 			console.log(newMessage[1]);
 			
-			msgsUpdated.push(React.createElement('ChatMessageElement', {direction:"left",messageText:"hello"},null));
+			msgsUpdated.push(React.createElement(ChatMessageElement, {direction:newMessage[3].includes("0") ? "left" : "right", messageText: newMessage[1]}, null));
 		}
 	}
 	let element = document.getElementById("textPosition");
@@ -195,13 +206,6 @@ function message(data:{name:string,id:string,messages:string,pfpURL:string,lastM
 	);
 }
 
-function ChatMessageElement(data:{direction : string , messageText : string})
-{
-	<div>
-		<p className={data.direction === "right" ? "ChatMessageRight" : "ChatMessageLeft"}>{data.messageText}</p>
-		<IonButton></IonButton>
-	</div>
-}
 
 function onMessageRowButtonClicked(data:string, id:string, messages: string)
 {
@@ -226,6 +230,7 @@ function ClosePopup()
 		var elements = [msgs];
 		root.render(elements);
 	}
+	getOutput();
 }
 
 function OnMessageButtonClicked(data:string, message:string)

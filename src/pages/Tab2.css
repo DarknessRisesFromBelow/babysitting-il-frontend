@@ -52,7 +52,7 @@
 
 .boxTest2
 {
-	background-color: rgb(31, 31, 31);
+	background-color: var(--background);
     width: 100vw;
     height: 100vh;
     border-radius: 7px;
@@ -60,6 +60,14 @@
     top:0vh;
     padding-left: calc(50vw - 25vw);
     padding-top: 5vh;
+}
+
+.chatPageMessagesSubdiary
+{
+	height: 80%;
+	position: relative;
+	top: 0;
+	overflow-y: scroll;
 }
 
 .ExitButton2
@@ -99,12 +107,14 @@
 
 .ChatMessageRight
 {
-	position:absolute;
-	right: 10vw;	
+	position:relative;
+	background: rgba(145, 255, 0, 0.07);
+	width: 100%;
+	overflow: visible;
 }
 
 .ChatMessageLeft
 {
-	position:absolute;
-	left: 10vw;
+	position:relative;
+	border-radius: 1px;
 }
