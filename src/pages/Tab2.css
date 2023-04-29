@@ -35,6 +35,30 @@
 	-o-border-radius: 50%;
 }
 
+.chatMessageElementStyle
+{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x:wrap;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+
+.circleMessageTab
+{
+	position: relative;
+	left: 0;
+	height: 40px;
+	width: 40px;
+	top: calc(50% - 20px);
+	margin-right: 10px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-o-border-radius: 50%;
+}
+
 .text
 {
 	position: absolute;
@@ -65,9 +89,12 @@
 .chatPageMessagesSubdiary
 {
 	height: 80%;
+	width: 95vw;
 	position: relative;
+	left: -20vw;
 	top: 0;
 	overflow-y: scroll;
+	/*scrollbar-color: var(--background);*/
 }
 
 .ExitButton2

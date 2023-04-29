@@ -19,8 +19,9 @@ function PreUserLoad()
 }
 
 const fetch = require("cross-fetch");
-
-
+//const scrollToBottom = () => { let list = document.querySelector("ion-content"); return list && list.scrollToBottom(); };
+var currentChatID = 0;
+var messagesText:string = "";
 //const response = getOutput();
 //console.log(response);
 //var MessageText = useRef(null);
@@ -50,11 +51,36 @@ const Tab2: React.FC = () => {
 		);
 };
 
-function ChatMessageElement(data:{direction : string , messageText : string})
+function ChatMessageElement(data:{direction : string, imgURL : string , messageText : string})
 {
-	return <div>
-		<p className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}>{data.messageText}</p>
+	scrollToBottom("textPosition");
+	return <div className = "chatMessageElementStyle">
+		<img src={data.imgURL} className="circleMessageTab"></img><p className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}>{data.messageText}</p>
 	</div>
+}
+
+function scrollToBottom(id:string)
+{
+	var element = document.getElementById(id);
+	if(element !== null && element !== undefined)
+	{
+		console.error("scrolling down!");
+		element.scrollTop = 0;
+	}
+}
+
+function getUpdatedMessages() : string
+{
+	var res = "meow";
+	console.log("meow!");
+	fetch("https://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID).then(function(response:any) {
+		response.text().then(async function(responseString: any) { 
+			res = responseString.slice(0,responseString.length - 2).replace("Messages : ", "").replace("Messages ","");
+			messagesText = res;
+			return responseString;
+		});
+	});
+	return res;
 }
 
 function getOutput() : string
@@ -66,6 +92,7 @@ function getOutput() : string
 //		console.log(responseString);
 			res = responseString.slice(0,responseString.length - 2).replace("Messages : ", "").replace("Messages ","");
 			console.log(res);
+			messagesText = res;
 			var data = res.split("||");
 			var msgs = [];
 			var pfpURLstring:string = "";
@@ -129,10 +156,13 @@ function getOutput() : string
 }
 
 
+
 function TextingPage(data:{name:string,id:string,messages:string})
 {
 	var usersName = "";
 	var messagesArr = data.messages.split("||");
+	currentChatID = +(data.id);
+	updateMessagesInterval(4000, +(data.id));
 	
 	for(var i = 0; i < messagesArr.length; i++)
 	{
@@ -147,7 +177,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		<IonButton className="ExitButton2" onClick = {()=>{ClosePopup();}}>X</IonButton>
 		<p className="Title">{usersName}</p>
 		<br></br>
-		<div id="textPosition" className="chatPageMessagesSubdiary"></div>
+		<div id="textPosition" className="chatPageMessagesSubdiary"><div id="messagesEnd"></div></div>
 		<br></br>
 		<div>
 			<input type='text' autoComplete="off" className="messageInput" id="messageTextInput" />
@@ -158,6 +188,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 
 function loadConversation(messagesArr:any[], id: string)
 {
+	console.log("loadConversation called with messageArr being " + messagesArr);
 	var msgsUpdated = []; 
 	for(var i = messagesArr.length - 1; i >= 0; i--)
 	{
@@ -166,7 +197,7 @@ function loadConversation(messagesArr:any[], id: string)
 		{
 			console.log(newMessage[1]);
 			
-			msgsUpdated.push(React.createElement(ChatMessageElement, {direction:newMessage[3].includes("0") ? "left" : "right", messageText: newMessage[1]}, null));
+			msgsUpdated.push(React.createElement(ChatMessageElement, {direction:newMessage[3].includes("0") ? "left" : "right", imgURL:newMessage[5],messageText: newMessage[1]}, null));
 		}
 	}
 	let element = document.getElementById("textPosition");
@@ -206,7 +237,6 @@ function message(data:{name:string,id:string,messages:string,pfpURL:string,lastM
 	);
 }
 
-
 function onMessageRowButtonClicked(data:string, id:string, messages: string)
 {
 	var element = document.getElementById("messagePage");
@@ -222,6 +252,7 @@ function onMessageRowButtonClicked(data:string, id:string, messages: string)
 
 function ClosePopup()
 {
+	currentChatID = -15;
 	var element = document.getElementById("messagePage");
 	if(element !== undefined && element !== null)
 	{
@@ -233,13 +264,31 @@ function ClosePopup()
 	getOutput();
 }
 
+
+async function updateMessagesInterval(interval:number, chatID:number)
+{
+	if(currentChatID === chatID)
+	{
+		await sleep(interval);
+		getUpdatedMessages();
+		loadConversation(messagesText.split("||"), "" + chatID);
+		updateMessagesInterval(interval, chatID);
+		let content = document.querySelector("textPosition");
+    	if(content)
+    		content.scrollTo(0, 0);
+	}
+}
+
 function OnMessageButtonClicked(data:string, message:string)
 {
 	alert("messaging "+data+"...");
-	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID);
-	let element =(document.getElementById("messageTextInput") as HTMLInputElement);
-	if(element !== null && element !== undefined)
-		element.value = "";
+	if(message !== "")
+	{
+		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID);
+		let element =(document.getElementById("messageTextInput") as HTMLInputElement);
+		if(element !== null && element !== undefined)
+			element.value = "";
+	}
 }
 
 
