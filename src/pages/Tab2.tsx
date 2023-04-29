@@ -253,6 +253,7 @@ function onMessageRowButtonClicked(data:string, id:string, messages: string)
 function ClosePopup()
 {
 	currentChatID = -15;
+	updateMessagesPageInterval(2000);
 	var element = document.getElementById("messagePage");
 	if(element !== undefined && element !== null)
 	{
@@ -262,6 +263,17 @@ function ClosePopup()
 		root.render(elements);
 	}
 	getOutput();
+}
+
+
+async function updateMessagesPageInterval(interval:number)
+{
+	if(currentChatID < 0)
+	{
+		await sleep(interval);
+		getOutput();
+		updateMessagesPageInterval(interval);
+	}
 }
 
 
@@ -275,7 +287,10 @@ async function updateMessagesInterval(interval:number, chatID:number)
 		updateMessagesInterval(interval, chatID);
 		let content = document.querySelector("textPosition");
     	if(content)
-    		content.scrollTo(0, 0);
+    	{
+    		await sleep(1500);
+    		content.scrollTo(0, content.scrollHeight);
+		}
 	}
 }
 
