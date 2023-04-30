@@ -65,7 +65,7 @@ async function scrollToBottom(id:string)
 	var element = document.getElementById(id);
 	if(element !== null && element !== undefined)
 	{
-		sleep(200);
+		sleep(1000);
 		if(element.scrollHeight > window.screen.height)
 			element.scrollTop = element.scrollHeight;
 	}
