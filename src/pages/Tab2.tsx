@@ -28,6 +28,8 @@ var messagesText:string = "";
 //let messages = request.text();
 const Tab2: React.FC = () => {
 	useEffect(() => {
+		currentChatID = -15;
+		updateMessagesPageInterval(4000);
 		getLocation();
 		getOutput();
 		});
@@ -53,19 +55,19 @@ const Tab2: React.FC = () => {
 
 function ChatMessageElement(data:{direction : string, imgURL : string , messageText : string})
 {
-	scrollToBottom("textPosition");
 	return <div className = "chatMessageElementStyle">
 		<img src={data.imgURL} className="circleMessageTab"></img><p className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}>{data.messageText}</p>
 	</div>
 }
 
-function scrollToBottom(id:string)
+async function scrollToBottom(id:string)
 {
 	var element = document.getElementById(id);
 	if(element !== null && element !== undefined)
 	{
-		console.error("scrolling down!");
-		element.scrollTop = 0;
+		sleep(200);
+		if(element.scrollHeight > window.screen.height)
+			element.scrollTop = element.scrollHeight;
 	}
 }
 
@@ -97,7 +99,7 @@ function getOutput() : string
 			var msgs = [];
 			var pfpURLstring:string = "";
 			var renderedIds:string[] = [];
-			for(var i= 0; i < data.length; i++)
+			for(var i = 0; i < data.length; i++)
 			{
 				var temp = data[i].split(" : ");
 				if(temp[0] != " "&&temp[0] != "")
@@ -110,28 +112,7 @@ function getOutput() : string
 					}
 					if(!exists)
 					{
-						if(temp[3].includes("0"))
-						{
-							var url : string = "https://" + global.ip + "/GetUserData" + temp[0];
-						}
-						else
-						{
-							var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
-						}
-						await fetch(url).then(
-							async function(response:any)
-							{
-								console.log("");
-								await response.text().then(
-								function(responseString: any)
-								{ 
-									responseString = responseString.replace("Got User Info. <br>", "");
-									var usersData = responseString.split(",");
-									pfpURLstring = usersData[2];
-									//await console.log(temp[3] + ", "+ temp[0]);
-								}
-							);
-						});
+						pfpURLstring = temp[6];
 						console.log(pfpURLstring);
 						if(!renderedIds.includes(temp[0]))
 						{
@@ -190,7 +171,7 @@ function loadConversation(messagesArr:any[], id: string)
 {
 	console.log("loadConversation called with messageArr being " + messagesArr);
 	var msgsUpdated = []; 
-	for(var i = messagesArr.length - 1; i >= 0; i--)
+	for(var i = 0; i < messagesArr.length; i++)
 	{
 		var newMessage = messagesArr[i].split(" : ");
 		if(newMessage[0] == id || newMessage[0] == global.userID)
@@ -271,8 +252,11 @@ async function updateMessagesPageInterval(interval:number)
 	if(currentChatID < 0)
 	{
 		await sleep(interval);
-		getOutput();
-		updateMessagesPageInterval(interval);
+		if(currentChatID < 0)
+		{
+			getOutput();
+			updateMessagesPageInterval(interval);
+		}
 	}
 }
 
@@ -281,16 +265,16 @@ async function updateMessagesInterval(interval:number, chatID:number)
 {
 	if(currentChatID === chatID)
 	{
+		let oldMessages = messagesText;
 		await sleep(interval);
 		getUpdatedMessages();
-		loadConversation(messagesText.split("||"), "" + chatID);
-		updateMessagesInterval(interval, chatID);
-		let content = document.querySelector("textPosition");
-    	if(content)
-    	{
-    		await sleep(1500);
-    		content.scrollTo(0, content.scrollHeight);
+		if(messagesText != oldMessages)
+		{
+			console.error("this should not run if there are no new messages!");
+			loadConversation(messagesText.split("||"), "" + chatID);
+			scrollToBottom("textPosition");
 		}
+		updateMessagesInterval(interval, chatID);
 	}
 }
 
