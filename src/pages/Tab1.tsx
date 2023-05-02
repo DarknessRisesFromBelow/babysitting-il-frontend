@@ -247,6 +247,20 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 	</div>
 }
 
+function MessagePageInteractible(data:{userdata:string})
+{
+	return <div>
+		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>X</IonButton>
+		<div className="messagePageInteractible">
+			<input className = "messageInputPage1" autoComplete="off" placeholder = "message to send..." id = "messagePageSendingInputPage1"/>
+			<IonButton onClick={()=>{OnMessageSendButtonClicked(data.userdata);}}>
+				<IonIcon icon={send}></IonIcon>
+			</IonButton>
+		</div>
+	</div>
+}
+
+
 function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:string})
 {
 	var userdata:any = 	<div><div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
@@ -318,9 +332,29 @@ function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 
 function OnMessageButtonClicked(data:string)
 {
-	fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + "hello from babysittingIL,"+ global.sessionID);
+	let element = document.getElementById("DivHolder");
+	if(element !== null && element !== undefined)
+	{
+		let newElement = React.createElement(MessagePageInteractible, {userdata:data}, null);
+		const root = ReactDOM.createRoot(element);
+		root.render(newElement);
+	}
 }
 
+
+function OnMessageSendButtonClicked(data:string)
+{
+	let myInput = document.getElementById("messagePageSendingInputPage1") as HTMLInputElement;
+	if(myInput !== null && myInput !== undefined)
+	{
+		console.log(myInput.value);
+		console.error("data : " + data);
+		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + myInput.value + "," + global.sessionID);
+		
+		myInput.value = "";
+	}
+	closeRBPage();
+}
 
 
 function OnUserClicked(data:string, id:string)

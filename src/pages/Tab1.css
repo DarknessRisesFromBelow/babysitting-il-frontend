@@ -69,6 +69,30 @@ textarea
 	flex-direction: row;	
 }
 
+.messagePageInteractible
+{
+    height: 50vh;
+    width: 70vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--background);
+    z-index: 70;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.messageInputPage1
+{
+	width: 70%;
+	margin-right: 5px;
+    margin-left: 10px;
+}
+
 .circle
 {
 	position: absolute;
@@ -154,6 +178,7 @@ textarea
 	top: 0.5vh;
 	right: 2vw;
 	height: 6vh;
+	z-index: 71;
 }
 
 
