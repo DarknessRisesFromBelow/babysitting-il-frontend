@@ -19,8 +19,9 @@
 	height: 140px;
 	position: relative;
 	left: calc(50% - 70px);
-	top: calc(25% - 125px);
+	top: 5%;
 }
+
 
 
 .otherInfo {

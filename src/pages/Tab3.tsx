@@ -95,6 +95,7 @@ function UserProfile(data:{id:string,name:string,bio:string,pfpURL:string,stars:
 function editProfilePage(currentPrice:number, currentPFPUrl:string, currentBio:string)
 {
 	// TODO:  do everything, not only comments of it
+	// DONE
 	var holder = document.getElementById("DivHolderThirdPage");
 	if(holder !== null && holder !== undefined)
 	{

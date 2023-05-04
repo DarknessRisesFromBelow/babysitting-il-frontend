@@ -1,7 +1,8 @@
-import { IonContent, IonButton, IonIcon, IonPage, IonTitle} from '@ionic/react';
+import { IonContent, IonButton, IonRange ,IonIcon, IonPage, IonTitle} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import {chatbubbleEllipses, chatbox, calendar, exit, send} from 'ionicons/icons'
 import './Tab1.css';
+import reviewIcon from "../PicData/reviewIcon.svg"
 import logo from "../PicData/Product-_1_.svg" 
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
@@ -217,9 +218,12 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 			<hr></hr>
 			<div className = "DivWithBlackBackground" id="CommentPage">
 			</div>
+			<div>
 			<div className="inputCommentPageDiv">
 				<input id="commentTextInput" autoComplete="off" className="commentTextInput" placeholder="comment: "></input>
-				<IonButton onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value, data.userdata);}}}><IonIcon icon={send}/></IonButton>
+				<IonButton className = "messageSendReviewPageButton" onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value, data.userdata);}}}><IonIcon icon={send} size="large"/></IonButton>
+			</div>
+    		<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
 			</div>
 		</div>
 }
@@ -264,7 +268,7 @@ function MessagePageInteractible(data:{userdata:string})
 function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:string})
 {
 	var userdata:any = 	<div><div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
-	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses} ></IonIcon></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
 	<br></br>
@@ -280,7 +284,7 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	return <div className = "boxTest" id="CloseablePopup">
 	<div id="DivHolder"></div>
 	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
-	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon}></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
 	<br></br>
@@ -322,10 +326,20 @@ function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 {
 	if(message !== "")
 	{
-		fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + 5);
-		let element = (document.getElementById("commentTextInput") as HTMLInputElement);
-		if(element !== null && element !== undefined)
-			element.value = "";
+		let reviewBarElement = document.getElementById("reviewBarObject") as HTMLInputElement;
+		if(reviewBarElement !== null && reviewBarElement !== undefined)
+		{
+			if(reviewBarElement.value == "0"){reviewBarElement.value = "1";}
+			fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + reviewBarElement.value);
+			let element = (document.getElementById("commentTextInput") as HTMLInputElement);
+			if(element !== null && element !== undefined)
+				element.value = "";
+		}
+		else
+		{
+			console.error("reviewBarElement was null");			
+		}
+
 	}
 	createCommentPage(data, userdata);
 }
