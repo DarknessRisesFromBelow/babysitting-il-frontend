@@ -167,9 +167,14 @@ textarea
     border-radius: 4px;
     left: 1.5%;
     height: 5vh;
-    bottom: 2vh;
+    top: 48vh;
     --background: #3dc2ff;
     color: white;
+}
+
+.RBPageButtonContinue
+{
+	z-index: 200;
 }
 
 .RBPageExitButton
@@ -259,6 +264,27 @@ textarea
 {
 	width: 14vw;
 
+}
+
+.calendarClass
+{
+	display: flex;
+	width: 70vw;
+	height: 42vh;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: var(--background);
+	justify-content: flex-end;
+    align-content: center;
+}
+
+:host .calendar-body .calendar-month .calendar-month-grid {
+    top: 50px;
+    width: 70vw;
+	height: 42vh;
+    position: relative;
+    grid-template-rows: repeat(5, 1fr);
 }
 
 .reviewBar

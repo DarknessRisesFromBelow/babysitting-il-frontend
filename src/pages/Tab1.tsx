@@ -1,4 +1,4 @@
-import { IonContent, IonButton, IonRange ,IonIcon, IonPage, IonTitle} from '@ionic/react';
+import { IonContent, IonButton, IonDatetime, IonRange, IonIcon, IonPage, IonTitle} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import {chatbubbleEllipses, chatbox, calendar, exit, send} from 'ionicons/icons'
 import './Tab1.css';
@@ -244,9 +244,11 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
 			<IonIcon icon={exit}/>
 		</IonButton>
+		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
 		<p>id: {data.id}</p>
 		<br/>
 		<p> rate : {data.rate}₪</p>
+		<IonButton className="RBPageButton RBPageButtonContinue" onClick={()=>{alert("continuing")}}><p>continue</p></IonButton>		
 		<IonButton className="RBPageButton" onClick={()=>{fetch("https://" + global.ip + "/PayUser" + global.userID + "," + data.id + "," + "1" + "," + global.sessionID);}}><p>pay {data.rate} ₪</p></IonButton>		
 	</div>
 }
