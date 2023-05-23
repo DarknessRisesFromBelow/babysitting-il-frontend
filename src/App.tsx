@@ -10,10 +10,11 @@ import {
 	setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { personCircle,chatbubbleEllipses, home } from 'ionicons/icons';
+import { personCircle,chatbubbleEllipses, home, calendar } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Tab4 from './pages/tab4';
 import LoginScreen from './pages/login';
 import SignupScreen from './pages/signup';
 
@@ -49,6 +50,9 @@ const App: React.FC = () => (
 			<Route exact path="/messages">
 			<Tab2 />
 			</Route>
+			<Route exact path="/events">
+			<Tab4/>
+			</Route>
 			<Route exact path="/profile">
 			<Tab3 />
 			</Route>
@@ -71,7 +75,11 @@ const App: React.FC = () => (
 			<IonIcon icon={chatbubbleEllipses} />
 			<IonLabel>Messages</IonLabel>
 			</IonTabButton>
-			<IonTabButton tab="tab3" href="/profile">
+			<IonTabButton tab="tab3" href="/events">
+			<IonIcon icon={calendar} />
+			<IonLabel>Events</IonLabel>
+			</IonTabButton>
+			<IonTabButton tab="tab4" href="/profile">
 			<IonIcon icon={personCircle} />
 			<IonLabel>Profile</IonLabel>
 			</IonTabButton>

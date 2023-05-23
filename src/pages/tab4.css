@@ -1,0 +1,14 @@
+.timeClass
+{
+	margin: 10px 0;
+	display: flex;
+	justify-content: space-around;
+	background-color: var(--background);
+	filter: brightness(85%);
+	border-radius: 6px;
+}
+
+.paddedPage
+{
+
+}

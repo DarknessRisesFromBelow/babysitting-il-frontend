@@ -1,15 +1,15 @@
-import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonFabButton, IonFab} from '@ionic/react';
+import { IonContent,IonButton, IonDatetime, IonIcon, IonPage, IonTitle, IonFabButton, IonFab} from '@ionic/react';
 import React, {useRef, useEffect} from 'react'
 //import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
-import {add, send} from 'ionicons/icons';
+import {add, send, calendar} from 'ionicons/icons';
 import ReactDOM from 'react-dom/client'
 import image from "../PicData/messageOutlineLeft.svg"
 import { Redirect, Route, NavLink } from "react-router-dom";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
 
-
+var startDate = "";
 
 function PreUserLoad()
 {
@@ -157,7 +157,9 @@ function TextingPage(data:{name:string,id:string,messages:string})
 	return <div className = "boxTest2" id="CloseablePopup">
 		<IonButton className="ExitButton2" onClick = {()=>{ClosePopup();}}>X</IonButton>
 		<p className="Title">{usersName}</p>
+		<IonButton className = {global.userType != 1 ? "reserveButtonClass" : "hide"} onClick = {()=>{createReservationPage(data.id)}}><IonIcon icon={calendar} size="large"/></IonButton>
 		<br></br>
+		<div id = "DivHolder"></div>
 		<div id="textPosition" className="chatPageMessagesSubdiary"><div id="messagesEnd"></div></div>
 		<br></br>
 		<div>
@@ -189,6 +191,81 @@ function loadConversation(messagesArr:any[], id: string)
 		root.render(msgsUpdated);
 	}
 }
+
+function createReservationPage(id:string)
+{
+	let element = React.createElement(reservation, {id:id}, null);
+	let rootElement = document.getElementById("DivHolder");
+	if(rootElement !== null)
+	{
+		let root = ReactDOM.createRoot(rootElement);
+		root.render(element);
+	}
+}
+
+function reservation(data:{id:string})
+{
+	return <div>
+		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+		<div id ="RBPage"></div>
+		<IonButton className="RBPageButton RBPageButtonContinue" id = "calendarObject" onClick={()=>{extractDate()}}><p>continue</p></IonButton>		
+		<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id);}}><p>pay</p></IonButton>		
+		</div>
+}
+
+function finishReservation(id:any)
+{
+	let endDate = "";
+	let time = 0;
+	const el = document.querySelector(".secondElement") as HTMLInputElement;
+	if(el !== null)
+	{
+		if(el.value !== undefined)
+			endDate = el.value;
+		let holder = document.getElementById("DivHolder");
+		if(holder !== null)
+		{
+			let root = ReactDOM.createRoot(holder);
+			root.render(null);
+		}
+	}
+	if(endDate !== "" && startDate !== "")
+	{
+		let endDateObject = new Date(endDate);
+		let startDateObject = new Date(startDate);
+		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
+		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate + "," + time + "," + global.userID + "," + global.sessionID);
+		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+	}
+}
+
+
+
+async function extractDate()
+{ 
+	const el = document.querySelector(".calendarClass") as HTMLInputElement;
+	sleep(200);
+	if(el !== null)
+	{
+		if(el.value !== undefined)
+			startDate = el.value;
+	}
+	sleep(200);
+	if(startDate !== "")
+	{
+		el.remove();
+		let element = document.getElementById("calendarObject");
+		element?.remove();
+		let parent =  document.getElementById("RBPage");
+		if(parent !== null)
+		{
+			let root = ReactDOM.createRoot(parent);
+			let newElement = <IonDatetime className="secondElement" min={startDate} hourCycle="h23" size="fixed"></IonDatetime>; 
+			root.render(newElement);
+		}
+	}
+}
+
 
 function sleep(ms:number) {
     return new Promise(resolve => setTimeout(resolve, ms));

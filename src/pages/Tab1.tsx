@@ -85,7 +85,7 @@ function showBar()
 	console.log(tabBar);	
 }
 
-
+var startDate = "";
 
 function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 {
@@ -245,12 +245,69 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 			<IonIcon icon={exit}/>
 		</IonButton>
 		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+		<div id ="RBPage"></div>
 		<p>id: {data.id}</p>
 		<br/>
 		<p> rate : {data.rate}₪</p>
-		<IonButton className="RBPageButton RBPageButtonContinue" onClick={()=>{alert("continuing")}}><p>continue</p></IonButton>		
-		<IonButton className="RBPageButton" onClick={()=>{fetch("https://" + global.ip + "/PayUser" + global.userID + "," + data.id + "," + "1" + "," + global.sessionID);}}><p>pay {data.rate} ₪</p></IonButton>		
+		<IonButton className="RBPageButton RBPageButtonContinue" id = "calendarObject" onClick={()=>{extractDate()}}><p>continue</p></IonButton>		
+		<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id);}}><p>pay</p></IonButton>		
 	</div>
+}
+
+function finishReservation(id:any)
+{
+	let endDate = "";
+	let time = 0;
+	const el = document.querySelector(".secondElement") as HTMLInputElement;
+	if(el !== null)
+	{
+		if(el.value !== undefined)
+			endDate = el.value;
+		let holder = document.getElementById("DivHolder");
+		if(holder !== null)
+		{
+			let root = ReactDOM.createRoot(holder);
+			root.render(null);
+		}
+	}
+	startDate = startDate.replace(" ", "+");
+	if(endDate !== "" && startDate !== "")
+	{
+		let endDateObject = new Date(endDate);
+		let startDateObject = new Date(startDate);
+		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
+		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
+		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+	}
+}
+
+function sleep(ms:number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function extractDate()
+{ 
+	const el = document.querySelector(".calendarClass") as HTMLInputElement;
+	sleep(200);
+	if(el !== null)
+	{
+		if(el.value !== undefined)
+			startDate = el.value.replace(" ", "+");
+	}
+	sleep(200);
+	if(startDate !== "")
+	{
+		el.remove();
+		let element = document.getElementById("calendarObject");
+		element?.remove();
+		let parent =  document.getElementById("RBPage");
+		if(parent !== null)
+		{
+			let root = ReactDOM.createRoot(parent);
+			let newElement = <IonDatetime className="secondElement" min={startDate} hourCycle="h23" size="fixed"></IonDatetime>; 
+			root.render(newElement);
+		}
+	}
 }
 
 function MessagePageInteractible(data:{userdata:string})

@@ -252,6 +252,19 @@ textarea
 	height: 5.5vh;
 }
 
+.secondElement
+{
+	display: flex;
+	width: 70vw;
+	height: 47vh;
+	position: absolute;
+	left: 0;
+	top: 2vh;
+	background: var(--background);
+	justify-content: flex-end;
+    align-content: center;
+}
+
 .commentTextInput
 {
 	width: 55vw;
@@ -270,19 +283,20 @@ textarea
 {
 	display: flex;
 	width: 70vw;
-	height: 42vh;
+	height: 47vh;
 	position: absolute;
 	left: 0;
-	top: 0;
+	top: 2vh;
 	background: var(--background);
 	justify-content: flex-end;
     align-content: center;
+    z-index: 17;
 }
 
 :host .calendar-body .calendar-month .calendar-month-grid {
     top: 50px;
     width: 70vw;
-	height: 42vh;
+	height: 47vh;
     position: relative;
     grid-template-rows: repeat(5, 1fr);
 }

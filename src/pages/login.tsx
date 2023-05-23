@@ -146,14 +146,13 @@ function handleSubmit(event : any){
 							global.dispatchEvent(global.loggedInEvent);
 							if(data[data.length - 1] == 0)
 							{
-//								const tabBar = document.getElementById('appTabBar');
-//								if (tabBar !== null) 
-//								{
-//									var root = ReactDOM.createRoot(tabBar);
-//									root.render(parentTabs);
-								console.log("parent logged in.");
-								global.userType = data[data.length - 1];
-//								}
+								const tabBar = document.getElementById('tab-button-tab3');
+								if (tabBar !== null) 
+								{
+									tabBar.hidden = true;
+									console.log("parent logged in.");
+									global.userType = data[data.length - 1];
+								}
 							}
 							else
 							{
