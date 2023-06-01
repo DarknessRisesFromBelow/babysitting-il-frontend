@@ -41,33 +41,31 @@ async function createEventPage()
 		{
 			let responseElements = dates[i].split("--");
 			console.log(responseElements);
-			elements[i] = createEventObject(responseElements[0], +(responseElements[1]));
-			console.log("added element [" + responseElements[0] + ", " + +(responseElements[1]) + " ] to elements array")
+			elements[i] = createEventObject(responseElements[0], +(responseElements[1]), responseElements[3], responseElements[2]);
 		}
 	})});
 	await sleep(200); 
 	let rootElement = document.getElementById("eventPage");
 	if(rootElement !== null)
 	{
-		console.log("elements were " + elements);
 		let root = ReactDOM.createRoot(rootElement);
 		root.render(elements);
 	}
 }
 
-function createEventObject(startDate:string, eventLength:number)
+function createEventObject(startDate:string, eventLength:number, username:string, pfpURL:string)
 {
-	console.log("startDate : " + startDate + ", eventLength : " + eventLength);
-	return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength}); 
+	return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength, pfpURL:pfpURL, username:username}); 
 }
 
-function EventObject(data:{startDate:string, eventLength:number})
+function EventObject(data:{startDate:string, eventLength:number, pfpURL:string, username:string})
 {
 	let dateObject = new Date(data.startDate);
 	let dateBackup = new Date(dateObject);
 	let DBStr = dateBackup.toString().substring(0, dateBackup.toString().indexOf("GMT")).substring(0, dateBackup.toString().indexOf("GMT") - 9);
-	dateObject.setHours(dateObject.getHours() + data.eventLength);
-	return <div><div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div></div>
+	dateObject.setHours(dateObject.getHours() + data.eventLength, dateObject.getMinutes() + ((data.eventLength % 1) * 60));
+	return <div><div className="infoWrapper"><img width={32} height={32} src = {data.pfpURL}></img> <p>{data.username}</p></div>
+	<div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div></div>
 }
 
 export default Tab4
