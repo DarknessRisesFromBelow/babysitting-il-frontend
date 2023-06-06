@@ -15,7 +15,6 @@ const Tab4: React.FC = () => {
 			<IonContent fullscreen>
 				<div className="Center">
 				</div>
-				<IonButton onClick={()=>{createEventPage();}}><IonIcon icon={add}><p>add new Event object</p></IonIcon></IonButton>
 				<div className='paddedPage' id="eventPage"></div>
 			</IonContent>
 			<IonFab vertical="bottom" horizontal="end">
@@ -24,10 +23,26 @@ const Tab4: React.FC = () => {
 		);
 };
 
-createEventPage();
+getEvents();
 
 function sleep(ms:number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function sortByDueDate(arr:any[]): void {
+    arr.sort((a: any, b: any) => {
+        return new Date(a.props.startDate).getTime() - new Date(b.props.startDate).getTime();
+
+    });
+}
+
+async function getEvents()
+{
+	while(true)
+	{
+		createEventPage()
+		await sleep(6000)
+	}
 }
 
 async function createEventPage()
@@ -42,6 +57,7 @@ async function createEventPage()
 			let responseElements = dates[i].split("--");
 			console.log(responseElements);
 			elements[i] = createEventObject(responseElements[0], +(responseElements[1]), responseElements[3], responseElements[2]);
+			console.log(elements[i]);
 		}
 	})});
 	await sleep(200); 
@@ -49,6 +65,7 @@ async function createEventPage()
 	if(rootElement !== null)
 	{
 		let root = ReactDOM.createRoot(rootElement);
+		sortByDueDate(elements)
 		root.render(elements);
 	}
 }
