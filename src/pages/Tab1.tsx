@@ -223,7 +223,10 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 				<input id="commentTextInput" autoComplete="off" className="commentTextInput" placeholder="comment: "></input>
 				<IonButton className = "messageSendReviewPageButton" onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value, data.userdata);}}}><IonIcon icon={send} size="large"/></IonButton>
 			</div>
-    		<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
+				<div id="review-bar" className="reviewBarDiv">
+					<img className="reviewBarImg" src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
+    				<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
+				</div>
 			</div>
 		</div>
 }

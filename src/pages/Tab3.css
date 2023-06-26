@@ -11,6 +11,14 @@
     text-align: center;
 }
 
+.CCInput
+{
+	position: relative;
+	width: 10pc;
+	left: calc(40vw - 0.4*10pc);
+
+}
+
 .image
 {
 	border-radius: 50%;

@@ -131,11 +131,8 @@ function infoEditingPage(data:{currentPrice:number, currentPFPUrl:string, curren
   			<label htmlFor="collapsible" className="lbl-toggle">More Info</label>
   			<div className="collapsible-content">
     			<div className="content-inner">
-      				<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor sit amet quam id sodales. Quisque feugiat tortor aliquam erat bibendum, eget faucibus ligula pharetra. Mauris quis dui et nunc ultricies consequat at at mauris. Nunc interdum, elit quis varius vestibulum, turpis nulla maximus velit, vel suscipit nulla nibh sed justo. Nulla placerat consectetur lacus, a vulputate odio imperdiet vitae. Donec ex ex, aliquet a felis eu, fringilla tristique orci. Ut hendrerit bibendum nisi vitae consectetur. Nulla at nulla leo. Pellentesque sed est posuere, ultricies neque at, suscipit dolor. Maecenas pharetra, neque eu suscipit ornare, est dolor finibus augue, eget viverra nisi ante at tortor. Donec suscipit ligula diam, et convallis augue elementum et. Fusce nec augue urna. Cras ultrices diam sit amet dui scelerisque posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam nibh dui, faucibus non ligula id, facilisis rhoncus ante.
-
-						Vivamus tristique mauris eget sapien posuere vehicula. Vivamus pulvinar velit eu vehicula volutpat. Morbi in ipsum quam. Suspendisse blandit lacus nisi, id porttitor sapien fringilla vitae. Vestibulum urna risus, facilisis vitae vulputate eu, ornare non massa. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis, lacus a placerat mattis, enim nunc scelerisque ligula, sed vestibulum ipsum felis vitae metus. Mauris consequat scelerisque massa id maximus. Donec at nunc nec sapien aliquet iaculis eget sed sapien. Duis et lorem sit amet augue malesuada iaculis. Vestibulum in mauris non nibh tempor bibendum. Mauris non mauris elit. Nullam vitae ullamcorper lectus. Nunc commodo felis purus, eu tempor enim vestibulum a. Ut pellentesque consectetur dui quis euismod. Etiam ultrices mauris tristique, vehicula ante vel, vehicula nisl.
-      				</p>
+    				<p>CC number</p>
+    				<input className="CCInput" type="tel" inputMode="numeric" pattern="[0-9\s]{13,19}" autoComplete="cc-number" maxLength={19} minLength={16} placeholder="xxxx xxxx xxxx xxxx"></input>
     			</div>
   			</div>
   			<br></br><br></br><p className="ender">.</p>

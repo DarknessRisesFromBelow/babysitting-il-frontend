@@ -52,12 +52,13 @@ function switchToLogin()
 				<br></br>
 				<label>account type : </label>
 				<br></br>
-				<select name="type">
+				<select name="type" onChange={()=>{selectChanged()}}>
       				<option value="2">parent</option>
-      				<option selected value="1">babysitter</option>
+      				<option value="1">babysitter</option>
+      				<option selected hidden> select a value </option>
     			</select>
 				<br></br>
-				<button className="submitButton" type="submit">Sign up</button>	 
+				<button className="submitButton" type="submit" id="submitButtonSignupPage" disabled>Sign up</button>	 
 				<p>already have an account?</p>
 				<button className="loginButton" onClick={()=>{switchToLogin();}}>login</button> 
 			</div>	 
@@ -67,6 +68,14 @@ function switchToLogin()
 	</IonPage>
 };
 
+function selectChanged()
+{
+	var element = document.getElementById("submitButtonSignupPage") as HTMLButtonElement;
+	if(element)
+	{
+		element.disabled = false;
+	}
+}
 
 setTimeout(addFormListener, 15);
 
