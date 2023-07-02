@@ -11,7 +11,6 @@ import { IonApp, IonLabel, IonToast, IonRouterOutlet, IonTabButton, setupIonicRe
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 const fetch = require("cross-fetch");
 
-
 //const secondButton = <IonTabButton tab="tab2" href="/messages">
 //			<IonIcon icon={chatbubbleEllipses} />
 //			<IonLabel>Messages</IonLabel>

@@ -309,6 +309,34 @@ textarea
 	width: 80%;
 }
 
+@media screen and (max-width: 280px) {
+	.finishRBPage
+	{
+		width:80%;
+		position: relative;
+		right: calc(75vw - 120px);
+		height: 5vh;
+		top: 25vh;
+	}
+}
+
+@media screen and (min-width: 360px){
+	.finishRBPage
+	{
+		width:80%;
+		position: relative;
+		right: calc(50vw - 120px);
+		height: 10vh;
+		top: 25vh;
+	}
+
+}
+
+.googlePayButtonHolder
+{
+	z-index: 9999;
+}
+
 .reviewBarDiv
 {
 	position: absolute;

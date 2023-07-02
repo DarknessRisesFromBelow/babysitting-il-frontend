@@ -7,6 +7,7 @@ import logo from "../PicData/Product-_1_.svg"
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
 import {withRouter} from 'react-router';
+import GooglePayButton from '@google-pay/button-react'
 import { Redirect, Route, NavLink } from "react-router-dom";
 const fetch = require("cross-fetch");
 
@@ -73,6 +74,8 @@ async function getUserHome()
 			);
 	}
 }
+
+
 
 
 export default Tab1;
@@ -251,13 +254,21 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 		<div id ="RBPage"></div>
 		<p>id: {data.id}</p>
 		<br/>
+		<div id="google-pay-button-holder" className="googlePayButtonHolder"></div>
 		<p> rate : {data.rate}₪</p>
 		<IonButton className="RBPageButton RBPageButtonContinue" id = "calendarObject" onClick={()=>{extractDate()}}><p>continue</p></IonButton>		
-		<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id);}}><p>pay</p></IonButton>		
+		<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id, data.rate);}}><p>pay</p></IonButton>
 	</div>
 }
 
-function finishReservation(id:any)
+function finishReservationPage(data:{amount:number, rate:number})
+{
+	return <div className="finishRBPage">
+		<GooglePayButton buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'example',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}} onLoadPaymentData={paymentRequest => {console.log('load payment data', paymentRequest);}}/>
+	</div>		
+}
+
+function finishReservation(id:any, rate:number)
 {
 	let endDate = "";
 	let time = 0;
@@ -279,6 +290,15 @@ function finishReservation(id:any)
 		let endDateObject = new Date(endDate);
 		let startDateObject = new Date(startDate);
 		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
+		
+		let element = document.getElementById('DivHolder');
+		if(element)
+		{
+			let root = ReactDOM.createRoot(element);
+			let newElement = React.createElement(finishReservationPage, {amount:time, rate:rate}, null)
+			root.render(newElement);
+		}
+
 		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
 		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
 	}

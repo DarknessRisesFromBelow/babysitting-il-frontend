@@ -9,6 +9,7 @@
     "@capacitor/haptics": "4.0.1",
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
+    "@google-pay/button-react": "^3.0.9",
     "@ionic-native/fcm": "^5.36.0",
     "@ionic-native/file": "^5.36.0",
     "@ionic-native/geolocation": "^5.36.0",
