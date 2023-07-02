@@ -268,7 +268,7 @@ async function extractDate()
 
 
 function sleep(ms:number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function message(data:{name:string,id:string,messages:string,pfpURL:string,lastMessage:string})

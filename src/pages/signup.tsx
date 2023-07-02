@@ -53,10 +53,10 @@ function switchToLogin()
 				<label>account type : </label>
 				<br></br>
 				<select name="type" onChange={()=>{selectChanged()}}>
-      				<option value="2">parent</option>
-      				<option value="1">babysitter</option>
-      				<option selected hidden> select a value </option>
-    			</select>
+					<option value="2">parent</option>
+					<option value="1">babysitter</option>
+					<option selected hidden> select a value </option>
+				</select>
 				<br></br>
 				<button className="submitButton" type="submit" id="submitButtonSignupPage" disabled>Sign up</button>	 
 				<p>already have an account?</p>

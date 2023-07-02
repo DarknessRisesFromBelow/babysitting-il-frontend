@@ -26,14 +26,14 @@ const Tab4: React.FC = () => {
 getEvents();
 
 function sleep(ms:number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function sortByDueDate(arr:any[]): void {
-    arr.sort((a: any, b: any) => {
-        return new Date(a.props.startDate).getTime() - new Date(b.props.startDate).getTime();
+	arr.sort((a: any, b: any) => {
+		return new Date(a.props.startDate).getTime() - new Date(b.props.startDate).getTime();
 
-    });
+	});
 }
 
 async function getEvents()

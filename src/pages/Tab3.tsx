@@ -1,4 +1,4 @@
-import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonFabButton, IonFab} from '@ionic/react';
+import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonToast, IonFabButton, IonFab} from '@ionic/react';
 import './Tab3.css';
 import { Redirect, Route, NavLink } from "react-router-dom";
 import {chatbubbleEllipses, pencil} from 'ionicons/icons'
@@ -20,6 +20,12 @@ const Tab3: React.FC = () => {
 	</IonPage>
 	);
 };
+
+var canExist = true;
+
+function sleep(ms:number) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function getUserInfo()
 {
@@ -126,50 +132,57 @@ function infoEditingPage(data:{currentPrice:number, currentPFPUrl:string, curren
 		<p>biography : </p>
 		<textarea autoComplete="off" id="newBioInput" defaultValue={data.currentBio}></textarea>
 		</div>
-		<div className="wrap-collabsible">
-  			<input id="collapsible" hidden className="toggle" type="checkbox"/>
-  			<label htmlFor="collapsible" className="lbl-toggle">More Info</label>
-  			<div className="collapsible-content">
-    			<div className="content-inner">
-    				<p>CC number</p>
-    				<input className="CCInput" type="tel" inputMode="numeric" pattern="[0-9\s]{13,19}" autoComplete="cc-number" maxLength={19} minLength={16} placeholder="xxxx xxxx xxxx xxxx"></input>
-    			</div>
-  			</div>
-  			<br></br><br></br><p className="ender">.</p>
-		</div>
 	</div>
 }
 
 function finishEditing()
 {
-	var price = "0";
-	var pfpURL = "";
-	var bioString = "";
-	let element = (document.getElementById("newRateInput") as HTMLInputElement);
-	if(element !== null && element !== undefined)
+	if(canExist)
 	{
-		price = element.value;
-		element.value = "";
+		var price = "0";
+		var pfpURL = "";
+		var bioString = "";
+		let element = (document.getElementById("newRateInput") as HTMLInputElement);
+		if(element !== null && element !== undefined)
+		{
+			price = element.value;
+			element.value = "";
+		}
+		element = (document.getElementById("newPFPInput") as HTMLInputElement);
+		if(element !== null && element !== undefined)
+		{
+			pfpURL = element.value;
+			element.value = "";
+		}
+		element = (document.getElementById("newBioInput") as HTMLInputElement);
+		if(element !== null && element !== undefined)
+		{
+			bioString = element.value;
+			element.value = "";
+		}
+		var holder = document.getElementById("DivHolderThirdPage");
+		if(holder !== null && holder !== undefined)
+		{
+			var root = ReactDOM.createRoot(holder);
+			root.render(null);
+		}
+		sendData(pfpURL, price, bioString);	
 	}
-	element = (document.getElementById("newPFPInput") as HTMLInputElement);
-	if(element !== null && element !== undefined)
+	else
 	{
-		pfpURL = element.value;
-		element.value = "";
+		showUnsuccessToast("banking information is not done. please fill it in");
 	}
-	element = (document.getElementById("newBioInput") as HTMLInputElement);
-	if(element !== null && element !== undefined)
+}
+
+function showUnsuccessToast(toast="")
+{
+	var alert = document.getElementById("toastArea");
+	if(alert !== null && alert !== undefined)
 	{
-		bioString = element.value;
-		element.value = "";
+		var newElement = <IonToast id="failToast" header="ERROR" isOpen={true} color="danger" message={toast} duration={1000}></IonToast>
+		var root = ReactDOM.createRoot(alert);
+		root.render(newElement);
 	}
-	var holder = document.getElementById("DivHolderThirdPage");
-	if(holder !== null && holder !== undefined)
-	{
-		var root = ReactDOM.createRoot(holder);
-		root.render(null);
-	}
-	sendData(pfpURL, price, bioString);
 }
 
 //https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg

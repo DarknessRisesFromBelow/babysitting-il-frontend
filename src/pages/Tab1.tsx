@@ -225,7 +225,7 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 			</div>
 				<div id="review-bar" className="reviewBarDiv">
 					<img className="reviewBarImg" src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
-    				<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
+					<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
 				</div>
 			</div>
 		</div>
@@ -285,7 +285,7 @@ function finishReservation(id:any)
 }
 
 function sleep(ms:number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function extractDate()

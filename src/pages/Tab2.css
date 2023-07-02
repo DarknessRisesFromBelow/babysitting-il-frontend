@@ -13,8 +13,8 @@
 .reserveButtonClass
 {
 	position: relative;
-    left: 15vw;
-    top: -4vh;
+	left: 15vw;
+	top: -4vh;
 }
 
 .messageRowButton
@@ -48,11 +48,11 @@
 	width: 80%;
 	left: 0;
 	display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x:wrap;
-    align-content: center;
-    flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	overflow-x:wrap;
+	align-content: center;
+	flex-wrap: nowrap;
 }
 
 .circleMessageTab
@@ -87,13 +87,13 @@
 .boxTest2
 {
 	background-color: var(--background);
-    width: 100vw;
-    height: 100vh;
-    border-radius: 7px;
-    position: absolute;
-    top:0vh;
-    padding-left: calc(50vw - 25vw);
-    padding-top: 5vh;
+	width: 100vw;
+	height: 100vh;
+	border-radius: 7px;
+	position: absolute;
+	top:0vh;
+	padding-left: calc(50vw - 25vw);
+	padding-top: 5vh;
 }
 
 .chatPageMessagesSubdiary
@@ -139,28 +139,28 @@
 {
 	filter: brightness(85%);
 	background-color: var(--background);
-    width: 70vw;
-    height: 50vh;
-    border-radius: 7px;
-    position: absolute;
-    right: 0vw;
-    top: 0vh;
-    padding-left: calc(50vw - 25vw);
-    padding-top: 5vh;
-    z-index: 70;
+	width: 70vw;
+	height: 50vh;
+	border-radius: 7px;
+	position: absolute;
+	right: 0vw;
+	top: 0vh;
+	padding-left: calc(50vw - 25vw);
+	padding-top: 5vh;
+	z-index: 70;
 }
 
 .RBPageButton
 {
-    position: absolute;
-    width: 97%;
-    border-radius: 4px;
-    left: 1.5%;
-    height: 5vh;
-    top: 48vh;
-    --background: #3dc2ff;
-    color: white;
-    z-index: 90;
+	position: absolute;
+	width: 97%;
+	border-radius: 4px;
+	left: 1.5%;
+	height: 5vh;
+	top: 48vh;
+	--background: #3dc2ff;
+	color: white;
+	z-index: 90;
 }
 
 .RBPageButtonContinue
@@ -177,8 +177,8 @@
 	top: 2vh;
 	background: var(--background);
 	justify-content: flex-end;
-    align-content: center;
-    z-index: 17;
+	align-content: center;
+	z-index: 17;
 }
 
 
@@ -192,8 +192,8 @@
 	top: 2vh;
 	background: var(--background);
 	justify-content: flex-end;
-    align-content: center;
-    z-index: 17;
+	align-content: center;
+	z-index: 17;
 }
 
 

@@ -71,26 +71,26 @@ textarea
 
 .messagePageInteractible
 {
-    height: 50vh;
-    width: 70vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--background);
-    z-index: 70;
-    display: flex;
-    justify-content: flex-start;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
+	height: 50vh;
+	width: 70vw;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--background);
+	z-index: 70;
+	display: flex;
+	justify-content: flex-start;
+	align-content: center;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
 }
 
 .messageInputPage1
 {
 	width: 70%;
 	margin-right: 5px;
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .circle
@@ -116,14 +116,14 @@ textarea
 {
 	filter: brightness(85%);
 	background-color: var(--background);
-    width: 70vw;
-    height: 50vh;
-    border-radius: 7px;
-    position: absolute;
-    right: 15vw;
-    top: 24vh;
-    padding-left: calc(50vw - 25vw);
-    padding-top: 5vh;
+	width: 70vw;
+	height: 50vh;
+	border-radius: 7px;
+	position: absolute;
+	right: 15vw;
+	top: 24vh;
+	padding-left: calc(50vw - 25vw);
+	padding-top: 5vh;
 }
 
 .ExitButton
@@ -149,27 +149,27 @@ textarea
 {
 	filter: brightness(85%);
 	background-color: var(--background);
-    width: 70vw;
-    height: 50vh;
-    border-radius: 7px;
-    position: absolute;
-    right: 0vw;
-    top: 0vh;
-    padding-left: calc(50vw - 25vw);
-    padding-top: 5vh;
-    z-index: 70;
+	width: 70vw;
+	height: 50vh;
+	border-radius: 7px;
+	position: absolute;
+	right: 0vw;
+	top: 0vh;
+	padding-left: calc(50vw - 25vw);
+	padding-top: 5vh;
+	z-index: 70;
 }
 
 .RBPageButton
 {
-    position: absolute;
-    width: 97%;
-    border-radius: 4px;
-    left: 1.5%;
-    height: 5vh;
-    top: 48vh;
-    --background: #3dc2ff;
-    color: white;
+	position: absolute;
+	width: 97%;
+	border-radius: 4px;
+	left: 1.5%;
+	height: 5vh;
+	top: 48vh;
+	--background: #3dc2ff;
+	color: white;
 }
 
 .RBPageButtonContinue
@@ -210,15 +210,15 @@ textarea
 .DivWithBlackBackground
 {
 	width: 70vw;
-    height: 30vh;
-    position: absolute;
-    left: 0vw;
-    top: 9vh;
-    column-gap: 5px;
-    overflow-y: scroll;
+	height: 30vh;
+	position: absolute;
+	left: 0vw;
+	top: 9vh;
+	column-gap: 5px;
+	overflow-y: scroll;
 }	
 .DivWithBlackBackground::-webkit-scrollbar { 
-    display: none; 
+	display: none; 
 }
 .commentHeader
 {
@@ -262,7 +262,7 @@ textarea
 	top: 2vh;
 	background: var(--background);
 	justify-content: flex-end;
-    align-content: center;
+	align-content: center;
 }
 
 .commentTextInput
@@ -289,16 +289,16 @@ textarea
 	top: 2vh;
 	background: var(--background);
 	justify-content: flex-end;
-    align-content: center;
-    z-index: 17;
+	align-content: center;
+	z-index: 17;
 }
 
 :host .calendar-body .calendar-month .calendar-month-grid {
-    top: 50px;
-    width: 70vw;
+	top: 50px;
+	width: 70vw;
 	height: 47vh;
-    position: relative;
-    grid-template-rows: repeat(5, 1fr);
+	position: relative;
+	grid-template-rows: repeat(5, 1fr);
 }
 
 .reviewBar
@@ -316,9 +316,9 @@ textarea
 	width: 100%;
 	display: flex;
 	flex-direction: row;
-    align-content: center;
-    justify-content: flex-start;
-    align-items: center;
+	align-content: center;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 .reviewBarImg
@@ -330,11 +330,11 @@ textarea
 .CommentPageWrapper
 {
 	width: 70vw;
-    height: calc(50vh - 5%);
-    position: absolute;
-    left: 0vw;
-    top: 0.5vh;
-    column-gap: 5px;
+	height: calc(50vh - 5%);
+	position: absolute;
+	left: 0vw;
+	top: 0.5vh;
+	column-gap: 5px;
 }
 
 .inputCommentPageDiv
