@@ -329,6 +329,16 @@ textarea
 	margin: 0 auto;
 }
 
+.pageBlock
+{
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: -25vh;
+	left: -15vw;
+	z-index: 999;
+}
+
 .reviewBarDiv
 {
 	position: absolute;

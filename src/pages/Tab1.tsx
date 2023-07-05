@@ -272,8 +272,11 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 function finishReservationPage(data:{amount:number, rate:number})
 {
 	console.log(data.amount * data.rate);
-	return <div className="finishRBPage">
-		<GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}} onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); return { transactionState: 'SUCCESS' };}}/>
+	return <div>
+		<div className="pageBlock"></div>
+		<div className="finishRBPage">
+		<GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, callbackIntents: ['PAYMENT_AUTHORIZATION'], allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}}    onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); console.log("something happened"); return { transactionState: 'SUCCESS' };}}/>
+		</div>
 	</div>		
 }
 
