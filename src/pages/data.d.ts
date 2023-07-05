@@ -5,7 +5,8 @@ declare module NodeJS {
 		loggedInEvent : Event;
 		UnseccesfullyLoggedInEvent : Event;
 		succesfullyRegisteredEvent : Event;
-		UnsuccesfullyRegisteredEvent : Event
+		UnsuccesfullyRegisteredEvent : Event;
+		googlePayPaymentAccepted : Event;
 		userID : string;
 		sessionID : string;
 		usrs : any;

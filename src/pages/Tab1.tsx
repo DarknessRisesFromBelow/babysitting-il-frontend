@@ -177,6 +177,14 @@ function createCommentPage(id:string, userdata:any)
 	
 }
 
+async function awaitEvent(eventName:string) {
+  return new Promise(function(resolve, reject) {
+	global.addEventListener(eventName, function(e:any) {
+	  resolve(e.data); // done
+	});
+  });
+}
+
 function closeCommentPage(userdata:any)
 {
 	var element = document.getElementById("CloseablePopup");
@@ -263,12 +271,13 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 
 function finishReservationPage(data:{amount:number, rate:number})
 {
+	console.log(data.amount * data.rate);
 	return <div className="finishRBPage">
-		<GooglePayButton buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'example',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}} onLoadPaymentData={paymentRequest => {console.log('load payment data', paymentRequest);}}/>
+		<GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}} onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); return { transactionState: 'SUCCESS' };}}/>
 	</div>		
 }
 
-function finishReservation(id:any, rate:number)
+async function finishReservation(id:any, rate:number)
 {
 	let endDate = "";
 	let time = 0;
@@ -277,12 +286,6 @@ function finishReservation(id:any, rate:number)
 	{
 		if(el.value !== undefined)
 			endDate = el.value;
-		let holder = document.getElementById("DivHolder");
-		if(holder !== null)
-		{
-			let root = ReactDOM.createRoot(holder);
-			root.render(null);
-		}
 	}
 	startDate = startDate.replace(" ", "+");
 	if(endDate !== "" && startDate !== "")
@@ -291,7 +294,7 @@ function finishReservation(id:any, rate:number)
 		let startDateObject = new Date(startDate);
 		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
 		
-		let element = document.getElementById('DivHolder');
+		let element = document.getElementById('google-pay-button-holder');
 		if(element)
 		{
 			let root = ReactDOM.createRoot(element);
@@ -299,8 +302,18 @@ function finishReservation(id:any, rate:number)
 			root.render(newElement);
 		}
 
+		await awaitEvent("googlePayPaymentAccepted");
+
 		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
 		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+
+		let holder = document.getElementById("DivHolder");
+		if(holder !== null)
+		{
+			let root = ReactDOM.createRoot(holder);
+			root.render(null);
+		}
+
 	}
 }
 

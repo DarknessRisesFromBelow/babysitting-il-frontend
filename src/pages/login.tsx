@@ -39,6 +39,9 @@ global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
 // not how you write successfully but I do not care. 
 global.UnseccesfullyLoggedInEvent = new Event("UnseccesfullyLoggedInEvent");
 
+
+global.googlePayPaymentAccepted = new Event("googlePayPaymentAccepted");
+
 const LoginScreen : React.FC = () => {
 const history = useHistory();
 	useEffect(() => {
