@@ -339,6 +339,12 @@ textarea
 	z-index: 999;
 }
 
+.buttonLayout
+{
+	width: 100vw;
+	z-index: 9999;
+}
+
 .reviewBarDiv
 {
 	position: absolute;

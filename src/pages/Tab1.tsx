@@ -7,6 +7,7 @@ import logo from "../PicData/Product-_1_.svg"
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
 import {withRouter} from 'react-router';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import GooglePayButton from '@google-pay/button-react'
 import { Redirect, Route, NavLink } from "react-router-dom";
 const fetch = require("cross-fetch");
@@ -269,13 +270,32 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 	</div>
 }
 
-function finishReservationPage(data:{amount:number, rate:number})
+function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:number})
 {
-	console.log(data.amount * data.rate);
+	console.log(dataFromOtherFunctions.amount * dataFromOtherFunctions.rate);
 	return <div>
 		<div className="pageBlock"></div>
 		<div className="finishRBPage">
-		<GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, callbackIntents: ['PAYMENT_AUTHORIZATION'], allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(data.rate * data.amount),currencyCode: 'ILS',countryCode: 'IL',},}}    onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); console.log("something happened"); return { transactionState: 'SUCCESS' };}}/>
+			<PayPalScriptProvider options={{ clientId: "ATZQQdt69hweenR4LXQYXuguFrYhtb0_myIzDFu8650D3bYebeKkkxPW3EcxH6L7kz3fyo9GS-wPpqrF", currency: "ILS" }}>
+            	<PayPalButtons style={{ layout: "vertical", label : "pay", shape : "pill"}} className="buttonLayout" createOrder={(data, actions) => {
+                    return actions.order
+                        .create({
+                            purchase_units: [
+                                {
+                                    amount: {
+                                        currency_code: "ILS",
+                                        value: "" + (dataFromOtherFunctions.amount * dataFromOtherFunctions.rate),
+                                    },
+                                },
+                            ],
+                        })
+                        .then((orderId) => {
+                            // Your code here after create the order
+                            return orderId;
+                        });
+                }} onApprove={function (data, actions:any) {if(actions.order){return actions.order.capture().then(function (){dispatchEvent(global.googlePayPaymentAccepted); console.log("payment successful. proceeding...");});}}}/>
+        	</PayPalScriptProvider>
+			{false ? <GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, callbackIntents: ['PAYMENT_AUTHORIZATION'], allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(dataFromOtherFunctions.rate * dataFromOtherFunctions.amount),currencyCode: 'ILS',countryCode: 'IL',},}}    onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); console.log("something happened"); return { transactionState: 'SUCCESS' };}}/> : null}
 		</div>
 	</div>		
 }
