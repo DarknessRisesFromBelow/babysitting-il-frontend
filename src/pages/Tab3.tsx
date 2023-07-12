@@ -1,5 +1,5 @@
 import { IonContent,IonButton, IonIcon, IonPage, IonTitle, IonToast, IonFabButton, IonFab} from '@ionic/react';
-import './Tab3.css';
+import './designs/Tab3.css';
 import { Redirect, Route, NavLink } from "react-router-dom";
 import {chatbubbleEllipses, pencil} from 'ionicons/icons'
 import logo from "../PicData/Product-_1_.svg" 
