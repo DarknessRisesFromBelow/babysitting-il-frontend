@@ -1,6 +1,6 @@
 import { IonContent, IonButton, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import './login.css';
+import './designs/login.css';
 import { File } from '@ionic-native/file';
 import logo from "../PicData/Product-_1_.svg" 
 import ReactDOM from 'react-dom/client'
