@@ -1,7 +1,7 @@
 import { IonContent, IonButton, IonDatetime, IonRange, IonIcon, IonPage, IonTitle} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import {chatbubbleEllipses, chatbox, calendar, exit, send} from 'ionicons/icons'
-import './Tab1.css';
+import './designs/Tab1.css';
 import reviewIcon from "../PicData/reviewIcon.svg"
 import logo from "../PicData/Product-_1_.svg" 
 import React, {useEffect} from 'react'

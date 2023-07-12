@@ -15,7 +15,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 import { IonContent, IonButton, IonToast, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar, IonTabButton} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import './signup.css';
+import './designs/signup.css';
 import { File } from '@ionic-native/file';
 import logo from "../PicData/Product-_1_.svg" 
 import ReactDOM from 'react-dom/client'
