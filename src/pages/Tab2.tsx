@@ -2,7 +2,9 @@ import { IonContent,IonButton, IonDatetime, IonIcon, IonPage, IonTitle, IonFabBu
 import React, {useRef, useEffect} from 'react'
 //import ExploreContainer from '../components/ExploreContainer';
 import './designs/Tab2.css';
-import {add, send, calendar} from 'ionicons/icons';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import GooglePayButton from '@google-pay/button-react'
+import {add, send, calendar, exit} from 'ionicons/icons';
 import ReactDOM from 'react-dom/client'
 import image from "../PicData/messageOutlineLeft.svg"
 import { Redirect, Route, NavLink } from "react-router-dom";
@@ -52,6 +54,20 @@ const Tab2: React.FC = () => {
 		</IonPage>
 		);
 };
+
+function getRate(userID:string)
+{
+	fetch("https://" + global.ip + "/GetUserData" + userID);
+	return 0;
+}
+
+async function awaitEvent(eventName:string) {
+  return new Promise(function(resolve, reject) {
+	global.addEventListener(eventName, function(e:any) {
+	  resolve(e.data); // done
+	});
+  });
+}
 
 function ChatMessageElement(data:{direction : string, imgURL : string , messageText : string})
 {
@@ -194,7 +210,8 @@ function loadConversation(messagesArr:any[], id: string)
 
 function createReservationPage(id:string)
 {
-	let element = React.createElement(reservation, {id:id}, null);
+	let rate:number = getRate(id);
+	let element = React.createElement(reservation, {id:id, rate:rate}, null);
 	let rootElement = document.getElementById("DivHolder");
 	if(rootElement !== null)
 	{
@@ -203,17 +220,66 @@ function createReservationPage(id:string)
 	}
 }
 
-function reservation(data:{id:string})
+function reservation(data:{id:string, rate:number})
 {
-	return <div>
-		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
-		<div id ="RBPage"></div>
-		<IonButton className="RBPageButton RBPageButtonContinue" id = "calendarObject" onClick={()=>{extractDate()}}><p>continue</p></IonButton>		
-		<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id);}}><p>pay</p></IonButton>		
-		</div>
+	return <div className="RBPage">
+	<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
+		<IonIcon icon={exit}/>
+	</IonButton>
+	<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+	<div id ="RBPage"></div>
+	<p>id: {data.id}</p>
+	<br/>
+	<div id="google-pay-button-holder" className="googlePayButtonHolder"></div>
+	<p> rate : {data.rate}₪</p>
+	<IonButton className="RBPageButton RBPageButtonContinue" id = "calendarObject" onClick={()=>{extractDate()}}><p>continue</p></IonButton>		
+	<IonButton className="RBPageButton" onClick={()=>{finishReservation(data.id, data.rate);}}><p>pay</p></IonButton>
+	</div>
 }
 
-function finishReservation(id:any)
+
+function closeRBPage()
+{
+	var roor = document.getElementById("DivHolder");
+	if(roor !== undefined && roor !== null)
+	{
+		var root = ReactDOM.createRoot(roor);
+		root.render(null);
+	}
+}
+
+
+function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:number})
+{
+	console.log(dataFromOtherFunctions.amount * dataFromOtherFunctions.rate);
+	return <div>
+		<div className="pageBlock"></div>
+		<div className="finishRBPage">
+			<PayPalScriptProvider options={{ clientId: "ATZQQdt69hweenR4LXQYXuguFrYhtb0_myIzDFu8650D3bYebeKkkxPW3EcxH6L7kz3fyo9GS-wPpqrF", currency: "ILS" }}>
+            	<PayPalButtons style={{ layout: "vertical", label : "pay", shape : "pill"}} className="buttonLayout" createOrder={(data, actions) => {
+                    return actions.order
+                        .create({
+                            purchase_units: [
+                                {
+                                    amount: {
+                                        currency_code: "ILS",
+                                        value: "" + (dataFromOtherFunctions.amount * dataFromOtherFunctions.rate),
+                                    },
+                                },
+                            ],
+                        })
+                        .then((orderId) => {
+                            // Your code here after create the order
+                            return orderId;
+                        });
+                }} onApprove={function (data, actions:any) {if(actions.order){return actions.order.capture().then(function (){dispatchEvent(global.googlePayPaymentAccepted); console.log("payment successful. proceeding...");});}}}/>
+        	</PayPalScriptProvider>
+			{false ? <GooglePayButton className="gpayButton" buttonSizeMode="fill" environment="TEST" paymentRequest={{apiVersion: 2, apiVersionMinor: 0, callbackIntents: ['PAYMENT_AUTHORIZATION'], allowedPaymentMethods: [{type: 'CARD',parameters: {allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],allowedCardNetworks: ['MASTERCARD', 'VISA'],},tokenizationSpecification: {type: 'PAYMENT_GATEWAY',parameters: {gateway: 'mpgs',gatewayMerchantId: 'exampleGatewayMerchantId',},},},],merchantInfo: {merchantId: '12345678901234567890',merchantName: 'Demo Merchant',},transactionInfo: {totalPriceStatus: 'FINAL',totalPriceLabel: 'Total',totalPrice: ""+(dataFromOtherFunctions.rate * dataFromOtherFunctions.amount),currencyCode: 'ILS',countryCode: 'IL',},}}    onPaymentAuthorized={async () => {dispatchEvent(global.googlePayPaymentAccepted); console.log("something happened"); return { transactionState: 'SUCCESS' };}}/> : null}
+		</div>
+	</div>		
+}
+
+async function finishReservation(id:any, rate:number)
 {
 	let endDate = "";
 	let time = 0;
@@ -222,24 +288,40 @@ function finishReservation(id:any)
 	{
 		if(el.value !== undefined)
 			endDate = el.value;
+	}
+	startDate = startDate.replace(" ", "+");
+	if(endDate !== "" && startDate !== "")
+	{
+		let endDateObject = new Date(endDate);
+		let startDateObject = new Date(startDate);
+		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
+		
+		let element = document.getElementById('google-pay-button-holder');
+		if(element)
+		{
+			let root = ReactDOM.createRoot(element);
+			let newElement = React.createElement(finishReservationPage, {amount:time, rate:rate}, null)
+			root.render(newElement);
+		}
+
+		await awaitEvent("googlePayPaymentAccepted");
+
+		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
+		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+
 		let holder = document.getElementById("DivHolder");
 		if(holder !== null)
 		{
 			let root = ReactDOM.createRoot(holder);
 			root.render(null);
 		}
-	}
-	if(endDate !== "" && startDate !== "")
-	{
-		let endDateObject = new Date(endDate);
-		let startDateObject = new Date(startDate);
-		time = (((endDateObject.getTime() - startDateObject.getTime())/1000)/60)/60;
-		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate + "," + time + "," + global.userID + "," + global.sessionID);
-		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+
 	}
 }
 
-
+function sleep(ms:number) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function extractDate()
 { 
@@ -248,7 +330,7 @@ async function extractDate()
 	if(el !== null)
 	{
 		if(el.value !== undefined)
-			startDate = el.value;
+			startDate = el.value.replace(" ", "+");
 	}
 	sleep(200);
 	if(startDate !== "")
@@ -266,10 +348,6 @@ async function extractDate()
 	}
 }
 
-
-function sleep(ms:number) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function message(data:{name:string,id:string,messages:string,pfpURL:string,lastMessage:string})
 {
