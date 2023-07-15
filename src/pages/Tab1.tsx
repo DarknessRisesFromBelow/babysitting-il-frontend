@@ -273,6 +273,10 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:number})
 {
 	console.log(dataFromOtherFunctions.amount * dataFromOtherFunctions.rate);
+	
+	var num = (dataFromOtherFunctions.amount * dataFromOtherFunctions.rate);
+	var with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)![0]!;
+
 	return <div>
 		<div className="pageBlock"></div>
 		<div className="finishRBPage">
@@ -284,7 +288,7 @@ function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:numbe
                                 {
                                     amount: {
                                         currency_code: "ILS",
-                                        value: "" + (dataFromOtherFunctions.amount * dataFromOtherFunctions.rate),
+                                        value: "" + with2Decimals,
                                     },
                                 },
                             ],

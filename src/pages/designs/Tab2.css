@@ -10,6 +10,15 @@
 	text-align: center;
 }
 
+.divHolderClass
+{
+	top: 30%;
+	position: absolute;
+	width: 10%;
+	left: 74vw;
+	height: 10%;
+}
+
 .reserveButtonClass
 {
 	position: relative;
