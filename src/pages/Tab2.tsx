@@ -55,10 +55,18 @@ const Tab2: React.FC = () => {
 		);
 };
 
-function getRate(userID:string)
+async function getRate(userID:string)
 {
-	fetch("https://" + global.ip + "/GetUserData" + userID);
-	return 0;
+	var rate:number = 0;
+	await fetch("https://" + global.ip + "/GetUserData" + userID).then(async function(response:any)
+	{
+		await response.text().then(async function(responseString: any){
+			rate = responseString.split(",")[responseString.split(",").length - 2];
+		}) 
+
+	});
+	await console.log("returned rate was "+ rate);
+	return rate;
 }
 
 async function awaitEvent(eventName:string) {
@@ -175,7 +183,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		<p className="Title">{usersName}</p>
 		<IonButton className = {global.userType != 1 ? "reserveButtonClass" : "hide"} onClick = {()=>{createReservationPage(data.id)}}><IonIcon icon={calendar} size="large"/></IonButton>
 		<br></br>
-		<div id = "DivHolder"></div>
+		<div id = "DivHolder" className = "divHolderClass"></div>
 		<div id="textPosition" className="chatPageMessagesSubdiary"><div id="messagesEnd"></div></div>
 		<br></br>
 		<div>
@@ -208,9 +216,10 @@ function loadConversation(messagesArr:any[], id: string)
 	}
 }
 
-function createReservationPage(id:string)
+async function createReservationPage(id:string)
 {
-	let rate:number = getRate(id);
+	let rate:number = await getRate(id);
+	console.log("rate: " + rate);
 	let element = React.createElement(reservation, {id:id, rate:rate}, null);
 	let rootElement = document.getElementById("DivHolder");
 	if(rootElement !== null)
@@ -252,6 +261,8 @@ function closeRBPage()
 function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:number})
 {
 	console.log(dataFromOtherFunctions.amount * dataFromOtherFunctions.rate);
+	const num: number = dataFromOtherFunctions.amount * dataFromOtherFunctions.rate;
+	const with2Decimals: string = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)![0]!;
 	return <div>
 		<div className="pageBlock"></div>
 		<div className="finishRBPage">
