@@ -91,7 +91,7 @@ function UserProfile(data:{id:string,name:string,bio:string,pfpURL:string,stars:
 			<p>bio:</p>
 			<p className="bio">{data.bio}</p>
 			<br></br>
-			<p>rate : {data.rate}₪</p>
+			{global.userType == 1 ? <p>rate : {data.rate}₪</p>:null}
 			<p>rating : {data.stars} *</p>
 		</div>
 	</div>
@@ -125,9 +125,14 @@ function infoEditingPage(data:{currentPrice:number, currentPFPUrl:string, curren
 		<input className = "pfpInput" autoComplete="off" id="newPFPInput" onChange = {() =>{var img = document.getElementById("pfpPreviewImg") as HTMLImageElement; var input = document.getElementById("newPFPInput") as HTMLInputElement; img.src = input.value;}} defaultValue={data.currentPFPUrl}></input>
 		<br></br>
 		<br></br>
+		{global.userType==1?
+		<div>
 		<p>rate : </p>
 		<input autoComplete="off" id="newRateInput" className="rateInput" defaultValue={data.currentPrice}></input>
 		<p>we take 1.3$ and 2.9% of each TRANSACTION</p>
+		</div>
+		:null
+		}
 		<br></br>
 		<p>biography : </p>
 		<textarea autoComplete="off" id="newBioInput" defaultValue={data.currentBio}></textarea>
