@@ -51,6 +51,7 @@ function AttemptSwitch()
 {
 	if(global.userID !== undefined && global.sessionID !== undefined)
 	{
+		//window.Plugin.OneSignal.setExternalUserId(global.userID);
 		console.log("finished login, redirecting to home");
 		if(global.userType == 0)
 			history.push('/home');

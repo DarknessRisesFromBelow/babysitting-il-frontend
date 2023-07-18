@@ -12,6 +12,7 @@ import GooglePayButton from '@google-pay/button-react'
 import { Redirect, Route, NavLink } from "react-router-dom";
 const fetch = require("cross-fetch");
 
+
 const Tab1: React.FC = () => {
 	useEffect(() => {
 		setTimeout(getUserHome,15);

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531049624953",
+    "project_id": "babysittingil-push-notifs",
+    "storage_bucket": "babysittingil-push-notifs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531049624953:android:d4a08c5535622e48a8eba8",
+        "android_client_info": {
+          "package_name": "yma.cf.babysittingil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531049624953-0ksdsjoso59o1mr2822esdtlie0eogl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw3oz1VZRF9udD7uaPEjBeZeBBMGMe0-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531049624953-0ksdsjoso59o1mr2822esdtlie0eogl4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
