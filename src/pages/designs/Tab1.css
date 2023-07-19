@@ -73,10 +73,10 @@ textarea
 
 .messagePageInteractible
 {
-	height: 50vh;
+	height: 22vh;
 	width: 70vw;
 	position: absolute;
-	top: 0;
+	top: 15vh;
 	left: 0;
 	background-color: var(--background);
 	z-index: 70;
@@ -91,8 +91,15 @@ textarea
 .messageInputPage1
 {
 	width: 70%;
+	position: relative;
+	top: 4vh;
 	margin-right: 5px;
 	margin-left: 10px;
+}
+
+.buttonSendClass
+{
+	width: 15vw;
 }
 
 .circle
@@ -114,18 +121,78 @@ textarea
 	-o-border-radius: 50%;	
 }
 
-.boxTest
+@media (prefers-color-scheme: light)
 {
-	filter: brightness(85%);
-	background-color: var(--background);
-	width: 70vw;
-	height: 50vh;
-	border-radius: 7px;
-	position: absolute;
-	right: 15vw;
-	top: 24vh;
-	padding-left: calc(50vw - 25vw);
-	padding-top: 5vh;
+	.boxTest
+	{
+		width: 70vw;
+		height: 50vh;
+		border-radius: 7px;
+		position: absolute;
+		right: 15vw;
+		top: 24vh;
+		padding-left: calc(50vw - 25vw);
+		padding-top: 5vh;
+	}
+
+}
+
+@media (prefers-color-scheme: light)
+{
+	.glass
+	{
+		background: rgba(121, 122, 122, 0.32);
+		border-radius: 16px;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(8.9px);
+		border: 1px solid rgba(122, 122, 122, 0.42);
+	}
+}
+
+@media (prefers-color-scheme: light)
+{
+	.glass
+	{
+		background: rgba(203, 136, 136, 0.22);
+		border-radius: 16px;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(7.9px);
+		-webkit-backdrop-filter: blur(8.9px);
+		border: 1px solid rgba(203, 136, 136, 0.42);
+	}
+}
+
+.glass
+{
+	background: rgba(203, 136, 136, 0.22);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(7.9px);
+	-webkit-backdrop-filter: blur(8.9px);
+	border: 1px solid rgba(203, 136, 136, 0.42);
+}
+
+@media (prefers-color-scheme: dark)
+{
+	.boxTest
+	{
+		background: rgba(203, 136, 136, 0.22);
+		border-radius: 16px;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(8.9px);
+		-webkit-backdrop-filter: blur(8.9px);
+		border: 1px solid rgba(203, 136, 136, 0.42);
+		width: 70vw;
+		height: 50vh;
+		border-radius: 7px;
+		position: absolute;
+		right: 15vw;
+		top: 24vh;
+		padding-left: calc(50vw - 25vw);
+		padding-top: 5vh;
+	}
+
 }
 
 .ExitButton
@@ -182,7 +249,7 @@ textarea
 .RBPageExitButton
 {
 	position: absolute;
-	top: 0.5vh;
+	top: 15vh;
 	right: 2vw;
 	height: 6vh;
 	z-index: 71;
@@ -322,7 +389,7 @@ textarea
 	height: 25vh;
 	z-index: 999;
 	top: 15vh;
-	background-color: var(--background);
+	/*background-color: var(--background);*/
 }
 
 .googlePayButtonHolder
