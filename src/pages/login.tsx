@@ -9,6 +9,7 @@ import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 import { personCircle,chatbubbleEllipses, home } from 'ionicons/icons';
 import { IonApp, IonLabel, IonToast, IonRouterOutlet, IonTabButton, setupIonicReact } from '@ionic/react';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import OneSignal from 'onesignal-cordova-plugin';
 const fetch = require("cross-fetch");
 
 //const secondButton = <IonTabButton tab="tab2" href="/messages">
@@ -51,7 +52,10 @@ function AttemptSwitch()
 {
 	if(global.userID !== undefined && global.sessionID !== undefined)
 	{
-		//window.Plugin.OneSignal.setExternalUserId(global.userID);
+
+		
+  		OneSignal.setExternalUserId(global.userID);
+
 		console.log("finished login, redirecting to home");
 		if(global.userType == 0)
 			history.push('/home');
