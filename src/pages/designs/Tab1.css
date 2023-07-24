@@ -246,10 +246,19 @@ textarea
 	z-index: 200;
 }
 
-.RBPageExitButton
+.msgPageExitButton
 {
 	position: absolute;
 	top: 15vh;
+	right: 2vw;
+	height: 6vh;
+	z-index: 71;	
+}
+
+.RBPageExitButton
+{
+	position: absolute;
+	top: 3vh;
 	right: 2vw;
 	height: 6vh;
 	z-index: 71;

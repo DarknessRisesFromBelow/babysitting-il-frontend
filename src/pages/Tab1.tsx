@@ -377,7 +377,7 @@ async function extractDate()
 function MessagePageInteractible(data:{userdata:string})
 {
 	return <div>
-		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>X</IonButton>
+		<IonButton className="msgPageExitButton" onClick = {()=>{closeRBPage();}}>X</IonButton>
 		<div className="messagePageInteractible">
 			<input className = "messageInputPage1" autoComplete="off" placeholder = "message to send..." id = "messagePageSendingInputPage1"/>
 			<IonButton className = "messageInputPage1 buttonSendClass" onClick={()=>{OnMessageSendButtonClicked(data.userdata);}}>

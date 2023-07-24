@@ -2,7 +2,7 @@ import { IonContent,IonButton, IonDatetime, IonIcon, IonPage, IonTitle, IonFabBu
 import React, {useRef, useEffect} from 'react'
 //import ExploreContainer from '../components/ExploreContainer';
 import './designs/tab4.css';
-import {add, send, calendar} from 'ionicons/icons';
+import {add, send, calendar, chatbubbleEllipses} from 'ionicons/icons';
 import ReactDOM from 'react-dom/client'
 import image from "../PicData/messageOutlineLeft.svg"
 import { Redirect, Route, NavLink } from "react-router-dom";
@@ -15,6 +15,7 @@ const Tab4: React.FC = () => {
 			<IonContent fullscreen>
 				<div className="Center">
 				</div>
+				<div id="messagePageHolder"></div>
 				<div className='paddedPage' id="eventPage"></div>
 			</IonContent>
 			<IonFab vertical="bottom" horizontal="end">
@@ -23,6 +24,7 @@ const Tab4: React.FC = () => {
 		);
 };
 
+var lastElements:any[] = [];
 getEvents();
 
 function sleep(ms:number) {
@@ -56,33 +58,74 @@ async function createEventPage()
 		{
 			let responseElements = dates[i].split("--");
 			console.log(responseElements);
-			elements[i] = createEventObject(responseElements[0], +(responseElements[1]), responseElements[3], responseElements[2]);
+			elements[i] = createEventObject(responseElements[0], +(responseElements[1]), responseElements[3], responseElements[2], responseElements[4], i);
 			console.log(elements[i]);
 		}
 	})});
+	sortByDueDate(elements);
 	await sleep(200); 
 	let rootElement = document.getElementById("eventPage");
-	if(rootElement !== null)
+	if(rootElement !== null && JSON.stringify(elements) != JSON.stringify(lastElements))
 	{
 		let root = ReactDOM.createRoot(rootElement);
-		sortByDueDate(elements)
+		sortByDueDate(elements);
 		root.render(elements);
+		lastElements = elements;
+		console.log("updated events because there was a change");
 	}
 }
 
-function createEventObject(startDate:string, eventLength:number, username:string, pfpURL:string)
+function createEventObject(startDate:string, eventLength:number, username:string, pfpURL:string, userID: number, eventID: number)
 {
-	return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength, pfpURL:pfpURL, username:username}); 
+	return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength, pfpURL:pfpURL, username:username, userID: userID, eventID: eventID}, null); 
 }
 
-function EventObject(data:{startDate:string, eventLength:number, pfpURL:string, username:string})
+function EventObject(data:{startDate:string, eventLength:number, pfpURL:string, username:string, userID: number, eventID: number})
 {
 	let dateObject = new Date(data.startDate);
 	let dateBackup = new Date(dateObject);
 	let DBStr = dateBackup.toString().substring(0, dateBackup.toString().indexOf("GMT")).substring(0, dateBackup.toString().indexOf("GMT") - 9);
 	dateObject.setHours(dateObject.getHours() + data.eventLength, dateObject.getMinutes() + ((data.eventLength % 1) * 60));
-	return <button className = "EventButton" onClick = {()=>{alert("clicked event");}}><div className="infoWrapper"><img width={32} height={32} src = {data.pfpURL}></img> <p>{data.username}</p></div>
-	<div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div></button>
+	console.log(data.userID);
+	return <button className = "EventButton" onClick = {()=>{addMessageButtonToDiv(data.userID, data.eventID)}}><div className="infoWrapper"><img width={32} height={32} src = {data.pfpURL}></img> <p>{data.username}</p></div>
+	<div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div><div className="divHolderForMessageButton glass" id={"divHolderForMessageButton" + data.eventID}></div></button>
 }
+
+function addMessageButtonToDiv(userID:number, eventID: number)
+{
+	console.log(userID);
+	var root = document.getElementById("divHolderForMessageButton" + eventID);
+	if(root !== undefined && root !== null)
+	{
+		let newRoot = ReactDOM.createRoot(root);
+		let element = React.createElement(messageButton, {userID}, null);
+		newRoot.render(element)
+	}
+}
+
+function messagePage(data:{targetID:number})
+{
+	console.log(data.targetID);
+	function SendMessage(targetId: number, message: string)
+	{
+		console.log(targetId);
+		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+targetId) + "," + message + "," + global.sessionID);
+	}
+
+	function extractMessage()
+	{
+		console.log(data.targetID);
+		return "testMessage";
+	}
+	console.log(data.targetID);
+	return <div><input placeholder="please enter your message : "></input><IonButton onClick={()=>{SendMessage(data.targetID, extractMessage())}}></IonButton></div>
+}
+
+function messageButton(data:{userID:number})
+{
+	console.log(data.userID);
+	return <IonButton onClick={()=>{let root = document.getElementById("messagePageHolder"); if(root && root !== undefined){let rootElement = ReactDOM.createRoot(root); rootElement.render(React.createElement(messagePage, {targetID:data.userID}, null))}}}><IonIcon icon={chatbubbleEllipses}></IonIcon></IonButton>
+}
+
 
 export default Tab4
