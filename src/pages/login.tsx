@@ -53,9 +53,14 @@ function AttemptSwitch()
 	if(global.userID !== undefined && global.sessionID !== undefined)
 	{
 
-		
-  		OneSignal.setExternalUserId(global.userID);
-
+		try
+		{
+  			OneSignal.setExternalUserId(global.userID);
+  		}
+  		catch
+  		{
+  			console.log("error occured while setting userID");
+  		}
 		console.log("finished login, redirecting to home");
 		if(global.userType == 0)
 			history.push('/home');

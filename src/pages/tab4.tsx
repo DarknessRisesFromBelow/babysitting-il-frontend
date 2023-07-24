@@ -81,8 +81,8 @@ function EventObject(data:{startDate:string, eventLength:number, pfpURL:string, 
 	let dateBackup = new Date(dateObject);
 	let DBStr = dateBackup.toString().substring(0, dateBackup.toString().indexOf("GMT")).substring(0, dateBackup.toString().indexOf("GMT") - 9);
 	dateObject.setHours(dateObject.getHours() + data.eventLength, dateObject.getMinutes() + ((data.eventLength % 1) * 60));
-	return <div><div className="infoWrapper"><img width={32} height={32} src = {data.pfpURL}></img> <p>{data.username}</p></div>
-	<div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div></div>
+	return <button className = "EventButton" onClick = {()=>{alert("clicked event");}}><div className="infoWrapper"><img width={32} height={32} src = {data.pfpURL}></img> <p>{data.username}</p></div>
+	<div className="timeClass"><p> From : <br></br>{DBStr}<br></br>{dateBackup.toString().substring(dateBackup.toString().indexOf("GMT") - 9, dateBackup.toString().indexOf("GMT"))}</p><p>Until : <br></br>{dateObject.toString().substring(0, dateObject.toString().indexOf("GMT") - 9)}<br></br>{dateObject.toString().substring(dateObject.toString().indexOf("GMT") - 9, dateObject.toString().indexOf("GMT"))}</p></div></button>
 }
 
 export default Tab4
