@@ -15,7 +15,7 @@ const Tab4: React.FC = () => {
 			<IonContent fullscreen>
 				<div className="Center">
 				</div>
-				<div id="messagePageHolder"></div>
+				<center><div id="messagePageHolder"></div></center>
 				<div className='paddedPage' id="eventPage"></div>
 			</IonContent>
 			<IonFab vertical="bottom" horizontal="end">
@@ -110,15 +110,32 @@ function messagePage(data:{targetID:number})
 	{
 		console.log(targetId);
 		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+targetId) + "," + message + "," + global.sessionID);
-	}
+		
+		let root = document.getElementById("messagePageHolder");
 
-	function extractMessage()
-	{
-		console.log(data.targetID);
-		return "testMessage";
+		if(root && root !== undefined)
+		{
+			let rootElement = ReactDOM.createRoot(root);
+			rootElement.render(null);
+		}
 	}
-	console.log(data.targetID);
-	return <div><input placeholder="please enter your message : "></input><IonButton onClick={()=>{SendMessage(data.targetID, extractMessage())}}></IonButton></div>
+	return <div className = "messagePageClass"><input id="myInputForMessageSendingInTab4" className="messageElementItem" placeholder="please enter your message : "></input><IonButton className="messageElementItem2" onClick={()=>{let msgdata = extractMessage(); msgdata !== "error with sending message." ? SendMessage(data.targetID, msgdata) : console.log("error with sending message")}}><IonIcon icon = {send}></IonIcon></IonButton></div>
+}
+
+function extractMessage()
+{
+	let myInput = document.getElementById("myInputForMessageSendingInTab4") as HTMLInputElement;
+	console.log(myInput)
+	let data:string;
+	if(myInput !== null && myInput !== undefined)
+	{
+		data = myInput.value;
+		console.error("data : " + data);
+		
+		myInput.value = "";
+		return data;
+	}
+	return "error with sending message.";
 }
 
 function messageButton(data:{userID:number})

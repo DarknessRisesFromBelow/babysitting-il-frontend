@@ -53,6 +53,37 @@
 	background-color: rgba(0, 0, 0, 0.0);
 }
 
+.messagePageClass
+{
+	position: absolute;
+	column-span: unset;
+	display: flex;
+	z-index: 99999;
+	background-color: var(--background);
+	outline-width: 1px;
+	outline-style: solid;
+	border-radius: 5px;
+	--margin-from-center: 15px;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.messageElementItem
+{
+	margin-top: var(--margin-from-center);
+	margin-bottom: var(--margin-from-center);
+	margin-left: 5px;
+}
+
+.messageElementItem2
+{
+	margin-top: var(--margin-from-center);
+	margin-bottom: var(--margin-from-center);
+	margin-right: 5px;
+}
+
 .infoWrapper
 {
 	margin-top: -1.2vh;
