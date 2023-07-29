@@ -124,13 +124,13 @@ function getOutput() : string
 			var msgs = [];
 			var pfpURLstring:string = "";
 			var renderedIds:string[] = [];
-			for(var i = 0; i < data.length; i++)
+			for(var i = data.length - 1; i > 0; i--)
 			{
 				var temp = data[i].split(" : ");
 				if(temp[0] != " "&&temp[0] != "")
 				{
 					var exists=false;
-					for(var o = 0; o < msgs.length;o++)
+					for(var o = 0; o < msgs.length; o++)
 					{
 						if(temp[0]==msgs[o].props.name)
 							exists = true;
