@@ -260,7 +260,7 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
 			<IonIcon icon={exit}/>
 		</IonButton>
-		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+		<IonDatetime className="calendarClass" min={new Date().toISOString()} hourCycle="h23" size="fixed"></IonDatetime>
 		<div id ="RBPage"></div>
 		<p>id: {data.id}</p>
 		<br/>
