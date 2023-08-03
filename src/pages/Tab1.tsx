@@ -260,7 +260,7 @@ function reserveBabysitterPage(data:{id:string, rate:number})
 		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
 			<IonIcon icon={exit}/>
 		</IonButton>
-		<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+		<IonDatetime className="calendarClass" min={new Date().toISOString()} hourCycle="h23" size="fixed"></IonDatetime>
 		<div id ="RBPage"></div>
 		<p>id: {data.id}</p>
 		<br/>
@@ -280,7 +280,7 @@ function finishReservationPage(dataFromOtherFunctions:{amount:number, rate:numbe
 
 	return <div>
 		<div className="pageBlock"></div>
-		<div className="finishRBPage">
+		<div className="glass finishRBPage ">
 			<PayPalScriptProvider options={{ clientId: "ATZQQdt69hweenR4LXQYXuguFrYhtb0_myIzDFu8650D3bYebeKkkxPW3EcxH6L7kz3fyo9GS-wPpqrF", currency: "ILS" }}>
             	<PayPalButtons style={{ layout: "vertical", label : "pay", shape : "pill"}} className="buttonLayout" createOrder={(data, actions) => {
                     return actions.order
@@ -377,10 +377,10 @@ async function extractDate()
 function MessagePageInteractible(data:{userdata:string})
 {
 	return <div>
-		<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>X</IonButton>
+		<IonButton className="msgPageExitButton" onClick = {()=>{closeRBPage();}}>X</IonButton>
 		<div className="messagePageInteractible">
 			<input className = "messageInputPage1" autoComplete="off" placeholder = "message to send..." id = "messagePageSendingInputPage1"/>
-			<IonButton onClick={()=>{OnMessageSendButtonClicked(data.userdata);}}>
+			<IonButton className = "messageInputPage1 buttonSendClass" onClick={()=>{OnMessageSendButtonClicked(data.userdata);}}>
 				<IonIcon icon={send}></IonIcon>
 			</IonButton>
 		</div>
@@ -394,26 +394,27 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
-	<br></br>
-	<br></br>
+	<br/><br/>
+	<div className="DataSectionOfPfpage">
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
+	</div>
 	<div className="interactibleRow">
 		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
 	</div>
 	</div>
 
-	return <div className = "boxTest" id="CloseablePopup">
-	<div id="DivHolder"></div>
-	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
-	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon}></IonIcon></IonButton>
+	return <div className = "boxTest glass" id="CloseablePopup">
+	<div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
-	<p>{data.name}</p>
-	<br></br>
-	<br></br>
+	<p style={{position: "relative", top: "-14px"}}>{data.name}</p>
+	<br/><br/>
+	<div className="DataSectionOfPfpage">
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
+	</div>
 	<div className="interactibleRow">
 		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>

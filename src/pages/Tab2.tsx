@@ -109,6 +109,7 @@ function getUpdatedMessages() : string
 	return res;
 }
 
+var previousMessages: any[] = [];
 function getOutput() : string
 {
 	var res = "meow";
@@ -123,13 +124,13 @@ function getOutput() : string
 			var msgs = [];
 			var pfpURLstring:string = "";
 			var renderedIds:string[] = [];
-			for(var i = 0; i < data.length; i++)
+			for(var i = data.length - 1; i > 0; i--)
 			{
 				var temp = data[i].split(" : ");
 				if(temp[0] != " "&&temp[0] != "")
 				{
 					var exists=false;
-					for(var o = 0; o < msgs.length;o++)
+					for(var o = 0; o < msgs.length; o++)
 					{
 						if(temp[0]==msgs[o].props.name)
 							exists = true;
@@ -148,11 +149,12 @@ function getOutput() : string
 			}
 			global.msgs = msgs;
 			var page = document.getElementById("messagePage");
-			if(page != null)
+			if(page != null && JSON.stringify(previousMessages) != JSON.stringify(msgs))
 			{
 				console.log("rendering messages");
 				var root = ReactDOM.createRoot(page);
 				root.render(msgs);
+				previousMessages = msgs;
 			}
 			return responseString;
 		});
@@ -192,6 +194,8 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		</div>
 	</div>
 }
+
+
 
 function loadConversation(messagesArr:any[], id: string)
 {
@@ -235,7 +239,7 @@ function reservation(data:{id:string, rate:number})
 	<IonButton className="RBPageExitButton" onClick = {()=>{closeRBPage();}}>
 		<IonIcon icon={exit}/>
 	</IonButton>
-	<IonDatetime className="calendarClass" hourCycle="h23" size="fixed"></IonDatetime>
+	<IonDatetime className="calendarClass" min={new Date().toISOString()} hourCycle="h23" size="fixed"></IonDatetime>
 	<div id ="RBPage"></div>
 	<p>id: {data.id}</p>
 	<br/>
