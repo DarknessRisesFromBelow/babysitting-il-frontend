@@ -101,6 +101,7 @@ textarea
 {
 	position: absolute;
 	bottom: 2vh;
+	left: 6vh;
 }
 
 .buttonSendClass
@@ -177,7 +178,7 @@ textarea
 
 .glass
 {
-	background: rgba(203, 136, 136, 0.22);
+	background: rgba(var(--background), 0.22);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(7.9px);
