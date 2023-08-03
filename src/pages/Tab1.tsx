@@ -394,10 +394,11 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
 	<p>{data.name}</p>
-	<br></br>
-	<br></br>
+	<br/><br/>
+	<div className="DataSectionOfPfpage">
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
+	</div>
 	<div className="interactibleRow">
 		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>
@@ -405,15 +406,15 @@ function PfPage(data:{name:string,ranking:string,pfpURL:string, rate:number, id:
 	</div>
 
 	return <div className = "boxTest glass" id="CloseablePopup">
-	<div id="DivHolder"></div>
-	<IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit} /></IonButton>
-	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon}></IonIcon></IonButton>
+	<div id="DivHolder"></div><IonButton className="ExitButton" onClick = {()=>{ClosePopup();}}><IonIcon icon={exit}/></IonButton>
+	<IonButton className="CommentPageButton" onClick = {()=>{createCommentPage(data.id, userdata);}}><IonIcon icon={reviewIcon} ></IonIcon></IonButton>
 	<img width={70} height={70} src={data.pfpURL} className = "circleForPFP"></img>
-	<p>{data.name}</p>
-	<br></br>
-	<br></br>
+	<p style={{position: "relative", top: "-14px"}}>{data.name}</p>
+	<br/><br/>
+	<div className="DataSectionOfPfpage">
 	<p>rank : {data.ranking}*</p>
 	<p>rate : {data.rate}₪</p>
+	</div>
 	<div className="interactibleRow">
 		<IonButton className="boxButton" onClick={()=>{OnReserveButtonClicked(data.id, data.rate);}}><IonIcon icon={calendar} size="large" /></IonButton>
 		<IonButton className="secondBoxButton" onClick={()=>{OnMessageButtonClicked(data.id);}}><IonIcon icon={chatbox} size="large" /></IonButton>

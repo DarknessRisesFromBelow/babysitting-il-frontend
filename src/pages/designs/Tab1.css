@@ -97,6 +97,12 @@ textarea
 	margin-left: 10px;
 }
 
+.interactibleRow
+{
+	position: absolute;
+	bottom: 2vh;
+}
+
 .buttonSendClass
 {
 	width: 15vw;
@@ -163,6 +169,12 @@ textarea
 	}
 }
 
+.DataSectionOfPfpage
+{
+	position: relative;
+	bottom: 2vh;
+}
+
 .glass
 {
 	background: rgba(203, 136, 136, 0.22);
@@ -177,6 +189,11 @@ textarea
 {
 	.boxTest
 	{
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+    	justify-content: center;
+    	align-items: center;
 		background: rgba(203, 136, 136, 0.22);
 		border-radius: 16px;
 		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -189,8 +206,6 @@ textarea
 		position: absolute;
 		right: 15vw;
 		top: 24vh;
-		padding-left: calc(50vw - 25vw);
-		padding-top: 5vh;
 	}
 
 }
@@ -205,9 +220,6 @@ textarea
 
 .boxButton
 {
-	position: absolute;
-	left: 13vw;
-	bottom: 0vh;
 	width: 21.5vw;
 	height:7vh;
 	font-size: 1.3vh;
@@ -249,7 +261,7 @@ textarea
 .msgPageExitButton
 {
 	position: absolute;
-	top: 15vh;
+	top: 16vh;
 	right: 2vw;
 	height: 6vh;
 	z-index: 71;	
@@ -267,9 +279,6 @@ textarea
 
 .secondBoxButton
 {
-	position: absolute;
-	left: calc(13vw + 22.5vw);
-	bottom: 0vh;
 	width: 21.5vw;
 	height:7vh;
 	font-size: 1.3vh;
