@@ -185,7 +185,7 @@ function TextingPage(data:{name:string,id:string,messages:string})
 		<p className="Title">{usersName}</p>
 		<IonButton className = {global.userType != 1 ? "reserveButtonClass" : "hide"} onClick = {()=>{createReservationPage(data.id)}}><IonIcon icon={calendar} size="large"/></IonButton>
 		<br></br>
-		<div id = "DivHolder" className = "divHolderClass"></div>
+		<div id = "ReservationButtonDivHolder" className = "divHolderClass"></div>
 		<div id="textPosition" className="chatPageMessagesSubdiary"><div id="messagesEnd"></div></div>
 		<br></br>
 		<div>
@@ -225,7 +225,7 @@ async function createReservationPage(id:string)
 	let rate:number = await getRate(id);
 	console.log("rate: " + rate);
 	let element = React.createElement(reservation, {id:id, rate:rate}, null);
-	let rootElement = document.getElementById("DivHolder");
+	let rootElement = document.getElementById("ReservationButtonDivHolder");
 	if(rootElement !== null)
 	{
 		let root = ReactDOM.createRoot(rootElement);
@@ -253,7 +253,7 @@ function reservation(data:{id:string, rate:number})
 
 function closeRBPage()
 {
-	var roor = document.getElementById("DivHolder");
+	var roor = document.getElementById("ReservationButtonDivHolder");
 	if(roor !== undefined && roor !== null)
 	{
 		var root = ReactDOM.createRoot(roor);
@@ -324,7 +324,7 @@ async function finishReservation(id:any, rate:number)
 		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
 		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
 
-		let holder = document.getElementById("DivHolder");
+		let holder = document.getElementById("ReservationButtonDivHolder");
 		if(holder !== null)
 		{
 			let root = ReactDOM.createRoot(holder);
