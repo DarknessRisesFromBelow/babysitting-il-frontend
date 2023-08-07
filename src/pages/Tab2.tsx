@@ -121,31 +121,35 @@ function getOutput() : string
 			console.log(res);
 			messagesText = res;
 			var data = res.split("||");
+			console.log(data);
 			var msgs = [];
 			var pfpURLstring:string = "";
 			var renderedIds:string[] = [];
-			for(var i = data.length - 1; i > 0; i--)
+			for(var i = data.length; i >= 0; i--)
 			{
-				var temp = data[i].split(" : ");
-				if(temp[0] != " "&&temp[0] != "")
+				if(data[i] !== undefined)
 				{
-					var exists=false;
-					for(var o = 0; o < msgs.length; o++)
+					var temp = data[i].split(" : ");
+					if(temp[0] != " "&&temp[0] != "")
 					{
-						if(temp[0]==msgs[o].props.name)
-							exists = true;
-					}
-					if(!exists)
-					{
-						pfpURLstring = temp[6];
-						console.log(pfpURLstring);
-						if(!renderedIds.includes(temp[0]))
+						var exists=false;
+						for(var o = 0; o < msgs.length; o++)
 						{
-							await msgs.push(React.createElement(message, {name:"",id:temp[0],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
-							renderedIds.push(temp[0]);
+							if(temp[0]==msgs[o].props.name)
+								exists = true;
+						}
+						if(!exists)
+						{
+							pfpURLstring = temp[6];
+							console.log(pfpURLstring);
+							if(!renderedIds.includes(temp[0]))
+							{
+								await msgs.push(React.createElement(message, {name:"",id:temp[0],messages:res,pfpURL:pfpURLstring,lastMessage:temp[1]},null));
+								renderedIds.push(temp[0]);
+							}
 						}
 					}
-				}
+				}			
 			}
 			global.msgs = msgs;
 			var page = document.getElementById("messagePage");
@@ -330,7 +334,6 @@ async function finishReservation(id:any, rate:number)
 			let root = ReactDOM.createRoot(holder);
 			root.render(null);
 		}
-
 	}
 }
 
