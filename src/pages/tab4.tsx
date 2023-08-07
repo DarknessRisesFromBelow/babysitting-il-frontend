@@ -77,7 +77,10 @@ async function createEventPage()
 
 function createEventObject(startDate:string, eventLength:number, username:string, pfpURL:string, userID: number, eventID: number)
 {
-	return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength, pfpURL:pfpURL, username:username, userID: userID, eventID: eventID}, null); 
+	if(startDate !== undefined && startDate)
+		return React.createElement(EventObject, {startDate:startDate.replace(" ", "+"), eventLength:eventLength, pfpURL:pfpURL, username:username, userID: userID, eventID: eventID}, null); 
+	else
+		return null
 }
 
 function EventObject(data:{startDate:string, eventLength:number, pfpURL:string, username:string, userID: number, eventID: number})
