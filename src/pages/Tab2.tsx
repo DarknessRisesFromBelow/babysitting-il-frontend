@@ -80,7 +80,7 @@ async function awaitEvent(eventName:string) {
 function ChatMessageElement(data:{direction : string, imgURL : string , messageText : string})
 {
 	return <div className = "chatMessageElementStyle">
-		<img src={data.imgURL} className="circleMessageTab"></img><p className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}>{data.messageText}</p>
+		<img src={data.imgURL} className="circleMessageTab"></img><div className = {data.direction === "left" ? "ChatMessageLeft" : "ChatMessageRight"}><p className="messageTextClass">{data.messageText}</p></div>
 	</div>
 }
 

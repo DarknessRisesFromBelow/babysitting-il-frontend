@@ -10,6 +10,7 @@
 	text-align: center;
 }
 
+
 .divHolderClass
 {
 	top: 30%;
@@ -191,6 +192,12 @@
 }
 
 
+.messageTextClass
+{
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
 .secondElement
 {
 	display: flex;
@@ -216,9 +223,11 @@
 .ChatMessageRight
 {
 	position:relative;
+	border-radius: 1.5rem;
 	background: rgba(145, 255, 0, 0.07);
-	width: 100%;
+	width: auto;
 	overflow: visible;
+	box-shadow: 0 0 2px hsla(0,0%,69%,.2);
 }
 
 .hide
@@ -227,8 +236,36 @@
 	width: 0;
 }
 
-.ChatMessageLeft
+@media (prefers-color-scheme: dark) {
+	.ChatMessageLeft
+	{
+		position:relative;
+		border-radius: 1.5rem;
+		width: auto;
+		filter: brightness(1.5);
+		box-shadow: 0 0 2px rgba(var(--background), 0.2);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ChatMessageLeft
+	{
+		position:relative;
+		border-radius: 1.5rem;
+		filter: brightness(0.2);
+		width: auto;
+		box-shadow: 0 0 2px hsla(0,0%,69%,.2);
+	}
+}
+
+@media (prefers-color-scheme: none) 
 {
-	position:relative;
-	border-radius: 1px;
+	.ChatMessageLeft
+	{
+		position:relative;
+		border-radius: 1.5rem;
+		filter: brightness(0.2);
+		width: auto;
+		box-shadow: 0 0 2px hsla(0,0%,69%,.2);
+	}
 }
