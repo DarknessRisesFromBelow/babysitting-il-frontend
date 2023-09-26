@@ -104,6 +104,16 @@ textarea
 	left: 6vh;
 }
 
+.notFoundText
+{
+	display: flex;
+	justify-self: center;
+	font-size: 0.5em;
+	justify-content: center;
+	justify-items: center;
+	color: var(--ion-color-primary);
+}
+
 .buttonSendClass
 {
 	width: 15vw;

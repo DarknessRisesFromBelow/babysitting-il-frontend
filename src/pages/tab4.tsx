@@ -50,7 +50,7 @@ async function getEvents()
 async function createEventPage()
 {
 	let elements:any[] = []
-	await fetch("https://" + global.ip + "/GetEvents" + global.userID).then(function(response:any) {
+	await fetch("https://" + global.ip + "/GetEvents" + global.userID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any) {
 	response.text().then(async function(responseString: any) 
 	{
 		let dates = responseString.split("||");
@@ -112,7 +112,7 @@ function messagePage(data:{targetID:number})
 	function SendMessage(targetId: number, message: string)
 	{
 		console.log(targetId);
-		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+targetId) + "," + message + "," + global.sessionID);
+		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+targetId) + "," + message + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 		
 		let root = document.getElementById("messagePageHolder");
 

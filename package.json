@@ -15,6 +15,7 @@
     "@ionic-native/geolocation": "^5.36.0",
     "@ionic-native/onesignal": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
+    "@ionic-native/user-agent": "^5.36.0",
     "@ionic/react-router": "^6.0.0",
     "@paypal/react-paypal-js": "^8.1.0",
     "@testing-library/jest-dom": "^5.11.9",
