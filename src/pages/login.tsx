@@ -33,7 +33,7 @@ const fetch = require("cross-fetch");
 //const babysitterTabs = [secondButton, thirdButton]
 //const parentTabs = [firstButton, secondButton, thirdButton]
 
-global.ip = "fb16-77-137-74-213.ngrok-free.app";
+global.ip = "arriving-strictly-halibut.ngrok-free.app";
 
 global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
 global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
