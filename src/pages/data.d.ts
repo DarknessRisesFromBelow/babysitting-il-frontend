@@ -6,6 +6,7 @@ declare module NodeJS {
 		UnseccesfullyLoggedInEvent : Event;
 		succesfullyRegisteredEvent : Event;
 		UnsuccesfullyRegisteredEvent : Event;
+		recivedMessageEvent: Event;
 		googlePayPaymentAccepted : Event;
 		userID : string;
 		sessionID : string;

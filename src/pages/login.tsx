@@ -40,15 +40,15 @@ global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
 
 // not how you write successfully but I do not care. 
 global.UnseccesfullyLoggedInEvent = new Event("UnseccesfullyLoggedInEvent");
-
+global.recivedMessageEvent = new Event("recivedMessageEvent");
 
 global.googlePayPaymentAccepted = new Event("googlePayPaymentAccepted");
-
 
 const LoginScreen : React.FC = () => {
 const history = useHistory();
 	useEffect(() => {
 			console.log("hello, welcome to login page.");
+			Geolocation.requestPermissions();
 			ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT);
 		});
 function AttemptSwitch()
@@ -90,7 +90,7 @@ function switchToSignup()
 				<input type="password" className="inputClass" placeholder="Enter Password" name="pass" required></input>
 				<br></br>
 
-				<button className="submitButton" type="submit" onClick={()=>{setTimeout(AttemptSwitch, 30)}}>Login</button>	 
+				<button className="submitButton" type="submit" onClick={()=>{global.addEventListener('recivedMessageEvent', AttemptSwitch)}}>Login</button>	 
 				<p>or</p>
 				<button className="signupButton" onClick={()=>{switchToSignup();}}>create an account</button> 
 			</div>	 
@@ -156,9 +156,6 @@ function handleSubmit(event : any){
 							console.log("session id : " + data[0] + " user id : " + data[1]);
 							global.sessionID = data[0];
 							global.userID = data[1];
-							console.log("session id : " + global.sessionID + " user id : " + global.userID);
-							console.log(typeof global.loggedInEvent);
-							global.dispatchEvent(global.loggedInEvent);
 							if(data[data.length - 1] == 0)
 							{
 								const tabBar = document.getElementById('tab-button-tab3');
@@ -177,12 +174,16 @@ function handleSubmit(event : any){
 									tabBar.hidden = true;
 									global.userType = data[data.length - 1];
 									console.log("babysitter logged in.");
-
 								}
 							}
+							global.dispatchEvent(global.recivedMessageEvent);
+							console.log("session id : " + global.sessionID + " user id : " + global.userID);
+							console.log(typeof global.loggedInEvent);
+							global.dispatchEvent(global.loggedInEvent);
 						}
 						else
 						{
+							global.dispatchEvent(global.recivedMessageEvent);
 							global.dispatchEvent(global.UnseccesfullyLoggedInEvent);
 						}	
 					}	

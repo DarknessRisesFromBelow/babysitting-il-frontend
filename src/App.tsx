@@ -18,6 +18,7 @@ import Tab4 from './pages/tab4';
 import LoginScreen from './pages/login';
 import SignupScreen from './pages/signup';
 import OneSignal from 'onesignal-cordova-plugin';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -69,6 +70,7 @@ const App: React.FC = () => {
 	try
 	{
 		OneSignalInit();
+		Geolocation.requestPermissions();
 	}
 	catch
 	{
