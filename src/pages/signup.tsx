@@ -34,7 +34,7 @@ function switchToLogin()
 	return <IonPage>
 		<IonContent fullscreen>
 		<div className="space"></div>
-		<form id="signup" action="javascript:void(0);" onSubmit={()=>{global.addEventListener("succesfullyRegisteredEvent", switchToLogin); console.log("added the event listener");}}>
+		<form id="signup" action="javascript:void(0);" onSubmit={(e)=>{global.addEventListener("succesfullyRegisteredEvent", switchToLogin); handleSignupSubmit(e); console.log("added the event listener");}}>
 			<div className="container" id="div">
 				
 				<label>Username : </label>
@@ -70,6 +70,7 @@ function switchToLogin()
 
 function selectChanged()
 {
+	addFormListener();
 	var element = document.getElementById("submitButtonSignupPage") as HTMLButtonElement;
 	if(element)
 	{
@@ -77,7 +78,6 @@ function selectChanged()
 	}
 }
 
-setTimeout(addFormListener, 15);
 
 function addFormListener()
 {
@@ -101,6 +101,7 @@ function showUnsuccessToast()
 
 function handleSignupSubmit(event: any)
 {
+	console.log(event.submitter.innerHTML);
 	if(event.submitter.innerHTML !== "Login")
 	{
 		event.preventDefault();
@@ -126,6 +127,10 @@ function handleSignupSubmit(event: any)
 				}
 			}
 		)});
+	}
+	else
+	{
+		console.log("logged in?");
 	}
 }
 

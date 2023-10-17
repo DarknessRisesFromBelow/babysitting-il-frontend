@@ -49,7 +49,7 @@ const Tab2: React.FC = () => {
 				</div>
 				<div className='paddedPage' id="messagePage">
 					<p className="notFoundText">no messages yet</p>
-					<p className="notFoundText">start interacting with babysitters!</p>
+					{global.userType == 0 ? <p className="notFoundText">start interacting with babysitters!</p> : <p className="notFoundText">start interacting with parents!</p>}
 				</div>
 			</IonContent>
 			<IonFab vertical="bottom" horizontal="end">
@@ -456,7 +456,7 @@ async function updateMessagesInterval(interval:number, chatID:number)
 
 function OnMessageButtonClicked(data:string, message:string)
 {
-	alert("messaging "+data+"...");
+//	alert("messaging "+data+"...");
 	if(message !== "")
 	{
 		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
