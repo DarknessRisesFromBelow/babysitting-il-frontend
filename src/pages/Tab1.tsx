@@ -29,6 +29,11 @@ const Tab1: React.FC = () => {
 		<br></br>
 		<br></br>
 		<div className='paddedPage' id="page">
+		<br></br>
+		<br></br>
+		<br></br>
+		<p className="notFoundText">could not find any babysitters near you</p>
+		<p className="notFoundText">please check your connection or try again later.</p>
 		</div>
 		</IonContent>
 		</IonPage>
@@ -43,7 +48,7 @@ async function getUserHome()
 		var url : string = "https://" + global.ip + "/GetUserHome" + global.userID + "," + global.sessionID;
 		console.log(url);
 		var res = "meow";
-		fetch(url).then(
+		fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
 			async function(response:any)
 			{
 				response.text().then(
@@ -66,7 +71,10 @@ async function getUserHome()
 						{
 							console.log("rendering users");
 							var root = ReactDOM.createRoot(page);
-							root.render(usrs);
+							if(usrs.length > 0)
+							{
+								root.render(usrs);
+							}
 							console.log("type of usrs is " + typeof usrs)
 							global.usrs = usrs;
 						}
@@ -121,7 +129,7 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 function createCommentPage(id:string, userdata:any)
 {
 	var url = "https://" + global.ip + "/GetUserData" + id;
-	fetch(url).then(function(response:any){response.text().then(function(responseString:any)
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
 	{
 		responseString = responseString.replace("Got User Info. <br>", "")
 		var element = document.getElementById("CloseablePopup");
@@ -135,7 +143,7 @@ function createCommentPage(id:string, userdata:any)
 		}
 	})});
 	url = "https://" + global.ip + "/getComments" + id;
-	fetch(url).then(function(response:any){response.text().then(function(responseString:any)
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
 	{
 		console.log("response string : " + responseString);
 		responseString = responseString.replace("---REVIEWS-START---", "").replace("---REVIEWS-END---", "").replace("\n", "");
@@ -332,8 +340,8 @@ async function finishReservation(id:any, rate:number)
 
 		await awaitEvent("googlePayPaymentAccepted");
 
-		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID);
-		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID);	
+		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});	
 
 		let holder = document.getElementById("DivHolder");
 		if(holder !== null)
@@ -454,7 +462,7 @@ function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 		if(reviewBarElement !== null && reviewBarElement !== undefined)
 		{
 			if(reviewBarElement.value == "0"){reviewBarElement.value = "1";}
-			fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + reviewBarElement.value);
+			fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + reviewBarElement.value, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 			let element = (document.getElementById("commentTextInput") as HTMLInputElement);
 			if(element !== null && element !== undefined)
 				element.value = "";
@@ -487,7 +495,7 @@ function OnMessageSendButtonClicked(data:string)
 	{
 		console.log(myInput.value);
 		console.error("data : " + data);
-		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + myInput.value + "," + global.sessionID);
+		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + myInput.value + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 		
 		myInput.value = "";
 	}
@@ -499,7 +507,7 @@ function OnUserClicked(data:string, id:string)
 {
 	//alert("clicked on "+ data);
 	var url : string = "https://" + global.ip + "/GetUserData" + id;
-	fetch(url).then(
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
 		async function(response:any)
 		{
 			response.text().then(

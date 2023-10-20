@@ -34,7 +34,7 @@ async function getUserInfo()
 		var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
 		console.log(url);
 		var res = "meow";
-			fetch(url).then(
+			fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
 			function(response:any)
 			{
 					response.text().then(
@@ -195,11 +195,11 @@ function showUnsuccessToast(toast="")
 function sendData(userPFP:string, userRate:string, bio:string)
 {
 	var url : string = "https://" + global.ip + "/setPfp" + global.userID + "," + userPFP;
-	fetch(url);
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 	url = "https://" + global.ip + "/setRate" + global.userID + "," + userRate;
-	fetch(url);
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 	url = "https://" + global.ip + "/setBio"+ global.userID + "," + bio;
-	fetch(url);
+	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 	getUserInfo();
 }
 

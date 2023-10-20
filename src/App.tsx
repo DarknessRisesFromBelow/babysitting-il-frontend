@@ -7,7 +7,9 @@ import {
 	IonTabBar,
 	IonTabButton,
 	IonTabs,
-	setupIonicReact
+	setupIonicReact,
+	createGesture,
+	Gesture
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { personCircle,chatbubbleEllipses, home, calendar } from 'ionicons/icons';
@@ -18,6 +20,10 @@ import Tab4 from './pages/tab4';
 import LoginScreen from './pages/login';
 import SignupScreen from './pages/signup';
 import OneSignal from 'onesignal-cordova-plugin';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Capacitor } from "@capacitor/core";
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,7 +48,9 @@ import './theme/variables.css';
 
 
 
-setupIonicReact();
+setupIonicReact({
+  swipeBackEnabled: false,
+});
 
 const App: React.FC = () => {
 
@@ -63,12 +71,14 @@ const App: React.FC = () => {
 		//    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 7) to better communicate to your users what notifications they will get.
 		OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
 			console.log("User accepted notifications: " + accepted);
+			AndroidPermissions.requestPermission(AndroidPermissions.PERMISSION.ACCESS_FINE_LOCATION);
 		});
 	}
 
 	try
 	{
 		OneSignalInit();
+//		Geolocation.requestPermissions();
 	}
 	catch
 	{
@@ -79,7 +89,7 @@ const App: React.FC = () => {
 		<IonApp>
 		<IonReactRouter>
 			<IonTabs>
-			<IonRouterOutlet >
+			<IonRouterOutlet>
 				<Route exact path="/home">
 				<Tab1 />
 				</Route>

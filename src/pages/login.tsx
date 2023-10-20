@@ -2,13 +2,16 @@ import { IonContent, IonButton, IonIcon, IonPage, IonTitle, IonTabs, IonTabBar }
 import ExploreContainer from '../components/ExploreContainer';
 import './designs/login.css';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { File } from '@ionic-native/file';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import logo from "../PicData/Product-_1_.svg" 
 import ReactDOM from 'react-dom/client'
 import React, {useEffect} from 'react'
 import { Redirect, Route, NavLink, useHistory} from "react-router-dom";
 import { personCircle,chatbubbleEllipses, home } from 'ionicons/icons';
 import { IonApp, IonLabel, IonToast, IonRouterOutlet, IonTabButton, setupIonicReact } from '@ionic/react';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Capacitor } from "@capacitor/core";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import OneSignal from 'onesignal-cordova-plugin';
 const fetch = require("cross-fetch");
@@ -33,70 +36,117 @@ const fetch = require("cross-fetch");
 //const babysitterTabs = [secondButton, thirdButton]
 //const parentTabs = [firstButton, secondButton, thirdButton]
 
-global.ip = "babysittingil.com";
-
+global.ip = "arriving-strictly-halibut.ngrok-free.app";
+global.loggedInEvent = new Event('loggedIn');
 global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
 global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
 
 // not how you write successfully but I do not care. 
 global.UnseccesfullyLoggedInEvent = new Event("UnseccesfullyLoggedInEvent");
-
+global.recivedMessageEvent = new Event("recivedMessageEvent");
 
 global.googlePayPaymentAccepted = new Event("googlePayPaymentAccepted");
 
 
+
 const LoginScreen : React.FC = () => {
-const history = useHistory();
+	const history = useHistory();
 	useEffect(() => {
-			console.log("hello, welcome to login page.");
-			ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT);
-		});
-function AttemptSwitch()
-{
-	if(global.userID !== undefined && global.sessionID !== undefined)
-	{
 
 		try
 		{
-  			OneSignal.setExternalUserId(global.userID);
-  		}
-  		catch
-  		{
-  			console.log("error occured while setting userID");
-  		}
-		console.log("finished login, redirecting to home");
-		if(global.userType == 0)
-			history.push('/home');
-		else
-			history.push('/profile');
+			Filesystem.readFile({path: "data/account/login/" + 'login.dat', directory: Directory.Library, encoding: Encoding.UTF8, }).then(text=>
+			{
+				console.log("read text. content was");
+				console.log(text.data);
+				let elements = text.data.split("|||")
+				global.userID = elements[0];
+				global.sessionID =elements[1];
+				global.userType = +elements[2];
+				AttemptSwitch();
+			});
+		}
+		catch
+		{
+			console.log("user has no login info saved, showing login screen.");
+		}
+
+		console.log("hello, welcome to login page.");
+//			Geolocation.requestPermissions();
+		ScreenOrientation.lock(ScreenOrientation.ORIENTATIONS.PORTRAIT);
+	});
+	function AttemptSwitch()
+	{
+		if(global.userID !== undefined && global.sessionID !== undefined)
+		{
+
+			try
+			{
+				OneSignal.setExternalUserId(global.userID);
+				console.log("successfully set external user id to " + global.userID);
+			}
+			catch(e)
+			{
+				console.log("error occured while setting userID");
+				console.log(e);
+			}
+			var stringToWrite = '' + global.userID + '|||' + global.sessionID + '|||' + global.userType;
+			Filesystem.writeFile({path: 'data/account/login/login.dat', data: stringToWrite, directory: Directory.Library, encoding: Encoding.UTF8, recursive: true});
+			console.log("finished login, redirecting to home");
+
+			if(global.userType == 0)
+			{
+				const tabBar = document.getElementById('tab-button-tab3');
+				if (tabBar !== null) 
+				{
+					tabBar.hidden = true;
+					console.log("parent logged in.");
+				}
+			}
+			else
+			{
+				const tabBar = document.getElementById('tab-button-tab1');
+				if (tabBar !== null) 
+				{
+					tabBar.hidden = true;
+					console.log("babysitter logged in.");
+				}
+			}
+			global.dispatchEvent(global.loggedInEvent);
+			const position = Geolocation.getCurrentPosition();
+			position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
+			if(global.userType == 0)
+				history.push('/home');
+			else
+				history.push('/profile');
+		}
 	}
-}
 
-function switchToSignup()
-{
-	history.push('/signup');
-}
+	function switchToSignup()
+	{
+		history.push('/signup');
+	}
 	return <IonPage>
-		<IonContent fullscreen>
-		<div className="space"></div>
-		<form action="javascript:void(0);" id="login">
-			<div className="container" id="div">
-				<label>Username : </label>
-				<br></br>	 
-				<input pattern="[^,;]+" type="text" className="inputClass" placeholder="Enter Username" name="name" required></input>
-				 <br></br>
-				 <label>Password : </label>
-				 <br></br>	 
-				<input type="password" className="inputClass" placeholder="Enter Password" name="pass" required></input>
-				<br></br>
+	<IonContent fullscreen>
+	<div className="space"></div>
+	<form action="javascript:void(0);" id="login">
+	<div className="container" id="div">
+	<label>Username : </label>
+	<br></br>	 
+	<input pattern="[^,;]+" type="text" className="inputClass" placeholder="Enter Username" name="name" required></input>
+	<br></br>
+	<label>Password : </label>
+	<br></br>	 
+	<input type="password" className="inputClass" placeholder="Enter Password" name="pass" required></input>
+	<br></br>
 
-				<button className="submitButton" type="submit" onClick={()=>{setTimeout(AttemptSwitch, 30)}}>Login</button>	 
-				<p>or</p>
-				<button className="signupButton" onClick={()=>{switchToSignup();}}>create an account</button> 
-			</div>	 
-		</form>
-		<div id="toastArea"></div>
-		</IonContent>
+	<button className="submitButton" type="submit" onClick={()=>{global.addEventListener('recivedMessageEvent', AttemptSwitch)}}>Login</button>	 
+	<p>or</p>
+	<button className="signupButton" onClick={()=>{switchToSignup();}}>create an account</button> 
+	</div>	 
+	</form>
+	<div id="toastArea"></div>
+	</IonContent>
 	</IonPage>
 };
 
@@ -137,7 +187,7 @@ function handleSubmit(event : any){
 		{
 			console.log(asString);
 		}
-		fetch("https://" + global.ip + "/login" + asString).then(
+		fetch("https://" + global.ip + "/login" + asString, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420", },}).then(
 			function(response:any)
 			{
 				response.text().then(
@@ -148,7 +198,7 @@ function handleSubmit(event : any){
 						{
 							console.log("logged in");
 							const position = Geolocation.getCurrentPosition();
-							position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + data[1] + "," + response.coords.latitude + "," + response.coords.longitude + "," + data[0]);})
+							position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + data[1] + "," + response.coords.latitude + "," + response.coords.longitude + "," + data[0], {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
 							global.loggedInEvent = new Event('loggedIn');
 							console.log(responseString);
 							responseString = responseString.replace("logged in, needed info is ","");
@@ -156,39 +206,21 @@ function handleSubmit(event : any){
 							console.log("session id : " + data[0] + " user id : " + data[1]);
 							global.sessionID = data[0];
 							global.userID = data[1];
+							global.userType = data[data.length - 1];
+							global.dispatchEvent(global.recivedMessageEvent);
 							console.log("session id : " + global.sessionID + " user id : " + global.userID);
 							console.log(typeof global.loggedInEvent);
 							global.dispatchEvent(global.loggedInEvent);
-							if(data[data.length - 1] == 0)
-							{
-								const tabBar = document.getElementById('tab-button-tab3');
-								if (tabBar !== null) 
-								{
-									tabBar.hidden = true;
-									console.log("parent logged in.");
-									global.userType = data[data.length - 1];
-								}
-							}
-							else
-							{
-								const tabBar = document.getElementById('tab-button-tab1');
-								if (tabBar !== null) 
-								{
-									tabBar.hidden = true;
-									global.userType = data[data.length - 1];
-									console.log("babysitter logged in.");
-
-								}
-							}
 						}
 						else
 						{
+							global.dispatchEvent(global.recivedMessageEvent);
 							global.dispatchEvent(global.UnseccesfullyLoggedInEvent);
 						}	
 					}	
-				);
+					);
 			}
-		);
+			);
 	}
 }
 
