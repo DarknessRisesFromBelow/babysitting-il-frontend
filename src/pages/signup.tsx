@@ -47,7 +47,7 @@ function switchToLogin()
 				<br></br>
 				 <label>Password : </label>
 				 <br></br>	 
-				<input type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" className="inputClass2" placeholder="Enter Password" name="pass" required></input>
+				<input type="password" title="lowercase uppercase special character minimum 8 characters" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" className="inputClass2" placeholder="Enter Password" name="pass" required></input>
 				<br></br>
 				<br></br>
 				<label>account type : </label>
