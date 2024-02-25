@@ -112,7 +112,7 @@ function handleSignupSubmit(event: any)
 		asString = asString.slice(0,asString.length-1);
 		asString = id + "," + asString;
 		console.log(asString + " submitted results.");
-		fetch("https://" + global.ip + "/CreateUser" + asString, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
+		fetch("http://" + global.ip + "/CreateUser" + asString, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
 			{
 				if(responseString === "Created User ")
 				{

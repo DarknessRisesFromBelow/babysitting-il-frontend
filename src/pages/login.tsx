@@ -36,7 +36,7 @@ const fetch = require("cross-fetch");
 //const babysitterTabs = [secondButton, thirdButton]
 //const parentTabs = [firstButton, secondButton, thirdButton]
 
-global.ip = "arriving-strictly-halibut.ngrok-free.app";
+global.ip = "localhost:8080";
 global.loggedInEvent = new Event('loggedIn');
 global.succesfullyRegisteredEvent = new Event("succesfullyRegisteredEvent");
 global.UnsuccesfullyRegisteredEvent = new Event("UnsuccesfullyRegisteredEvent");
@@ -114,7 +114,7 @@ const LoginScreen : React.FC = () => {
 			}
 			global.dispatchEvent(global.loggedInEvent);
 			const position = Geolocation.getCurrentPosition();
-			position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
+			position.then(function(response:any){fetch("http://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
 			if(global.userType == 0)
 				history.push('/home');
 			else
@@ -187,7 +187,7 @@ function handleSubmit(event : any){
 		{
 			console.log(asString);
 		}
-		fetch("https://" + global.ip + "/login" + asString, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420", },}).then(
+		fetch("http://" + global.ip + "/login" + asString, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420", },}).then(
 			function(response:any)
 			{
 				response.text().then(
@@ -198,7 +198,7 @@ function handleSubmit(event : any){
 						{
 							console.log("logged in");
 							const position = Geolocation.getCurrentPosition();
-							position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + data[1] + "," + response.coords.latitude + "," + response.coords.longitude + "," + data[0], {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
+							position.then(function(response:any){fetch("http://" + global.ip + "/setGeolocation" + data[1] + "," + response.coords.latitude + "," + response.coords.longitude + "," + data[0], {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
 							global.loggedInEvent = new Event('loggedIn');
 							console.log(responseString);
 							responseString = responseString.replace("logged in, needed info is ","");

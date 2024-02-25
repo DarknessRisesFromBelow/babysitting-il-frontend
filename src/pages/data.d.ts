@@ -1,6 +1,6 @@
 declare module NodeJS {
 	interface Global {
-		ip : string = "api.yairmedina.cf";
+		ip : string = "localhost";
 		shouldRun: bool;
 		loggedInEvent : Event;
 		UnseccesfullyLoggedInEvent : Event;

@@ -45,7 +45,7 @@ async function getUserHome()
 {
 	if("" + global.userID !== "undefined")
 	{
-		var url : string = "https://" + global.ip + "/GetUserHome" + global.userID + "," + global.sessionID;
+		var url : string = "http://" + global.ip + "/GetUserHome" + global.userID + "," + global.sessionID;
 		console.log(url);
 		var res = "meow";
 		fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
@@ -120,7 +120,7 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 	<img draggable="false" className="circle" src={data.pfpURL} width= {70} height={70}></img>
 	<div className="star">
 	<p>{data.ranking}</p>
-	<img src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
+	<img src="http://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
 	</div>
 	</div>
 	</IonButton>
@@ -128,7 +128,7 @@ function User(data:{name:string,ranking:string,pfpURL:string,id:string})
 
 function createCommentPage(id:string, userdata:any)
 {
-	var url = "https://" + global.ip + "/GetUserData" + id;
+	var url = "http://" + global.ip + "/GetUserData" + id;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
 	{
 		responseString = responseString.replace("Got User Info. <br>", "")
@@ -142,7 +142,7 @@ function createCommentPage(id:string, userdata:any)
 			root.render(newlyCreatedElement);
 		}
 	})});
-	url = "https://" + global.ip + "/getComments" + id;
+	url = "http://" + global.ip + "/getComments" + id;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any){response.text().then(function(responseString:any)
 	{
 		console.log("response string : " + responseString);
@@ -245,7 +245,7 @@ function CommentPage(data:{username:string, userid:string, userdata:any})
 				<IonButton className = "messageSendReviewPageButton" onClick={()=>{let element =(document.getElementById("commentTextInput") as HTMLInputElement); if(element !== null && element !== undefined){OnSendReviewButtonClicked(data.userid, element.value, data.userdata);}}}><IonIcon icon={send} size="large"/></IonButton>
 			</div>
 				<div id="review-bar" className="reviewBarDiv">
-					<img className="reviewBarImg" src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
+					<img className="reviewBarImg" src="http://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42655-star-icon.png" width= {30} height= {30}></img>
 					<IonRange className="reviewBar" id="reviewBarObject" snaps={true} ticks={true} pin={true} min={1} max={5} pinFormatter={(value: number) => `${value}`}></IonRange>
 				</div>
 			</div>
@@ -340,8 +340,8 @@ async function finishReservation(id:any, rate:number)
 
 		await awaitEvent("googlePayPaymentAccepted");
 
-		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
-		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});	
+		fetch("http://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+		fetch("http://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});	
 
 		let holder = document.getElementById("DivHolder");
 		if(holder !== null)
@@ -462,7 +462,7 @@ function OnSendReviewButtonClicked(data:string, message:string, userdata:any)
 		if(reviewBarElement !== null && reviewBarElement !== undefined)
 		{
 			if(reviewBarElement.value == "0"){reviewBarElement.value = "1";}
-			fetch("https://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + reviewBarElement.value, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+			fetch("http://" + global.ip + "/AddReview"  + (+data) + "," + global.userID + "," + message + "," + reviewBarElement.value, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 			let element = (document.getElementById("commentTextInput") as HTMLInputElement);
 			if(element !== null && element !== undefined)
 				element.value = "";
@@ -495,7 +495,7 @@ function OnMessageSendButtonClicked(data:string)
 	{
 		console.log(myInput.value);
 		console.error("data : " + data);
-		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + myInput.value + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+		fetch("http://" + global.ip + "/MessageUser" + global.userID + "," + data + "," + myInput.value + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 		
 		myInput.value = "";
 	}
@@ -506,7 +506,7 @@ function OnMessageSendButtonClicked(data:string)
 function OnUserClicked(data:string, id:string)
 {
 	//alert("clicked on "+ data);
-	var url : string = "https://" + global.ip + "/GetUserData" + id;
+	var url : string = "http://" + global.ip + "/GetUserData" + id;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
 		async function(response:any)
 		{

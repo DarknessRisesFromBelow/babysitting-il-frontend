@@ -31,7 +31,7 @@ async function getUserInfo()
 {
 	if("" + global.userID !== "undefined")
 	{
-		var url : string = "https://" + global.ip + "/GetUserData" + global.userID;
+		var url : string = "http://" + global.ip + "/GetUserData" + global.userID;
 		console.log(url);
 		var res = "meow";
 			fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(
@@ -190,15 +190,15 @@ function showUnsuccessToast(toast="")
 	}
 }
 
-//https://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg
+//http://cdna.artstation.com/p/assets/images/images/047/678/356/large/m-anne-bailey-new-pfpo.jpg
 
 function sendData(userPFP:string, userRate:string, bio:string)
 {
-	var url : string = "https://" + global.ip + "/setPfp" + global.userID + "," + userPFP;
+	var url : string = "http://" + global.ip + "/setPfp" + global.userID + "," + userPFP;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
-	url = "https://" + global.ip + "/setRate" + global.userID + "," + userRate;
+	url = "http://" + global.ip + "/setRate" + global.userID + "," + userRate;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
-	url = "https://" + global.ip + "/setBio"+ global.userID + "," + bio;
+	url = "http://" + global.ip + "/setBio"+ global.userID + "," + bio;
 	fetch(url, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 	getUserInfo();
 }

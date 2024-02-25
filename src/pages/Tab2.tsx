@@ -38,7 +38,7 @@ const Tab2: React.FC = () => {
 	function getLocation()
 	{
 		const position = Geolocation.getCurrentPosition();
-		position.then(function(response:any){fetch("https://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
+		position.then(function(response:any){fetch("http://" + global.ip + "/setGeolocation" + global.userID + "," + response.coords.latitude + "," + response.coords.longitude + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});})
 	}
 	return (
 		<IonPage>
@@ -61,7 +61,7 @@ const Tab2: React.FC = () => {
 async function getRate(userID:string)
 {
 	var rate:number = 0;
-	await fetch("https://" + global.ip + "/GetUserData" + userID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(async function(response:any)
+	await fetch("http://" + global.ip + "/GetUserData" + userID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(async function(response:any)
 	{
 		await response.text().then(async function(responseString: any){
 			rate = responseString.split(",")[responseString.split(",").length - 2];
@@ -102,7 +102,7 @@ function getUpdatedMessages() : string
 {
 	var res = "meow";
 	console.log("meow!");
-	fetch("https://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any) {
+	fetch("http://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any) {
 		response.text().then(async function(responseString: any) { 
 			res = responseString.slice(0,responseString.length - 2).replace("Messages : ", "").replace("Messages ","");
 			messagesText = res;
@@ -117,7 +117,7 @@ function getOutput() : string
 {
 	var res = "meow";
 	console.log("meow!");
-	fetch("https://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any) {
+	fetch("http://" + global.ip + "/GetAllMessages" + global.userID	+ "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},}).then(function(response:any) {
 		response.text().then(async function(responseString: any) { 
 //		console.log(responseString);
 			res = responseString.slice(0,responseString.length - 2).replace("Messages : ", "").replace("Messages ","");
@@ -328,8 +328,8 @@ async function finishReservation(id:any, rate:number)
 
 		await awaitEvent("googlePayPaymentAccepted");
 
-		fetch("https://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
-		fetch("https://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});	
+		fetch("http://" + global.ip + "/ReserveBabysitter" + id + "," + startDate.replace(" ", "+") + "," + time + "," + global.userID + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+		fetch("http://" + global.ip + "/PayUser" + global.userID + "," + id + "," + Math.ceil(time) + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});	
 
 		let holder = document.getElementById("ReservationButtonDivHolder");
 		if(holder !== null)
@@ -459,7 +459,7 @@ function OnMessageButtonClicked(data:string, message:string)
 //	alert("messaging "+data+"...");
 	if(message !== "")
 	{
-		fetch("https://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
+		fetch("http://" + global.ip + "/MessageUser" + global.userID + "," + (+data) + "," + message + "," + global.sessionID, {method: 'GET',headers: {"ngrok-skip-browser-warning": "69420",},});
 		let element =(document.getElementById("messageTextInput") as HTMLInputElement);
 		if(element !== null && element !== undefined)
 			element.value = "";
